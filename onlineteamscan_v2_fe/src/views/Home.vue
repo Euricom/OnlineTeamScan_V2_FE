@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <HelloWorld msg="Online Team Scan"/>
+    <HelloWorld/>
   </div>
 </template>
 
