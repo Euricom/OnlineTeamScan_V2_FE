@@ -50,17 +50,17 @@ export default {
         {
           icon: 'mdi-home',
           title: 'Dashboard',
-          to: '/Dashboard'
+          to: '/dashboard'
         },
         {
           icon: 'mdi-poll-box',
           title: 'Scanresultaten',
-          to: '/ScanResultaten'
+          to: '/scanresultaten'
         },
         {
           icon: 'mdi-account-multiple',
           title: 'Teams',
-          to: '/Teams'
+          to: '/teams'
         }
       ],
       title: 'Vuetify.js'

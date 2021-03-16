@@ -1,6 +1,7 @@
 <template>
   <v-btn style="background-color: #71BF42; text-transform: none; font-size: 16px;" depressed>
     <v-icon
+      v-if="icon != null"
       left
       color="white">
       {{ icon }}
