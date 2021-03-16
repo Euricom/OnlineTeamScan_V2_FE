@@ -1,4 +1,7 @@
 import colors from 'vuetify/es5/util/colors'
+import {defaults} from "@nuxtjs/vuetify/dist/options";
+
+const BASE_URL = 'http://localhost:49783'
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -40,6 +43,7 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/axios',
   ],
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
@@ -63,5 +67,10 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-  }
+  },
+
+  axios: {
+      baseURL: `${BASE_URL}/api/`,
+  },
+
 }
