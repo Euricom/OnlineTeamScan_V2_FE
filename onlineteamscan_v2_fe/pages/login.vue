@@ -84,15 +84,15 @@ export default {
       ]
     }
   },
+  methods: {
+    login(){
+      
+    }
+  }
 }
 </script>
 
 <style scoped>
-  .form {
-    max-width: 500px;
-    background-color: rgba(255, 255, 255, 0.75);
-  }
-
   html, body {
     overflow: hidden;
     height: 100vh;
