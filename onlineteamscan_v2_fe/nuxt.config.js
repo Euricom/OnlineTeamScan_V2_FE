@@ -6,10 +6,10 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - onlineteamscan_v2_fe',
-    title: 'onlineteamscan_v2_fe',
+    titleTemplate: '%s',
+    title: 'Online Team Scan',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'nl'
     },
     meta: [
       { charset: 'utf-8' },
@@ -41,12 +41,11 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
   ],
-
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
         dark: {
           primary: colors.blue.darken2,
