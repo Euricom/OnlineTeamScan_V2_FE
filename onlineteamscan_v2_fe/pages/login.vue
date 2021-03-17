@@ -46,7 +46,7 @@
             ></v-checkbox>
           </v-col>
           <v-col class="mx-8 my-auto py-0 pl-0 ml-0" align="right">
-            <Button :text="'Inloggen'"/>
+            <Button @click.native="Login" :text="'Inloggen'"/>
           </v-col>
         </v-row>
         <v-row>
@@ -76,7 +76,7 @@ export default {
       showPassowrd: false,
       passwordRules: [
         value => !!value || 'Required.',
-        v => v.length >= 8 || 'Min 8 characters'
+        v => v.length >= 4 || 'Min 8 characters'
       ],
       emailRules: [
         value => !!value || 'Required.',
@@ -85,9 +85,13 @@ export default {
     }
   },
   methods: {
-    login(){
-      
-    }
+    Login(){
+      const user = {
+        "Email": this.email,
+        "Password": this.password
+      }
+      this.$axios.post('authenticate', user).then((x) => console.log(x.data)).catch((e) => console.log(e.message))
+    },
   }
 }
 </script>
@@ -96,5 +100,9 @@ export default {
   html, body {
     overflow: hidden;
     height: 100vh;
+  }
+  .form {
+    max-width: 500px;
+    background-color: rgba(255, 255, 255, 0.75);
   }
 </style>

@@ -35,9 +35,4 @@ export default {
     background-position-y: center;
     overflow: hidden;
   }
-
-  .form {
-    max-width: 500px;
-    background-color: rgba(255, 255, 255, 0.75);
-  }
 </style>
