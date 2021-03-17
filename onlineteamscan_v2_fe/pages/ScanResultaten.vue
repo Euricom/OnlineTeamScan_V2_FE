@@ -228,6 +228,7 @@ export default {
   },
   methods: {
     getTeamscansByTeam() {
+      this.selectedTeamscan = Object;
       this.$axios.get(`teamscans/team/${this.selectedTeam.id}`).then(res => this.teamscans = res.data).catch(err => console.log(err))
     },
     async toggleTeamscan(boolean) {
