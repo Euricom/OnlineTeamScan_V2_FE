@@ -18,10 +18,5 @@ export default {
     text: '',
     icon: ''
   },
-  data() {
-    return {
-
-    }
-  }
 }
 </script>
