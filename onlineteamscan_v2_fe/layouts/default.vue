@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="appStyle">
     <v-navigation-drawer
       v-model="drawer"
       :clipped="clipped"
@@ -27,12 +27,13 @@
       :clipped-left="clipped"
       fixed
       app
+      style="box-shadow: none"
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-spacer />
     </v-app-bar>
     <v-main>
-      <v-container>
+      <v-container class="ma-0 pa-0">
         <nuxt />
       </v-container>
     </v-main>
@@ -68,3 +69,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.appStyle {
+  background-color: #EDEDEF;
+}
+</style>
