@@ -11,6 +11,17 @@
           <v-card-title class="justify-center py-0" style="font-size: 32px">Online Team Scan</v-card-title>
         </v-col>
       </v-row>
+      <v-row v-if="errorMessage != ''">
+        <v-col>
+          <v-alert
+            text
+            prominent
+            type="error"
+          >
+            {{ errorMessage }}
+          </v-alert>
+        </v-col>
+      </v-row>
       <v-form
         v-model="isFormValid">
       <v-row>
@@ -56,7 +67,6 @@
             required
             :append-icon="showPassowrd ? 'mdi-eye' : 'mdi-eye-off'"
             :type="showPassowrd ? 'text' : 'password'"
-            hint="At least 8 characters"
             counter
             @click:append="showPassowrd = !showPassowrd"
           ></v-text-field>
@@ -72,7 +82,6 @@
             required
             :append-icon="showPassowrd ? 'mdi-eye' : 'mdi-eye-off'"
             :type="showPassowrd ? 'text' : 'password'"
-            hint="At least 8 characters"
             counter
             @click:append="showPassowrd = !showPassowrd"
           ></v-text-field>
@@ -109,9 +118,11 @@ export default {
       checkbox: false,
       showPassowrd: false,
       isFormValid: false,
+      errorMessage: '',
       passwordRules: [
         value => !!value || 'Vereist',
-        v => v.length >= 8 || 'Min 8 characters'
+        v => v.length >= 8 || 'Min 8 characters',
+        v => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(v) || 'Moet minstens 1 hoofdletter, nummer en speciaal teken bevatten'
       ],
       confirmPasswordRules: [
         value => !!value || 'Vereist',
@@ -130,15 +141,17 @@ export default {
   },
   methods: {
     async register() {
-
       const user = {
+        "Email": this.email,
         "Firstname": this.firstname,
         "Lastname": this.lastname,
-        "Email": this.email,
         "Password": this.password
       }
-
-      /*this.$axios.post('users', user).then((x) => console.log(x.data)).catch((e) => console.log(e))*/
+      this.$axios.post('authenticate/register', user).then((response) => {
+        if(response.status == 200){
+          this.$router.push("/login")
+        }
+      }).catch((e) => this.errorMessage = e.response.data.message)
     }
   }
 }

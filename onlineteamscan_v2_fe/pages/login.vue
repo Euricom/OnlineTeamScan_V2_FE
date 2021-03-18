@@ -11,6 +11,17 @@
             <v-card-title class="justify-center py-0" style="font-size: 32px">Online Team Scan</v-card-title>
           </v-col>
         </v-row>
+        <v-row v-if="errorMessage != ''">
+          <v-col>
+            <v-alert
+              text
+              prominent
+              type="error"
+            >
+              {{ errorMessage }}
+            </v-alert>
+          </v-col>
+        </v-row>
         <v-row>
           <v-col class="mx-8">
             <v-text-field
@@ -32,8 +43,6 @@
               required
               :append-icon="showPassowrd ? 'mdi-eye' : 'mdi-eye-off'"
               :type="showPassowrd ? 'text' : 'password'"
-              hint="At least 8 characters"
-              counter
               @click:append="showPassowrd = !showPassowrd"
             ></v-text-field>
           </v-col>
@@ -70,28 +79,36 @@ export default {
   data(){
     return{
       EuricomLogo: './EuricomLogo.svg',
-      email: '',
-      password: '',
+      email: 'yanu.szapinszky@gmail.com',
+      password: 'Test!123',
       checkbox: false,
       showPassowrd: false,
+      errorMessage: '',
       passwordRules: [
-        value => !!value || 'Required.',
-        v => v.length >= 4 || 'Min 8 characters'
+        value => !!value || 'Vereist',
       ],
       emailRules: [
-        value => !!value || 'Required.',
-        v => /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) || 'E-mail must be valid',
+        value => !!value || 'Vereist',
+        v => /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) || 'Moet een geldig email adress zijn',
       ]
     }
   },
   methods: {
-    Login(){
+    async Login(){
       const user = {
         "Email": this.email,
         "Password": this.password
       }
-      this.$axios.post('authenticate', user).then((x) => console.log(x.data)).catch((e) => console.log(e.message))
-    },
+      /*this.$axios.post('authenticate/login', user).then((x) => console.log(x.data)).catch((e) => this.errorMessage = e.response.data.message)*/
+          await this.$auth.loginWith('local', {
+            data: {
+              email: this.email,
+              password: this.password
+            }
+          }).then((response) => {
+            const user = this.$axios.get(`users/${response.data.id}`).then(result => this.$auth.setUser(result.data))
+          })
+    }
   }
 }
 </script>
