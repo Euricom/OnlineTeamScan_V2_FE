@@ -11,6 +11,7 @@
             <v-card-title class="justify-center py-0" style="font-size: 32px">Online Team Scan</v-card-title>
           </v-col>
         </v-row>
+        <v-form v-model="isFormValid">
         <v-row v-if="errorMessage != ''">
           <v-col>
             <v-alert
@@ -55,9 +56,10 @@
             ></v-checkbox>
           </v-col>
           <v-col class="mx-8 my-auto py-0 pl-0 ml-0" align="right">
-            <Button @click.native="Login" :text="'Inloggen'"/>
+            <Button @click.native="Login" :disabled="!isFormValid" :text="'Inloggen'"/>
           </v-col>
         </v-row>
+        </v-form>
         <v-row>
           <v-col align="center" class="mx-8 py-0">
             <NuxtLink to="/register">Nog geen account?</NuxtLink>
@@ -79,11 +81,12 @@ export default {
   data(){
     return{
       EuricomLogo: './EuricomLogo.svg',
-      email: 'yanu.szapinszky@gmail.com',
-      password: 'Test!123',
+      email: '',
+      password: '',
       checkbox: false,
       showPassowrd: false,
       errorMessage: '',
+      isFormValid: false,
       passwordRules: [
         value => !!value || 'Vereist',
       ],
@@ -107,7 +110,7 @@ export default {
             }
           }).then((response) => {
             const user = this.$axios.get(`users/${response.data.id}`).then(result => this.$auth.setUser(result.data))
-          })
+          }).catch((e) => this.errorMessage = e.response.data.message)
     }
   }
 }
