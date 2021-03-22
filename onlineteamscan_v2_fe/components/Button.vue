@@ -1,6 +1,7 @@
 <template>
-  <v-btn style="background-color: #71BF42; text-transform: none; font-size: 16px;" depressed>
+  <v-btn style="background-color: #71BF42; text-transform: none; font-size: 16px;" :disabled="disabled"  depressed>
     <v-icon
+      v-if="icon != null"
       left
       color="white">
       {{ icon }}
@@ -16,7 +17,11 @@ export default {
   },
   props: {
     text: '',
-    icon: ''
+    icon: '',
+    disabled: {
+      required: false,
+      default: false
+    }
   },
 }
 </script>

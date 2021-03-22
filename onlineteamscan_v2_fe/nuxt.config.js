@@ -44,21 +44,41 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxtjs/axios',
+    '@nuxtjs/auth-next'
   ],
+  //Auth settings
+  auth: {
+    redirect: {
+      login: '/login',
+      logout: '/login',
+      callback: '/login',
+      home: '/dashboard'
+    },
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: 'authenticate/login', method: 'post', propertyName: 'token' },
+          user: false,
+          logout: false
+        }
+      },
+    }
+  },
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: false,
+      light: true,
+      defaultTheme: 'light',
       themes: {
-        dark: {
-          primary: colors.blue.darken2,
-          accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
-          info: colors.teal.lighten1,
-          warning: colors.amber.base,
-          error: colors.deepOrange.accent4,
-          success: colors.green.accent3
+        light: {
+          primary: '#71BF42',
+          secondary: '#424242',
+          accent: '#a1ff69',
+          error: '#F95656',
+          info: '#2196F3',
+          success: '#4CAF50',
+          warning: '#FFC107',
         }
       }
     }
