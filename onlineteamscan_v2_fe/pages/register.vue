@@ -126,7 +126,7 @@ export default {
       ],
       confirmPasswordRules: [
         value => !!value || 'Vereist',
-        v => v == this.password || 'Het wachtwoord komt niet overeen'
+        v => v === this.password || 'Het wachtwoord komt niet overeen'
       ],
       emailRules: [
         value => !!value || 'Vereist',
