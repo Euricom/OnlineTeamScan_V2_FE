@@ -9,7 +9,7 @@
     <v-icon :color="icons[1].color" small v-else>
       {{ icons[1].icon }}
     </v-icon>
-    <span style="color: #5A677A; font-weight: bold; font-size: 12px;" v-if="this.calculateScore < 0 || this.calculateScore > 0">
+    <span style="color: #5A677A; font-weight: bold; font-size: 12px; margin-right: 25px" v-if="this.calculateScore < 0 || this.calculateScore > 0">
       {{ Math.abs(calculateScore) }}
     </span>
   </div>

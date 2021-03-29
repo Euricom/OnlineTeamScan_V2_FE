@@ -135,6 +135,7 @@ export default {
       teamscans: [],
       levels: [],
       dysfunctions: [],
+      interpretations: [],
       selectedTeam: {
         type: Object,
       },
@@ -228,6 +229,7 @@ export default {
   },
   methods: {
     getTeamscansByTeam() {
+      this.selectedTeamscan = Object;
       this.$axios.get(`teamscans/team/${this.selectedTeam.id}`).then(res => this.teamscans = res.data).catch(err => console.log(err))
     },
     async toggleTeamscan(boolean) {
@@ -238,6 +240,32 @@ export default {
         this.commitment = this.getCommitment;
         this.accountability = this.getAccountability;
         this.results = this.getResults;
+        /*let test =
+            [
+          {
+            "levelid": this.trust.level.id,
+            "dysfunctionid": this.trust.dysfunction.id
+          },
+          {
+            "levelid": this.conflict.level.id,
+            "dysfunctionid": this.conflict.dysfunction.id
+          },
+          {
+            "levelid": this.commitment.level.id,
+            "dysfunctionid": this.commitment.dysfunction.id
+          }
+          ,
+          {
+            "levelid": this.accountability.level.id,
+            "dysfunctionid": this.accountability.dysfunction.id
+          }
+          ,
+          {
+            "levelid": this.results.level.id,
+            "dysfunctionid": this.results.dysfunction.id
+          }
+        ]*/
+        /*await this.$axios.get(`interpretationtranslations/${1}`, {params: { test }}).then(res => this.interpretations = res.data).catch(err => console.log(err))*/
       }
       this.overlay = !this.overlay;
     },
