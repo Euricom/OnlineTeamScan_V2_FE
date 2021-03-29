@@ -148,7 +148,7 @@ export default {
         "Password": this.password
       }
       this.$axios.post('authenticate/register', user).then((response) => {
-        if(response.status == 200){
+        if(response.status === 200){
           this.$router.push("/login")
         }
       }).catch((e) => this.errorMessage = e.response.data.message)
