@@ -62,9 +62,7 @@
       </v-menu>
     </v-app-bar>
     <v-main>
-      <v-container class="ma-0 pa-0">
         <nuxt />
-      </v-container>
     </v-main>
   </v-app>
 </template>
@@ -88,12 +86,12 @@ export default {
         {
           icon: 'mdi-poll-box',
           title: 'Scanresultaten',
-          to: '/scanresultaten'
+          to: '/scanresults'
         },
         {
           icon: 'mdi-account-multiple',
           title: 'Teams',
-          to: '/teams'
+          to: '/teamdetail'
         }
       ],
       userOptions: [
