@@ -3,21 +3,20 @@
 
     <v-toolbar elevation="0">
       <v-toolbar-title
-        class="font-weight-medium"
-        style="color: #343A40; font-size: 24px;">
+        class="font-weight-medium toolbar-title">
         Teamdetail
       </v-toolbar-title>
     </v-toolbar>
 
-    <v-container style="margin-top: 5px; padding-left: 15px; padding-right: 15px;">
+    <v-container class="container_position">
         <v-card>
           <v-data-table
           :headers="headers"
           :items="sortActive ? getActiveTeamMembers : getInactiveTeamMembers">
             <template v-slot:top>
               <v-toolbar flat>
-                <v-toolbar-title class="font-weight-medium" style="color: #343A40; font-size: 20px;">Leden</v-toolbar-title>
-                <v-switch v-model="sortActive" label="Actief" style="margin-top: 23px; margin-left: 20px"/>
+                <v-toolbar-title class="font-weight-medium toolbar-card-title">Leden</v-toolbar-title>
+                <v-switch v-model="sortActive" label="Actief" class="switch-position"/>
                 <v-spacer></v-spacer>
 
                <v-dialog v-model="dialog" max-width="500px">
@@ -55,7 +54,7 @@
                    <v-card-actions>
                      <v-spacer></v-spacer>
                      <v-btn color="blue darken-1" text @click="close">
-                        Cancel
+                       Cancel
                      </v-btn>
                      <v-btn color="blue darken-1" text @click="save" :disabled="!isFormValid">
                        Save
@@ -65,7 +64,7 @@
                </v-dialog>
                 <v-dialog v-model="deleteDialog" width="unset">
                   <v-card>
-                    <v-card-title style="word-break: normal" class="headline">
+                    <v-card-title class="headline confirmation-card-title">
                       Weet u zeker dat u dit teamlid wilt verwijderen?
                     </v-card-title>
 
@@ -88,10 +87,10 @@
               </v-icon>
             </template>
             <template v-slot:item.isactive="{ item }">
-              <v-icon color="#71BF42" style="margin-left: 3px" v-if="item.isActive === true">
+              <v-icon color="#71BF42" class="v-icon-style" v-if="item.isActive === true">
                 mdi-checkbox-marked
               </v-icon>
-              <v-icon color="#B9B9B9" style="margin-left: 3px" v-else>
+              <v-icon color="#B9B9B9" class="v-icon-style" v-else>
                 mdi-checkbox-blank-outline
               </v-icon>
             </template>
@@ -225,3 +224,29 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.container_position {
+  margin-top: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.toolbar-title {
+  color: #343A40;
+  font-size: 24px;
+}
+.toolbar-card-title {
+  color: #343A40;
+  font-size: 20px;
+}
+.switch-position {
+  margin-top: 23px;
+  margin-left: 20px;
+}
+.v-icon-style {
+  margin-left: 3px;
+}
+.confirmation-card-title {
+  word-break: normal;
+}
+</style>
