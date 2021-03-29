@@ -201,11 +201,10 @@ export default {
       this.editedTeamMember = Object.assign({}, item)
       this.deleteDialog = true
     },
-    confirmDeleteTeamMember() {
-      this.$axios.delete(`teammembers/${this.editedTeamMember.id}`)
-        .then(() => { this.teamMembers.splice(this.dialogIndex, 1) })
+    async confirmDeleteTeamMember() {
+      await this.$axios.delete(`teammembers/${this.editedTeamMember.id}`)
+        .then(() => { this.teamMembers.splice(this.dialogIndex, 1) }).then(() => this.closeDelete())
         .catch(err => console.log(err))
-      this.closeDelete()
     },
     async save() {
       if (this.dialogIndex > -1)
