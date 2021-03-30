@@ -104,15 +104,12 @@ export default {
         "Email": this.email,
         "Password": this.password
       }
-      /*this.$axios.post('authenticate/login', user).then((x) => console.log(x.data)).catch((e) => this.errorMessage = e.response.data.message)*/
           await this.$auth.loginWith('local', {
             data: {
               email: this.email,
               password: this.password
             }
-          }).then((response) => {
-            const user = this.$axios.get(`users/${response.data.id}`).then(result => this.$auth.setUser(result.data))
-          }).catch((e) => this.errorMessage = e.response.data.message)
+          })
     }
   }
 }

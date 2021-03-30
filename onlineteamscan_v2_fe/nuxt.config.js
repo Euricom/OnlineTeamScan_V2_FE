@@ -56,9 +56,13 @@ export default {
     },
     strategies: {
       local: {
+        user: {
+          property: false,
+          autoFetch: true
+        },
         endpoints: {
           login: { url: 'authenticate/login', method: 'post', propertyName: 'token' },
-          user: false,
+          user: { url: 'authenticate/user', method: 'get'},
           logout: false
         }
       },
