@@ -12,7 +12,7 @@
           </v-col>
         </v-row>
         <v-form v-model="isFormValid">
-        <v-row v-if="errorMessage != ''">
+        <v-row v-if="errorMessage !== ''">
           <v-col>
             <v-alert
               text

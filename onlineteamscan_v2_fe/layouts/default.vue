@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="appStyle">
     <v-navigation-drawer
       v-model="drawer"
       :clipped="clipped"
@@ -27,6 +27,7 @@
       :clipped-left="clipped"
       fixed
       app
+      style="box-shadow: none"
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-spacer />
@@ -61,9 +62,7 @@
       </v-menu>
     </v-app-bar>
     <v-main>
-      <v-container>
         <nuxt />
-      </v-container>
     </v-main>
   </v-app>
 </template>
@@ -87,12 +86,12 @@ export default {
         {
           icon: 'mdi-poll-box',
           title: 'Scanresultaten',
-          to: '/scanresultaten'
+          to: '/scanresults'
         },
         {
           icon: 'mdi-account-multiple',
           title: 'Teams',
-          to: '/teams'
+          to: '/teamdetail'
         }
       ],
       userOptions: [
@@ -118,3 +117,9 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.appStyle {
+  background-color: #EDEDEF;
+}
+</style>
