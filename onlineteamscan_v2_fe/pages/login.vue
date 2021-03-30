@@ -26,22 +26,24 @@
         <v-row>
           <v-col class="mx-8">
             <v-text-field
+              background-color="rgba(255, 255, 255, 1)"
               v-model="email"
+              label="E-mail"
               :rules="emailRules"
               required
               filled
-              label="E-mail"
             ></v-text-field>
           </v-col>
         </v-row>
         <v-row>
           <v-col class="mx-8">
             <v-text-field
+              background-color="rgba(255, 255, 255, 1)"
               v-model="password"
-              filled
               label="Wachtwoord"
               :rules="passwordRules"
               required
+              filled
               :append-icon="showPassowrd ? 'mdi-eye' : 'mdi-eye-off'"
               :type="showPassowrd ? 'text' : 'password'"
               @click:append="showPassowrd = !showPassowrd"
@@ -56,7 +58,7 @@
             ></v-checkbox>
           </v-col>
           <v-col class="mx-8 my-auto py-0 pl-0 ml-0" align="right">
-            <Button @click.native="Login" :disabled="!isFormValid" :text="'Inloggen'"/>
+            <Button id="custom-disabled" @click.native="Login" :disabled="!isFormValid" :text="'Inloggen'"/>
           </v-col>
         </v-row>
         </v-form>
@@ -102,15 +104,12 @@ export default {
         "Email": this.email,
         "Password": this.password
       }
-      /*this.$axios.post('authenticate/login', user).then((x) => console.log(x.data)).catch((e) => this.errorMessage = e.response.data.message)*/
           await this.$auth.loginWith('local', {
             data: {
               email: this.email,
               password: this.password
             }
-          }).then((response) => {
-            const user = this.$axios.get(`users/${response.data.id}`).then(result => this.$auth.setUser(result.data))
-          }).catch((e) => this.errorMessage = e.response.data.message)
+          })
     }
   }
 }
@@ -123,6 +122,9 @@ export default {
   }
   .form {
     max-width: 500px;
-    background-color: rgba(255, 255, 255, 0.75);
+    background: rgba(255, 255, 255, 0.85);
+  }
+  #custom-disabled.v-btn--disabled {
+    background-color: rgba(205, 205, 205, 1) !important;
   }
 </style>
