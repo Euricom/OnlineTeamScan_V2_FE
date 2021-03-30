@@ -110,7 +110,7 @@ export default {
         {
           icon: 'mdi-account-multiple',
           title: 'Teams',
-          to: '/teamdetail'
+          to: '/teams'
         }
       ],
       userOptions: [

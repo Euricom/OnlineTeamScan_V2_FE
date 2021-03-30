@@ -77,9 +77,14 @@
 </template>
 
 <script>
+import Button from "../components/Button";
+
 export default {
   name: "login.vue",
   layout: 'auth',
+  components: {
+    Button,
+  },
   data(){
     return{
       EuricomLogo: './EuricomLogo.svg',

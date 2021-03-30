@@ -78,6 +78,7 @@ export default {
         light: {
           'custom-primary': '#33343A',
           'custom-green': '#71BF42',
+          'custom-red': '#F95656',
           primary: '#71BF42',
           secondary: '#424242',
           accent: '#a1ff69',
