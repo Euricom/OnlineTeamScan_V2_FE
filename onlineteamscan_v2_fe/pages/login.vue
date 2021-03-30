@@ -126,3 +126,27 @@ export default {
     background-color: rgba(255, 255, 255, 0.75);
   }
 </style>
+
+<style>
+input:-webkit-autofill{
+  -webkit-background-clip: text;
+}
+input:-webkit-autofill:hover{
+  -webkit-background-clip: text;
+}
+input:-webkit-autofill:focus textarea:-webkit-autofill{
+  -webkit-background-clip: text;
+}
+textarea:-webkit-autofill:hover textarea:-webkit-autofill:focus{
+  -webkit-background-clip: text;
+}
+select:-webkit-autofill{
+  -webkit-background-clip: text;
+}
+select:-webkit-autofill:hover{
+  -webkit-background-clip: text;
+}
+select:-webkit-autofill:focus {
+  -webkit-background-clip: text;
+}
+</style>
