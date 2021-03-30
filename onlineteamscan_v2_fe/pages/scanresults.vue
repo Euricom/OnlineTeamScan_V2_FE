@@ -124,9 +124,11 @@
 </template>
 
 <script>
+import Button from "@/components/Button";
 export default {
   name: 'ScanResultaten',
   components: {
+    Button,
   },
   data() {
     return {

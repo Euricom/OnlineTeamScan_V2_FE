@@ -24,8 +24,9 @@
                   <v-btn
                     color="primary"
                     dark
-                    class="mb-2"
-                    v-on="on">
+                    class="mb-2 buttonStyle"
+                    v-on="on"
+                    depressed>
                     Lid Toevoegen
                   </v-btn>
                 </template>
@@ -102,9 +103,11 @@
 </template>
 
 <script>
+import Button from "@/components/Button";
 export default {
   name: 'TeamDetail',
   components: {
+    Button,
   },
   data() {
     return {
@@ -142,7 +145,7 @@ export default {
       ],
       nameRules: [
         value => !!value || 'Vereist',
-        v => /^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{0,}$/.test(v) || 'Moet geldig zijn',
+        v => /^[a-zA-Z]+$/.test(v) || 'Moet geldig zijn',
         v => v.length <= 70 || 'Max 70 characters'
       ],
     }
@@ -247,5 +250,20 @@ export default {
 }
 .confirmation-card-title {
   word-break: normal;
+}
+.buttonStyle {
+  text-transform: none;
+}
+.buttonStyle:hover {
+  color: white;
+  background-color: #71BF42;
+}
+.buttonStyle:before {
+  color: white;
+  background-color: #71BF42;
+}
+.buttonStyle:after {
+  color: white;
+  background-color: #71BF42;
 }
 </style>
