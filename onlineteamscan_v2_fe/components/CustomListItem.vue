@@ -9,7 +9,7 @@
           <span style="color: #343A40; font-size: 16px;">{{ team.teamMembers.length }}</span>
         </v-col>
         <v-col align="center" cols="12" sm="3" md="3" lg="3">
-          <span style="color: #343A40; font-size: 16px;">{{ team.lastTeamscan !== null ? team.lastTeamscan : '15/12/21' }}</span>
+          <span style="color: #343A40; font-size: 16px;">{{ team.lastTeamscan !== null ? team.lastTeamscan : '-' }}</span>
         </v-col>
         <v-col align="center" cols="12" sm="3" md="3" lg="3">
           <span :class="team.isTeamscanActive ? 'activeTeamscan' : 'inactiveTeamscan'" style="font-size: 16px;">{{ team.isTeamscanActive ? 'Actief' : 'Niet Actief' }}</span>
@@ -41,9 +41,6 @@ export default {
     return {
 
     }
-  },
-  created() {
-    console.log(this.team)
   },
   methods: {
     redirectTeamDetail() {

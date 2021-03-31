@@ -7,7 +7,6 @@
         {{ this.team.name }}
       </v-toolbar-title>
     </v-toolbar>
-
     <div class="div_position" align="center">
         <v-card>
           <v-data-table
@@ -97,17 +96,12 @@
           </v-data-table>
         </v-card>
     </div>
-
   </div>
 </template>
 
 <script>
-import Button from "@/components/Button";
 export default {
   name: 'TeamDetail',
-  components: {
-    Button,
-  },
   data() {
     return {
       team: {},
