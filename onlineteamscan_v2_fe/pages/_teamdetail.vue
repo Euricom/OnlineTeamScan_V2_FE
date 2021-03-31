@@ -135,7 +135,7 @@ export default {
         { text: 'Naam', align: 'start', value: 'lastname', width: '15%' },
         { text: 'Voornaam', value: 'firstname', width: '15%' },
         { text: 'E-mail', value: 'email', width: '25%'},
-        { text: 'Actief', value: 'isactive', sortable: false, width: ' 15%'},
+        { text: 'Actief', value: 'isactive', sortable: false, width: '15%'},
         { text: 'Acties', value: 'actions', sortable: false, width: '5%'},
       ],
       emailRules: [
