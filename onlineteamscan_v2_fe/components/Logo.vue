@@ -1,5 +1,5 @@
 <template>
-  <img src="EuricomLogo.svg" style="width: 28px; height: 28px;">
+  <img src="../static/EuricomLogo.svg" alt="EuricomLogo.svg" style="width: 28px; height: 28px;">
 </template>
 
 <script>
