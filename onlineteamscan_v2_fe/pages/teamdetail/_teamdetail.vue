@@ -154,7 +154,7 @@ export default {
       return this.team.teamMembers?.filter(x => x.isActive === false)
     },
     dialogTitle() {
-      return this.dialogIndex === -1 ? 'Teamlid Toevoegen' : 'Teamlid bewerken'
+      return this.dialogIndex === -1 ? 'Teamlid Toevoegen' : 'Teamlid Bewerken'
     },
     showSwitch() {
       return this.dialogIndex !== -1
