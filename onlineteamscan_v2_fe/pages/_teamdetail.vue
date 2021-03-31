@@ -4,11 +4,11 @@
     <v-toolbar elevation="0">
       <v-toolbar-title
         class="font-weight-medium toolbar-title">
-        Teamdetail
+        {{ this.team.name }}
       </v-toolbar-title>
     </v-toolbar>
 
-    <v-container class="container_position">
+    <div class="div_position" align="center">
         <v-card>
           <v-data-table
           :headers="headers"
@@ -22,9 +22,8 @@
                <v-dialog v-model="dialog" max-width="500px">
                 <template v-slot:activator="{ on }">
                   <v-btn
-                    color="primary"
-                    dark
-                    class="mb-2 buttonStyle"
+                    color="custom-green"
+                    class="buttonStyle"
                     v-on="on"
                     depressed>
                     Lid Toevoegen
@@ -97,7 +96,7 @@
             </template>
           </v-data-table>
         </v-card>
-    </v-container>
+    </div>
 
   </div>
 </template>
@@ -111,25 +110,25 @@ export default {
   },
   data() {
     return {
+      team: {},
       dialog: false,
       deleteDialog: false,
       errorMessage: '',
       isFormValid: false,
       sortActive: true,
-      teamMembers: [],
       editedTeamMember: {
         email: '',
         firstname: '',
         lastname: '',
         isActive: true,
-        teamId: 1,
+        teamId: this.$route.params.teamdetail,
       },
       defaultTeamMember: {
         email: '',
         firstname: '',
         lastname: '',
         isActive: true,
-        teamId: 1,
+        teamId: this.$route.params.teamdetail,
       },
       dialogIndex: -1,
       headers: [
@@ -151,14 +150,14 @@ export default {
     }
   },
   created() {
-    this.$axios.get(`teammembers/team/${1}`).then(res => this.teamMembers = res.data).catch(err => console.log(err))
+    this.$axios.get(`teams/members/${this.$route.params.teamdetail}`).then(res => this.team = res.data).catch(err => console.log(err))
   },
   computed: {
     getActiveTeamMembers() {
-      return this.teamMembers.filter(x => x.isActive === true)
+      return this.team.teamMembers?.filter(x => x.isActive === true)
     },
     getInactiveTeamMembers() {
-      return this.teamMembers.filter(x => x.isActive === false)
+      return this.team.teamMembers?.filter(x => x.isActive === false)
     },
     dialogTitle() {
       return this.dialogIndex === -1 ? 'Teamlid Toevoegen' : 'Teamlid bewerken'
@@ -168,6 +167,12 @@ export default {
     },
   },
   watch: {
+    getActiveTeamMembers (val) {
+      val || this.getActiveTeamMembers()
+    },
+    getInactiveTeamMembers (val) {
+      val || this.getInactiveTeamMembers()
+    },
     dialog (val) {
       val || this.close()
     },
@@ -179,7 +184,7 @@ export default {
     close() {
       this.dialog = false
       this.errorMessage = ''
-      this.$refs.form.resetValidation();
+      this.$refs.form?.resetValidation();
       this.$nextTick(() => {
         this.editedTeamMember = Object.assign({}, this.defaultTeamMember)
         this.dialogIndex = -1
@@ -188,38 +193,38 @@ export default {
     closeDelete() {
       this.deleteDialog = false
       this.errorMessage = ''
-      this.$refs.form.resetValidation();
+      this.$refs.form?.resetValidation();
       this.$nextTick(() => {
         this.editedTeamMember = Object.assign({}, this.defaultTeamMember)
         this.dialogIndex = -1
       })
     },
     editTeamMember(item) {
-      this.dialogIndex = this.teamMembers.indexOf(item)
+      this.dialogIndex = this.team.teamMembers.indexOf(item)
       this.editedTeamMember = Object.assign({}, item)
       this.dialog = true
     },
     deleteTeamMember(item) {
-      this.dialogIndex = this.teamMembers.indexOf(item)
+      this.dialogIndex = this.team.teamMembers.indexOf(item)
       this.editedTeamMember = Object.assign({}, item)
       this.deleteDialog = true
     },
     async confirmDeleteTeamMember() {
       await this.$axios.delete(`teammembers/${this.editedTeamMember.id}`)
-        .then(() => { this.teamMembers.splice(this.dialogIndex, 1) }).then(() => this.closeDelete())
+        .then(() => { this.team.teamMembers.splice(this.dialogIndex, 1) }).then(() => this.closeDelete())
         .catch(err => console.log(err))
     },
     async save() {
       if (this.dialogIndex > -1)
       {
         await this.$axios.put(`teammembers`, this.editedTeamMember)
-          .then((res) => { Object.assign(this.teamMembers[this.dialogIndex], res.data) }).then(() => this.close())
+          .then((res) => { Object.assign(this.team.teamMembers[this.dialogIndex], res.data) }).then(() => this.close())
           .catch(err => this.errorMessage = err.response.data)
       }
       else
       {
         await this.$axios.post(`teammembers`, this.editedTeamMember)
-          .then((res) => { this.teamMembers.push(res.data) }).then(() => this.close())
+          .then((res) => { this.team.teamMembers.push(res.data) }).then(() => this.close())
           .catch(err => this.errorMessage = err.response.data)
       }
     },
@@ -228,10 +233,10 @@ export default {
 </script>
 
 <style scoped>
-.container_position {
-  margin-top: 5px;
-  padding-left: 15px;
-  padding-right: 15px;
+.div_position {
+  margin-top: 15px;
+  margin-left: 15px;
+  margin-right: 15px;
 }
 .toolbar-title {
   color: #343A40;
@@ -253,6 +258,8 @@ export default {
 }
 .buttonStyle {
   text-transform: none;
+  color: #FFFFFF;
+  font-weight: normal;
 }
 .buttonStyle:hover {
   color: white;

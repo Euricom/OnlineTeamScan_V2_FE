@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mb-4" elevation="1">
+  <v-card class="mb-4" elevation="1" @click="redirectTeamDetail">
     <v-container>
       <v-row align="center" class="mr-1 ml-1">
         <v-col align="start" cols="12" sm="3" md="3" lg="3">
@@ -44,7 +44,14 @@ export default {
   },
   created() {
     console.log(this.team)
-  }
+  },
+  methods: {
+    redirectTeamDetail() {
+      this.$router.push({
+          path: `/teamdetail/${this.team.id}`
+      })
+    },
+  },
 }
 </script>
 

@@ -79,6 +79,7 @@ export default {
           'custom-primary': '#33343A',
           'custom-green': '#71BF42',
           'custom-red': '#F95656',
+          'custom-grey': '#A8A8A8',
           primary: '#71BF42',
           secondary: '#424242',
           accent: '#a1ff69',
