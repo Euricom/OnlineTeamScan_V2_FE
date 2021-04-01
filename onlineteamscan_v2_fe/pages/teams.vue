@@ -2,13 +2,13 @@
   <div>
     <v-toolbar elevation="0">
       <v-toolbar-title
-        class="font-weight-medium"
         style="color: #343A40; font-size: 24px;">
         Teams
       </v-toolbar-title>
       <v-toolbar-title
         class="font-weight-medium ml-1"
         style="color: #A8A8A8; font-size: 24px;">
+        class="font-weight-medium ml-1 toolbar-title-count">
         ({{ this.teams.length }})
       </v-toolbar-title>
       <v-spacer/>
@@ -57,19 +57,19 @@
     <div class="mx-5 my-5" v-if="this.teams.length">
     <v-row class="mr-1 ml-1">
       <v-col align="start" lg="2">
-        <span @click="sortBy('name')" style="color: #919191; font-size: 20px; cursor: pointer;" class="font-weight-medium">Naam</span>
+        <span @click="sortBy('name')" class="font-weight-medium header-style">Naam</span>
         <v-icon v-if="sorted === 'name'" dense color="#919191">{{ direction === 1 ? 'mdi-arrow-up' : 'mdi-arrow-down'}}</v-icon>
       </v-col>
       <v-col align="center" class="pl-15" lg="2">
-        <span @click="sortBy('teamMembers')" style="color: #919191; font-size: 20px; cursor: pointer;" class="font-weight-medium">Aantal Leden</span>
+        <span @click="sortBy('teamMembers')" class="font-weight-medium header-style">Aantal Leden</span>
         <v-icon v-if="sorted === 'teamMembers'" dense color="#919191">{{ direction === 1 ? 'mdi-arrow-up' : 'mdi-arrow-down'}}</v-icon>
       </v-col>
       <v-col align="center" lg="3">
-        <span  @click="sortBy('lastTeamscan')" style="color: #919191; font-size: 20px; cursor: pointer;" class="font-weight-medium">Laatste Teamscan</span>
+        <span  @click="sortBy('lastTeamscan')" class="font-weight-medium header-style">Laatste Teamscan</span>
         <v-icon v-if="sorted === 'lastTeamscan'" dense color="#919191">{{ direction === 1 ? 'mdi-arrow-up' : 'mdi-arrow-down'}}</v-icon>
       </v-col>
       <v-col align="center" lg="3">
-        <span @click="sortBy('isTeamscanActive')" style="color: #919191; font-size: 20px; cursor: pointer;" class="font-weight-medium">Teamscan Status</span>
+        <span @click="sortBy('isTeamscanActive')" class="font-weight-medium header-style">Teamscan Status</span>
         <v-icon v-if="sorted === 'isTeamscanActive'" dense color="#919191">{{ direction === 1 ? 'mdi-arrow-up' : 'mdi-arrow-down'}}</v-icon>
       </v-col>
       <v-col align="center" lg="2"></v-col>
@@ -80,7 +80,7 @@
             <img src="../static/EmptyIcon.svg" width="150px">
           </v-row>
           <v-row justify="center">
-            <span style="color: #919191; font-size: 20px" class="font-weight-medium">Geen teams gevonden</span>
+            <span class="font-weight-medium header-style">Geen teams gevonden</span>
           </v-row>
       </v-container>
     <div>
@@ -89,10 +89,14 @@
 
     <v-dialog v-model="deleteDialog" width="unset">
       <v-card>
-        <v-card-title class="headline confirmation-card-title">
-          Weet u zeker dat u dit team wilt verwijderen?
+        <v-card-title>
+          <span class="headline confirmation-card-title">
+            Verwijderen
+          </span>
         </v-card-title>
-
+        <v-card-text class="pb-0">
+          Weet u zeker dat u dit team wilt verwijderen?
+        </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darkin-1" text @click="closeDelete">Cancel</v-btn>
@@ -275,5 +279,19 @@ export default {
 .customButtonStyle:after {
   color: white;
   background-color: #71BF42;
+}
+
+.toolbar-title {
+  color: #343A40;
+  font-size: 24px;
+}
+.toolbar-title-count {
+  color: #A8A8A8;
+  font-size: 24px;
+}
+.header-style {
+  color: #919191;
+  font-size: 16px;
+  cursor: pointer;
 }
 </style>
