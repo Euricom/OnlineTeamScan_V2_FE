@@ -235,7 +235,7 @@ export default {
       if (this.dialogIndex > -1)
       {
         await this.$axios.put(`teams`, this.editedTeam)
-          .then((res) => { Object.assign(this.teams[this.dialogIndex], res.data) })
+          .then((res) => { Object.assign(this.teams[this.dialogIndex], { id: res.data.id, isTeamscanActive: res.data.isTeamscanActive, lastTeamscan: res.data.lastTeamscan, name: res.data.name }) })
           .then(() => { Object.assign(this.originalTeams[this.originalIndex], this.teams[this.dialogIndex]) })
           .then(() => this.close())
           .catch(err => this.errorMessage = err.response.data)
