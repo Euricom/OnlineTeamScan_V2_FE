@@ -134,7 +134,7 @@ export default {
       },
       nameRules: [
         value => !!value || 'Vereist',
-        v => /^[a-zA-Z]+$/.test(v) || 'Moet geldig zijn',
+        v => /^[^-\s][ áàíóúéëöüñÄĞİŞȘØøğışÐÝÞðýþa-zA-Z_\s-]*$/.test(v) || 'Moet geldig zijn', /*^[ a-zA-Z\-']+$*/
         v => v.length <= 50 || 'Max 50 characters'
       ],
     }
