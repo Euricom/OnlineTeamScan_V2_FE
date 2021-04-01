@@ -40,7 +40,7 @@
                        >
                          {{ errorMessage }}
                        </v-alert>
-                   <v-card-text>
+                   <v-card-text v-if="checkOwner(editedTeamMember)">
                      <v-container>
                        <v-form v-model="isFormValid" ref="form">
                        <v-text-field v-model="editedTeamMember.email" label="E-mail" :rules="emailRules"/>
@@ -50,6 +50,13 @@
                        </v-form>
                      </v-container>
                    </v-card-text>
+
+                   <v-card-text v-else>
+                       <v-form v-model="isFormValid" ref="form">
+                         <v-switch v-model="editedTeamMember.isActive" label="Actief" v-if="showSwitch" />
+                       </v-form>
+                   </v-card-text>
+
                    <v-card-actions>
                      <v-spacer></v-spacer>
                      <v-btn color="blue darken-1" text @click="close">
@@ -81,7 +88,7 @@
               <v-icon small class="mr-2" @click="editTeamMember(item)">
                 mdi-pencil
               </v-icon>
-              <v-icon small class="mr-2" @click="deleteTeamMember(item)">
+              <v-icon small class="mr-2" @click="deleteTeamMember(item)" v-if="checkOwner(item)">
                 mdi-delete
               </v-icon>
             </template>
@@ -175,6 +182,9 @@ export default {
     },
   },
   methods: {
+    checkOwner(item) {
+      return item.email !== this.$auth.user.email
+    },
     close() {
       this.dialog = false
       this.errorMessage = ''
