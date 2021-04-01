@@ -34,14 +34,14 @@
                    </v-card-title>
                        <v-alert
                          text
-                         prominent
+                         dense
                          type="error"
                          v-if="errorMessage !== ''"
                        >
                          {{ errorMessage }}
                        </v-alert>
-                   <v-card-text v-if="checkOwner(editedTeamMember)">
-                     <v-container>
+                   <v-card-text v-if="checkOwner(editedTeamMember)" class="pb-0">
+                     <v-container class="pb-0">
                        <v-form v-model="isFormValid" ref="form">
                        <v-text-field v-model="editedTeamMember.email" label="E-mail" :rules="emailRules"/>
                        <v-text-field v-model="editedTeamMember.firstname" label="Voornaam" :rules="nameRules"/>
@@ -51,7 +51,7 @@
                      </v-container>
                    </v-card-text>
 
-                   <v-card-text v-else>
+                   <v-card-text v-else class="pb-0">
                        <v-form v-model="isFormValid" ref="form">
                          <v-switch v-model="editedTeamMember.isActive" label="Actief" v-if="showSwitch" />
                        </v-form>
@@ -70,10 +70,14 @@
                </v-dialog>
                 <v-dialog v-model="deleteDialog" width="unset">
                   <v-card>
-                    <v-card-title class="headline confirmation-card-title">
-                      Weet u zeker dat u dit teamlid wilt verwijderen?
+                    <v-card-title>
+                      <span class="headline confirmation-card-title">
+                        Verwijderen
+                      </span>
                     </v-card-title>
-
+                    <v-card-text class="pb-0">
+                      Weet u zeker dat u dit teamlid wilt verwijderen?
+                    </v-card-text>
                     <v-card-actions>
                       <v-spacer></v-spacer>
                       <v-btn color="blue darkin-1" text @click="closeDelete">Cancel</v-btn>

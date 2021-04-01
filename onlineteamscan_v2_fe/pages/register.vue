@@ -15,7 +15,7 @@
         <v-col>
           <v-alert
             text
-            prominent
+            dense
             type="error"
           >
             {{ errorMessage }}

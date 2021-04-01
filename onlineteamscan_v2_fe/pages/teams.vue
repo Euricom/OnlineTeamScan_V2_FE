@@ -29,13 +29,13 @@
           </v-card-title>
           <v-alert
             text
-            prominent
+            dense
             type="error"
             v-if="errorMessage !== ''"
           >
             {{ errorMessage }}
           </v-alert>
-          <v-card-text>
+          <v-card-text class="pb-0">
             <v-container>
               <v-form v-model="isFormValid" ref="form">
                 <v-text-field v-model="editedTeam.name" label="Teamnaam" :rules="nameRules"/>
@@ -58,19 +58,19 @@
     <v-row class="mr-1 ml-1">
       <v-col align="start" lg="2">
         <span @click="sortBy('name')" style="color: #919191; font-size: 20px; cursor: pointer;" class="font-weight-medium">Naam</span>
-        <v-icon v-if="sorted === 'name'" dense color="#919191">{{ direction === 1 ? 'mdi-arrow-down' : 'mdi-arrow-up'}}</v-icon>
+        <v-icon v-if="sorted === 'name'" dense color="#919191">{{ direction === 1 ? 'mdi-arrow-up' : 'mdi-arrow-down'}}</v-icon>
       </v-col>
       <v-col align="center" class="pl-15" lg="2">
         <span @click="sortBy('teamMembers')" style="color: #919191; font-size: 20px; cursor: pointer;" class="font-weight-medium">Aantal Leden</span>
-        <v-icon v-if="sorted === 'teamMembers'" dense color="#919191">{{ direction === 1 ? 'mdi-arrow-down' : 'mdi-arrow-up'}}</v-icon>
+        <v-icon v-if="sorted === 'teamMembers'" dense color="#919191">{{ direction === 1 ? 'mdi-arrow-up' : 'mdi-arrow-down'}}</v-icon>
       </v-col>
       <v-col align="center" lg="3">
         <span  @click="sortBy('lastTeamscan')" style="color: #919191; font-size: 20px; cursor: pointer;" class="font-weight-medium">Laatste Teamscan</span>
-        <v-icon v-if="sorted === 'lastTeamscan'" dense color="#919191">{{ direction === 1 ? 'mdi-arrow-down' : 'mdi-arrow-up'}}</v-icon>
+        <v-icon v-if="sorted === 'lastTeamscan'" dense color="#919191">{{ direction === 1 ? 'mdi-arrow-up' : 'mdi-arrow-down'}}</v-icon>
       </v-col>
       <v-col align="center" lg="3">
         <span @click="sortBy('isTeamscanActive')" style="color: #919191; font-size: 20px; cursor: pointer;" class="font-weight-medium">Teamscan Status</span>
-        <v-icon v-if="sorted === 'isTeamscanActive'" dense color="#919191">{{ direction === 1 ? 'mdi-arrow-down' : 'mdi-arrow-up'}}</v-icon>
+        <v-icon v-if="sorted === 'isTeamscanActive'" dense color="#919191">{{ direction === 1 ? 'mdi-arrow-up' : 'mdi-arrow-down'}}</v-icon>
       </v-col>
       <v-col align="center" lg="2"></v-col>
     </v-row>
@@ -262,7 +262,7 @@ export default {
 .customButtonStyle {
   font-weight: normal;
   text-transform: none;
-  font-size: 16px;
+  font-size: 14px;
 }
 .customButtonStyle:hover {
   color: white;

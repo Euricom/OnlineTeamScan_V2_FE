@@ -1,5 +1,5 @@
 <template>
-  <v-btn style="font-weight: normal; background-color: #71BF42; text-transform: none; font-size: 16px;" :disabled="disabled"  depressed>
+  <v-btn style="font-weight: normal; background-color: #71BF42; text-transform: none; font-size: 14px;" :disabled="disabled"  depressed>
     <v-icon
       v-if="icon != null"
       left
