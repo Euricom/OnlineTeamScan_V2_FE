@@ -2,12 +2,10 @@
   <div>
     <v-toolbar elevation="0">
       <v-toolbar-title
-        style="color: #343A40; font-size: 24px;">
+        class="font-weight-medium toolbar-title">
         Teams
       </v-toolbar-title>
       <v-toolbar-title
-        class="font-weight-medium ml-1"
-        style="color: #A8A8A8; font-size: 24px;">
         class="font-weight-medium ml-1 toolbar-title-count">
         ({{ this.teams.length }})
       </v-toolbar-title>
@@ -20,7 +18,7 @@
               color="white">
               {{ 'mdi-account-multiple-plus' }}
             </v-icon>
-            <span style="color: white">Nieuw Team</span>
+            <span class="new-team-icon">Nieuw Team</span>
           </v-btn>
         </template>
         <v-card>
@@ -75,9 +73,9 @@
       <v-col align="center" lg="2"></v-col>
     </v-row>
     </div>
-      <v-container v-else style="margin-top: 200px">
+      <v-container v-else class="empty-teams-container">
           <v-row justify="center">
-            <img src="../static/EmptyIcon.svg" width="150px">
+            <img src="../static/EmptyIcon.svg" class="empty-teams-img">
           </v-row>
           <v-row justify="center">
             <span class="font-weight-medium header-style">Geen teams gevonden</span>
@@ -294,4 +292,14 @@ export default {
   font-size: 16px;
   cursor: pointer;
 }
+.empty-teams-container {
+  margin-top: 200px;
+}
+.empty-teams-img {
+  width: 150px;
+}
+.new-team-icon {
+  color: white;
+}
+
 </style>

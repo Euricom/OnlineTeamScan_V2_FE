@@ -1,9 +1,9 @@
 <template>
     <v-container>
-      <v-card class=" mx-auto my-12 form" style="border-radius: 20px">
+      <v-card class=" mx-auto my-12 form">
         <v-row class="pt-8">
           <v-col align="center">
-            <img class="py-0" :src="EuricomLogo" width="100px">
+            <img class="py-0 euricom-logo" :src="EuricomLogo">
           </v-col>
         </v-row>
         <v-row>
@@ -121,20 +121,20 @@ export default {
 </script>
 
 <style scoped>
-  html, body {
-    overflow: hidden;
-    height: 100vh;
-  }
   .form {
     max-width: 500px;
     background: rgba(255, 255, 255, 0.85);
+    border-radius: 20px;
+  }
+  .euricom-logo {
+    width: 100px;
   }
   #custom-disabled.v-btn--disabled {
     background-color: rgba(205, 205, 205, 1) !important;
   }
 </style>
 
-<style>
+<style scoped>
 input:-webkit-autofill{
   -webkit-background-clip: text;
 }

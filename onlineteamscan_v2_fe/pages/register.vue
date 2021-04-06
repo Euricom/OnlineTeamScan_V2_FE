@@ -1,9 +1,9 @@
 <template>
   <v-container>
-    <v-card class=" mx-auto my-12 form" style="border-radius: 20px">
+    <v-card class=" mx-auto my-12 form">
       <v-row class="pt-8">
         <v-col align="center">
-          <img class="py-0" :src="EuricomLogo" width="100px">
+          <img class="py-0 euricom-logo" :src="EuricomLogo">
         </v-col>
       </v-row>
       <v-row>
@@ -28,6 +28,7 @@
         <v-col class="mx-8">
           <v-text-field
             v-model="firstname"
+            background-color="rgba(255, 255, 255, 1)"
             :rules="nameRules"
             required
             filled
@@ -39,6 +40,7 @@
         <v-col class="mx-8">
           <v-text-field
             v-model="lastname"
+            background-color="rgba(255, 255, 255, 1)"
             :rules="nameRules"
             required
             filled
@@ -50,6 +52,7 @@
         <v-col class="mx-8">
           <v-text-field
             v-model="email"
+            background-color="rgba(255, 255, 255, 1)"
             :rules="emailRules"
             required
             filled
@@ -61,6 +64,7 @@
         <v-col class="mx-8">
           <v-text-field
             v-model="password"
+            background-color="rgba(255, 255, 255, 1)"
             filled
             label="Wachtwoord"
             :rules="passwordRules"
@@ -76,6 +80,7 @@
         <v-col class="mx-8">
           <v-text-field
             v-model="confirmPassword"
+            background-color="rgba(255, 255, 255, 1)"
             filled
             label="Bevestig Wachtwoord"
             :rules="confirmPasswordRules"
@@ -89,7 +94,7 @@
       </v-row>
       <v-row>
         <v-col class="mx-8 my-auto py-0 pl-0 ml-0" align="right">
-          <Button @click.native="register" :disabled="!isFormValid" :text="'Registreren'"/>
+          <Button id="custom-disabled" @click.native="register" :disabled="!isFormValid" :text="'Registreren'"/>
         </v-col>
       </v-row>
       <v-row>
@@ -158,12 +163,39 @@ export default {
 </script>
 
 <style scoped>
-html, body {
-  overflow: hidden;
-  height: 100vh;
-}
 .form {
   max-width: 500px;
-  background-color: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 20px;
+}
+.euricom-logo {
+  width: 100px;
+}
+#custom-disabled.v-btn--disabled {
+  background-color: rgba(205, 205, 205, 1) !important;
+}
+</style>
+
+  <style scoped>
+  input:-webkit-autofill{
+    -webkit-background-clip: text;
+  }
+input:-webkit-autofill:hover{
+  -webkit-background-clip: text;
+}
+input:-webkit-autofill:focus textarea:-webkit-autofill{
+  -webkit-background-clip: text;
+}
+textarea:-webkit-autofill:hover textarea:-webkit-autofill:focus{
+  -webkit-background-clip: text;
+}
+select:-webkit-autofill{
+  -webkit-background-clip: text;
+}
+select:-webkit-autofill:hover{
+  -webkit-background-clip: text;
+}
+select:-webkit-autofill:focus {
+  -webkit-background-clip: text;
 }
 </style>
