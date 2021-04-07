@@ -278,7 +278,6 @@ export default {
   color: white;
   background-color: #71BF42;
 }
-
 .toolbar-title {
   color: #343A40;
   font-size: 24px;
@@ -300,6 +299,7 @@ export default {
 }
 .new-team-icon {
   color: white;
+  font-weight: bold;
 }
 
 </style>

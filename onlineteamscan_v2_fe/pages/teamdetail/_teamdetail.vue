@@ -25,7 +25,7 @@
                     class="buttonStyle"
                     v-on="on"
                     depressed>
-                    Lid Toevoegen
+                    <span style="font-weight: bold;">Lid Toevoegen</span>
                   </v-btn>
                 </template>
                  <v-card>
