@@ -12,7 +12,7 @@
       <v-spacer/>
       <v-dialog v-model="dialog" max-width="500px">
         <template v-slot:activator="{ on }">
-          <v-btn v-on="on" color="custom-green" class="customButtonStyle" depressed>
+          <v-btn v-on="on" color="custom-green" class="custom-button" depressed>
             <v-icon
               left
               color="white">
@@ -55,19 +55,19 @@
     <div class="mx-5 my-5" v-if="this.teams.length">
     <v-row class="mr-1 ml-1">
       <v-col align="start" lg="2">
-        <span @click="sortBy('name')" class="font-weight-medium header-style">Naam</span>
+        <span @click="sortBy('name')" class="font-weight-medium sort-header">Naam</span>
         <v-icon v-if="sorted === 'name'" dense color="#919191">{{ direction === 1 ? 'mdi-arrow-up' : 'mdi-arrow-down'}}</v-icon>
       </v-col>
       <v-col align="center" class="pl-15" lg="2">
-        <span @click="sortBy('teamMembers')" class="font-weight-medium header-style">Aantal Leden</span>
+        <span @click="sortBy('teamMembers')" class="font-weight-medium sort-header">Aantal Leden</span>
         <v-icon v-if="sorted === 'teamMembers'" dense color="#919191">{{ direction === 1 ? 'mdi-arrow-up' : 'mdi-arrow-down'}}</v-icon>
       </v-col>
       <v-col align="center" lg="3">
-        <span  @click="sortBy('lastTeamscan')" class="font-weight-medium header-style">Laatste Teamscan</span>
+        <span  @click="sortBy('lastTeamscan')" class="font-weight-medium sort-header">Laatste Teamscan</span>
         <v-icon v-if="sorted === 'lastTeamscan'" dense color="#919191">{{ direction === 1 ? 'mdi-arrow-up' : 'mdi-arrow-down'}}</v-icon>
       </v-col>
       <v-col align="center" lg="3">
-        <span @click="sortBy('isTeamscanActive')" class="font-weight-medium header-style">Teamscan Status</span>
+        <span @click="sortBy('isTeamscanActive')" class="font-weight-medium sort-header">Teamscan Status</span>
         <v-icon v-if="sorted === 'isTeamscanActive'" dense color="#919191">{{ direction === 1 ? 'mdi-arrow-up' : 'mdi-arrow-down'}}</v-icon>
       </v-col>
       <v-col align="center" lg="2"></v-col>
@@ -78,7 +78,7 @@
             <img src="../static/EmptyIcon.svg" class="empty-teams-img">
           </v-row>
           <v-row justify="center">
-            <span class="font-weight-medium header-style">Geen teams gevonden</span>
+            <span class="font-weight-medium sort-header">Geen teams gevonden</span>
           </v-row>
       </v-container>
     <div>
@@ -161,7 +161,7 @@ export default {
   },
   methods: {
     sortBy(prop) {
-      if(this.sorted !== prop) return this.defaultSort(prop)
+      if (this.sorted !== prop) return this.defaultSort(prop)
       if (this.direction === 1) return this.reverseSort()
       return this.unsort()
     },
@@ -233,7 +233,7 @@ export default {
         this.originalTeams.push(result.data)
         this.teams = [...this.originalTeams]
 
-        if (this.sorted !== '') this.performSort(this.sorted)
+        if (this.sorted !== '') this.defaultSort(this.sorted)
 
         this.closeDialog();
       }
@@ -257,24 +257,23 @@ export default {
 </script>
 
 <style scoped>
-.customButtonStyle {
+.custom-button {
   font-weight: normal;
   text-transform: none;
   font-size: 14px;
 }
-.customButtonStyle:hover {
+.custom-button:hover {
   color: white;
   background-color: #71BF42;
 }
-.customButtonStyle:before {
+.custom-button:before {
   color: white;
   background-color: #71BF42;
 }
-.customButtonStyle:after {
+.custom-button:after {
   color: white;
   background-color: #71BF42;
 }
-
 .toolbar-title {
   color: #343A40;
   font-size: 24px;
@@ -283,7 +282,7 @@ export default {
   color: #A8A8A8;
   font-size: 24px;
 }
-.header-style {
+.sort-header {
   color: #919191;
   font-size: 16px;
   cursor: pointer;
