@@ -46,17 +46,27 @@
 </template>
 
 <script>
+import moment from 'moment';
+
 export default {
   name: "CustomListItem",
+  components: {
+    moment,
+  },
   props: {
     team: {
       type: Object,
       required: true
     },
   },
+  data() {
+    return {
+
+    }
+  },
   computed: {
     formatDate() {
-      return new Date(this.team.lastTeamscan).toLocaleDateString('en-GB')
+      return moment(this.team.lastTeamscan).format('DD/MM/YYYY')
     }
   },
   methods: {
