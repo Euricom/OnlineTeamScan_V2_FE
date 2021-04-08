@@ -176,7 +176,6 @@ export default {
         this.sorted = prop
         this.performSort(prop)
       }
-      console.log(this.direction)
     },
     performSort(prop) {
       switch (prop) {
@@ -301,5 +300,4 @@ export default {
 .new-team-icon {
   color: white;
 }
-
 </style>
