@@ -185,10 +185,10 @@ export default {
       return email !== this.$auth.user.email
     },
     closeDialog() {
+      this.$refs.form?.resetValidation();
       this.dialog = false
       this.deleteDialog = false
       this.errorMessage = ''
-      this.$refs.form.resetValidation();
       this.$nextTick(() => {
         this.editedTeamMember = Object.assign({}, this.defaultTeamMember)
         this.dialogIndex = -1

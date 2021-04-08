@@ -193,10 +193,10 @@ export default {
       }
     },
     closeDialog() {
+      this.$refs.form?.resetValidation();
       this.dialog = false
       this.deleteDialog = false
       this.errorMessage = ''
-      this.$refs.form.resetValidation();
       this.$nextTick(() => {
         this.editedTeam = Object.assign({}, this.defaultTeam)
         this.dialogIndex = -1

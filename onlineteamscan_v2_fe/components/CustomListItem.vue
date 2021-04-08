@@ -56,7 +56,11 @@ export default {
   },
   computed: {
     formatDate() {
-      return new Date(this.team.lastTeamscan).toLocaleDateString('en-GB')
+      let date = new Date(this.team.lastTeamscan)
+      let day = date.getDate().toString().padStart(2,'0')
+      let month = (date.getMonth() + 1).toString().padStart(2,'0')
+      let year = date.getFullYear().toString()
+      return `${day}/${month}/${year}`
     }
   },
   methods: {
