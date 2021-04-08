@@ -162,25 +162,25 @@ export default {
   },
   methods: {
     sortBy(prop) {
-      if (this.sorted === prop && this.direction === -1) {
-        this.teams = [...this.originalTeams]
-        this.direction = 0
-        this.sorted = ''
-      }
-      else if(this.sorted === prop && this.direction === 1) {
-        this.teams.reverse()
-        this.direction = -1
-      }
-      else {
-        this.direction = 1
-        this.sorted = prop
-        this.performSort(prop)
-      }
+      if(this.sorted !== prop) return this.defaultSort(prop)
+      if (this.direction === 1) return this.reverseSort()
+      return this.unsort()
     },
-    performSort(prop) {
+    unsort() {
+      this.teams = [...this.originalTeams]
+      this.direction = 0
+      this.sorted = ''
+    },
+    reverseSort() {
+      this.teams.reverse()
+      this.direction = -1
+    },
+    defaultSort(prop) {
+      this.direction = 1
+      this.sorted = prop
       switch (prop) {
         case 'teamMembers':
-            this.teams.sort((a, b) =>  a[this.sorted].length - b[this.sorted].length)
+          this.teams.sort((a, b) =>  a[this.sorted].length - b[this.sorted].length)
           break
         case 'lastTeamscan':
           this.teams.sort((a, b) =>  new Date(a[this.sorted]) - new Date(b[this.sorted]))
@@ -189,7 +189,7 @@ export default {
           this.teams.sort((a, b) =>  a[this.sorted] - b[this.sorted])
           break
         default:
-            this.teams.sort((a, b) =>  a[this.sorted].localeCompare(b[this.sorted]))
+          this.teams.sort((a, b) =>  a[this.sorted].localeCompare(b[this.sorted]))
           break
       }
     },
@@ -300,5 +300,4 @@ export default {
 .new-team-icon {
   color: white;
 }
-
 </style>
