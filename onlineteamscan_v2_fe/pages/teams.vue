@@ -36,7 +36,7 @@
           <v-card-text class="pb-0">
             <v-container>
               <v-form v-model="isFormValid" ref="form">
-                <v-text-field v-model="editedTeam.name" label="Teamnaam" :rules="nameRules"/>
+                <v-text-field v-model="editedTeam.name" label="Teamnaam" :rules="teamNameRules"/>
               </v-form>
             </v-container>
           </v-card-text>
@@ -134,10 +134,10 @@ export default {
         name: '',
         teamleaderId: this.$auth.user.id,
       },
-      nameRules: [
-        value => !!value || 'Vereist',
-        v => /^[^-\s][ áàíóúéëöüñÄĞİŞȘØøğışÐÝÞðýþa-zA-Z_\s-]*$/.test(v) || 'Moet geldig zijn',
-        v => v.length <= 50 || 'Max 50 characters'
+      teamNameRules: [
+        nameRequired => !!nameRequired || 'Vereist',
+        nameValidCharacters => /^[^-\s][ áàíóúéëöüñÄĞİŞȘØøğışÐÝÞðýþa-zA-Z_\s-]*$/.test(nameValidCharacters) || 'Moet geldig zijn',
+        nameValidLength => nameValidLength.length <= 50 || 'Max 50 characters'
       ],
     }
   },
