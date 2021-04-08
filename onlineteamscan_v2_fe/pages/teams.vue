@@ -42,7 +42,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="close">
+            <v-btn color="blue darken-1" text @click="closeDialog">
               Cancel
             </v-btn>
             <v-btn color="blue darken-1" text @click="save" :disabled="!isFormValid">
@@ -97,7 +97,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darkin-1" text @click="closeDelete">Cancel</v-btn>
+          <v-btn color="blue darkin-1" text @click="closeDialog">Cancel</v-btn>
           <v-btn color="blue darkin-1" text @click="confirmDeleteTeam">Ok</v-btn>
         </v-card-actions>
       </v-card>
@@ -118,8 +118,8 @@ export default {
     return {
       teams: [],
       originalTeams: [],
-      sorted: '', // Key for sorting the team list
-      direction: 0, // Ascending order of sort
+      sorted: '',
+      direction: 0,
       isFormValid: false,
       dialog: false,
       deleteDialog: false,
@@ -136,23 +136,22 @@ export default {
       },
       nameRules: [
         value => !!value || 'Vereist',
-        v => /^[^-\s][ áàíóúéëöüñÄĞİŞȘØøğışÐÝÞðýþa-zA-Z_\s-]*$/.test(v) || 'Moet geldig zijn', /*^[ a-zA-Z\-']+$*/
+        v => /^[^-\s][ áàíóúéëöüñÄĞİŞȘØøğışÐÝÞðýþa-zA-Z_\s-]*$/.test(v) || 'Moet geldig zijn',
         v => v.length <= 50 || 'Max 50 characters'
       ],
     }
   },
   async created() {
-    await this.$axios.get(`http://localhost:49783/api/teams/teammembers/${this.$auth.user.id}`)
-      .then(response => this.teams = response.data).then(() => this.originalTeams = [...this.teams])
-      .catch(err => console.log(err))
-
+    let result = await this.$axios.get(`teams/teammembers/${this.$auth.user.id}`)
+    this.teams = result.data
+    this.originalTeams = [...this.teams]
   },
   watch: {
     deleteDialog (val) {
-      val || this.closeDelete()
+      val || this.closeDialog()
     },
     dialog (val) {
-      val || this.close()
+      val || this.closeDialog()
     },
   },
   computed: {
@@ -176,7 +175,6 @@ export default {
         this.sorted = prop
         this.performSort(prop)
       }
-      console.log(this.direction)
     },
     performSort(prop) {
       switch (prop) {
@@ -194,20 +192,11 @@ export default {
           break
       }
     },
-    closeDelete() {
+    closeDialog() {
+      this.dialog = false
       this.deleteDialog = false
       this.errorMessage = ''
-      this.$refs.form?.resetValidation();
-      this.$nextTick(() => {
-        this.editedTeam = Object.assign({}, this.defaultTeam)
-        this.dialogIndex = -1
-        this.originalIndex = -1
-      })
-    },
-    close() {
-      this.dialog = false
-      this.errorMessage = ''
-      this.$refs.form?.resetValidation();
+      this.$refs.form.resetValidation();
       this.$nextTick(() => {
         this.editedTeam = Object.assign({}, this.defaultTeam)
         this.dialogIndex = -1
@@ -222,10 +211,9 @@ export default {
     },
     async confirmDeleteTeam() {
       await this.$axios.delete(`teams/${this.editedTeam.id}`)
-        .then(() => { this.teams.splice(this.dialogIndex, 1) })
-        .then(() => { this.originalTeams.splice(this.originalIndex, 1) })
-        .then(() => this.closeDelete())
-        .catch(err => console.log(err))
+      this.teams.splice(this.dialogIndex, 1)
+      this.originalTeams.splice(this.originalIndex, 1)
+      this.closeDialog()
     },
     editTeam(item) {
       this.dialogIndex = this.teams.indexOf(item)
@@ -233,27 +221,35 @@ export default {
       this.editedTeam = Object.assign({}, item)
       this.dialog = true
     },
-    async save() {
+    save() {
       if (this.dialogIndex > -1)
-      {
-        await this.$axios.put(`teams`, this.editedTeam)
-          .then((res) => { Object.assign(this.teams[this.dialogIndex], { id: res.data.id, isTeamscanActive: res.data.isTeamscanActive, lastTeamscan: res.data.lastTeamscan, name: res.data.name }) })
-          .then(() => { Object.assign(this.originalTeams[this.originalIndex], this.teams[this.dialogIndex]) })
-          .then(() => this.close())
-          .catch(err => this.errorMessage = err.response.data)
-      }
+        this.updateTeam()
       else
-      {
-        await this.$axios.post(`teams`, this.editedTeam)
-          .then((res) => { this.originalTeams.push(res.data) })
-          .then(() => { this.teams = [...this.originalTeams] })
-          .then(() => {
-            if (this.sorted !== ''){
-              this.performSort(this.sorted)
-            }
-          })
-          .then(() => this.close())
-          .catch(err => this.errorMessage = err.response.data)
+        this.addTeam()
+    },
+    async addTeam() {
+      try {
+        let result = await this.$axios.post(`teams`, this.editedTeam)
+        this.originalTeams.push(result.data)
+        this.teams = [...this.originalTeams]
+
+        if (this.sorted !== '') this.performSort(this.sorted)
+
+        this.closeDialog();
+      }
+      catch(err) {
+        this.errorMessage = err.response.data
+      }
+    },
+    async updateTeam() {
+      try {
+        let result = await this.$axios.put(`teams`, this.editedTeam)
+        Object.assign(this.teams[this.dialogIndex], { id: result.data.id, isTeamscanActive: result.data.isTeamscanActive, lastTeamscan: result.data.lastTeamscan, name: result.data.name })
+        Object.assign(this.originalTeams[this.originalIndex], this.teams[this.dialogIndex])
+        this.closeDialog()
+      }
+      catch(err) {
+          this.errorMessage = err.response.data
       }
     },
   }
