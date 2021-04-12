@@ -78,7 +78,7 @@
             <img src="../static/EmptyIcon.svg" class="empty-teams-img">
           </v-row>
           <v-row justify="center">
-            <span class="font-weight-medium header-style">Geen teams gevonden</span>
+            <span class="font-weight-medium not-found-header">Geen teams gevonden</span>
           </v-row>
       </v-container>
     <div>
@@ -301,5 +301,8 @@ export default {
   color: white;
   font-weight: bold;
 }
-
+.not-found-header {
+  color: #919191;
+  font-size: 16px;
+}
 </style>
