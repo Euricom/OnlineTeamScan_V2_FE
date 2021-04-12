@@ -155,7 +155,7 @@ export default {
     }
   },
   async created() {
-    let result = await this.$axios.get(`teams/members/${this.$route.params.teamdetail}`)
+    const result = await this.$axios.get(`teams/members/${this.$route.params.teamdetail}`)
     this.team = result.data
   },
   computed: {
@@ -219,7 +219,7 @@ export default {
     },
     async addTeamMember() {
       try {
-        let result = await this.$axios.post(`teammembers`, this.editedTeamMember)
+        const result = await this.$axios.post(`teammembers`, this.editedTeamMember)
         this.team.teamMembers.push(result.data)
         this.closeDialog()
       }
@@ -229,7 +229,7 @@ export default {
     },
     async updateTeamMember() {
       try {
-        let result = await this.$axios.put(`teammembers`, this.editedTeamMember)
+        const result = await this.$axios.put(`teammembers`, this.editedTeamMember)
         Object.assign(this.team.teamMembers[this.dialogIndex], result.data)
         this.closeDialog()
       }
