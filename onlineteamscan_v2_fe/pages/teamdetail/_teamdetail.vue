@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <v-toolbar elevation="0">
       <v-toolbar-title
         class="font-weight-medium toolbar-title">
@@ -40,7 +39,7 @@
                        >
                          {{ errorMessage }}
                        </v-alert>
-                   <v-card-text v-if="checkOwner(editedTeamMember)" class="pb-0">
+                   <v-card-text v-if="checkOwner(selectedEmail)" class="pb-0">
                      <v-container class="pb-0">
                        <v-form v-model="isFormValid" ref="form">
                        <v-text-field v-model="editedTeamMember.email" label="E-mail" :rules="emailRules"/>
@@ -59,7 +58,7 @@
 
                    <v-card-actions>
                      <v-spacer></v-spacer>
-                     <v-btn color="blue darken-1" text @click="close">
+                     <v-btn color="blue darken-1" text @click="closeDialog">
                        Cancel
                      </v-btn>
                      <v-btn color="blue darken-1" text @click="save" :disabled="!isFormValid">
@@ -80,7 +79,7 @@
                     </v-card-text>
                     <v-card-actions>
                       <v-spacer></v-spacer>
-                      <v-btn color="blue darkin-1" text @click="closeDelete">Cancel</v-btn>
+                      <v-btn color="blue darkin-1" text @click="closeDialog">Cancel</v-btn>
                       <v-btn color="blue darkin-1" text @click="confirmDeleteTeamMember">Ok</v-btn>
                     </v-card-actions>
                   </v-card>
@@ -92,7 +91,7 @@
               <v-icon small class="mr-2" @click="editTeamMember(item)">
                 mdi-pencil
               </v-icon>
-              <v-icon small class="mr-2" @click="deleteTeamMember(item)" v-if="checkOwner(item)">
+              <v-icon small class="mr-2" @click="deleteTeamMember(item)" v-if="checkOwner(item.email)">
                 mdi-delete
               </v-icon>
             </template>
@@ -128,6 +127,7 @@ export default {
         isActive: true,
         teamId: this.$route.params.teamdetail,
       },
+      selectedEmail: '',
       defaultTeamMember: {
         email: '',
         firstname: '',
@@ -154,15 +154,16 @@ export default {
       ],
     }
   },
-  created() {
-    this.$axios.get(`teams/members/${this.$route.params.teamdetail}`).then(res => this.team = res.data).catch(err => console.log(err))
+  async created() {
+    const result = await this.$axios.get(`teams/members/${this.$route.params.teamdetail}`)
+    this.team = result.data
   },
   computed: {
     getActiveTeamMembers() {
-      return this.team.teamMembers?.filter(x => x.isActive === true)
+      return this.team.teamMembers ? this.team.teamMembers.filter(teamMember => teamMember.isActive === true) : []
     },
     getInactiveTeamMembers() {
-      return this.team.teamMembers?.filter(x => x.isActive === false)
+      return this.team.teamMembers ? this.team.teamMembers.filter(teamMember => teamMember.isActive === false) : []
     },
     dialogTitle() {
       return this.dialogIndex === -1 ? 'Teamlid Toevoegen' : 'Teamlid Bewerken'
@@ -172,44 +173,32 @@ export default {
     },
   },
   watch: {
-    getActiveTeamMembers (val) {
-      val || this.getActiveTeamMembers()
-    },
-    getInactiveTeamMembers (val) {
-      val || this.getInactiveTeamMembers()
-    },
     dialog (val) {
-      val || this.close()
+      val || this.closeDialog()
     },
     deleteDialog (val) {
-      val || this.closeDelete()
+      val || this.closeDialog()
     },
   },
   methods: {
-    checkOwner(item) {
-      return item.email !== this.$auth.user.email
+    checkOwner(email) {
+      return email !== this.$auth.user.email
     },
-    close() {
-      this.dialog = false
-      this.errorMessage = ''
+    closeDialog() {
       this.$refs.form?.resetValidation();
-      this.$nextTick(() => {
-        this.editedTeamMember = Object.assign({}, this.defaultTeamMember)
-        this.dialogIndex = -1
-      })
-    },
-    closeDelete() {
+      this.dialog = false
       this.deleteDialog = false
       this.errorMessage = ''
-      this.$refs.form?.resetValidation();
       this.$nextTick(() => {
         this.editedTeamMember = Object.assign({}, this.defaultTeamMember)
         this.dialogIndex = -1
+        this.selectedEmail = ''
       })
     },
     editTeamMember(item) {
       this.dialogIndex = this.team.teamMembers.indexOf(item)
       this.editedTeamMember = Object.assign({}, item)
+      this.selectedEmail = this.editedTeamMember.email
       this.dialog = true
     },
     deleteTeamMember(item) {
@@ -219,21 +208,33 @@ export default {
     },
     async confirmDeleteTeamMember() {
       await this.$axios.delete(`teammembers/${this.editedTeamMember.id}`)
-        .then(() => { this.team.teamMembers.splice(this.dialogIndex, 1) }).then(() => this.closeDelete())
-        .catch(err => console.log(err))
+      this.team.teamMembers.splice(this.dialogIndex, 1)
+      this.closeDialog()
     },
-    async save() {
+    save() {
       if (this.dialogIndex > -1)
-      {
-        await this.$axios.put(`teammembers`, this.editedTeamMember)
-          .then((res) => { Object.assign(this.team.teamMembers[this.dialogIndex], res.data) }).then(() => this.close())
-          .catch(err => this.errorMessage = err.response.data)
-      }
+        this.updateTeamMember()
       else
-      {
-        await this.$axios.post(`teammembers`, this.editedTeamMember)
-          .then((res) => { this.team.teamMembers.push(res.data) }).then(() => this.close())
-          .catch(err => this.errorMessage = err.response.data)
+        this.addTeamMember()
+    },
+    async addTeamMember() {
+      try {
+        const result = await this.$axios.post(`teammembers`, this.editedTeamMember)
+        this.team.teamMembers.push(result.data)
+        this.closeDialog()
+      }
+      catch(err) {
+        this.errorMessage = err.response.data
+      }
+    },
+    async updateTeamMember() {
+      try {
+        const result = await this.$axios.put(`teammembers`, this.editedTeamMember)
+        Object.assign(this.team.teamMembers[this.dialogIndex], result.data)
+        this.closeDialog()
+      }
+      catch(err) {
+        this.errorMessage = err.response.data
       }
     },
   },
