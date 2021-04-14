@@ -1,9 +1,12 @@
 <template>
   <div>
     <v-toolbar elevation="0" extended>
-      <v-toolbar-title class="font-weight-medium toolbar-title">
-        {{ this.teamscan.title }}
-      </v-toolbar-title>
+      <v-toolbar-title class="font-weight-medium toolbar-title">{{ this.teamscan.title }}</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn color="custom-green" class="custom-static-btn" depressed v-if="!isSmallScreen && this.individualScore.hasAnswered">
+        <v-icon left color="white">mdi-file-download</v-icon>
+        <span class="new-team-icon">Exporteer</span>
+      </v-btn>
       <template v-slot:extension>
         <div class="sub-toolbar-title-position">
           <h1 class="font-weight-medium sub-toolbar-title">Gestart door: {{ startedByFullname }}</h1>
@@ -14,13 +17,19 @@
 
     <v-container fluid v-if="!this.individualScore.hasAnswered">
       <QuestionCard ref="questionAnswers" v-for="question in questions" :key="question.question.id" :question="question"/>
-      <v-btn class="final-button" color="#71BF42">
-        <span class="final-button-save-button" @click="saveTeamscan">Opslaan</span>
+      <v-btn color="custom-green" class="custom-default-btn final-button" depressed>
+        <span class="new-team-icon" @click="saveTeamscan">Opslaan</span>
       </v-btn>
     </v-container>
-    <v-container fluid v-else>
+    <v-container class="score-container" fluid v-else>
       <ScoreCard :dysfunctions="dysfunctions" :levels="levels" :scores="individualScore"/>
     </v-container>
+
+    <v-fab-transition>
+      <v-btn fab right bottom fixed color="custom-green" v-if="isSmallScreen && this.individualScore.hasAnswered" class="custom-static-btn">
+        <v-icon color="white">mdi-file-download</v-icon>
+      </v-btn>
+    </v-fab-transition>
 
     <v-snackbar v-model="snackbar">
       {{ errorMessage }}
@@ -72,6 +81,9 @@ export default {
     this.teamscan = score.data.teamscan
   },
   computed: {
+    isSmallScreen() {
+      return this.$vuetify.breakpoint.xs || this.$vuetify.breakpoint.sm
+    },
     startedByFullname() {
       return this.teamscan.startedBy !== undefined ? `${this.teamscan.startedBy.firstname} ${this.teamscan.startedBy.lastname}` : ''
     },
@@ -134,15 +146,12 @@ export default {
 }
 .final-button {
   float: right;
-  font-weight: normal;
-  text-transform: none;
-  font-size: 14px;
   margin-right: 15px;
   margin-bottom: 15px;
-  width: 110px;
 }
-.final-button-save-button {
-  color: white;
-  font-weight: bold;
+.score-container {
+  margin-top: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 </style>

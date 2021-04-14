@@ -2,9 +2,7 @@
   <div>
     <v-card class="question-card" elevation="1">
       <v-card-title class="question-card-title">Vraag {{ question.question.number }}</v-card-title>
-      <v-card-text class="question-card-text">
-        {{ question.text }}
-      </v-card-text>
+      <v-card-text class="question-card-text">{{ question.text }}</v-card-text>
       <v-card-actions class="question-card-actions">
         <v-radio-group row mandatory v-model="score">
           <v-radio label="1" value="1"/>
@@ -34,7 +32,7 @@ export default {
   },
   methods: {
       returnAnswer() {
-        return {"DysfunctionId": this.question.question.dysfunctionId, "Score": this.score}
+        return { "DysfunctionId": this.question.question.dysfunctionId, "Score": this.score }
       },
     }
 }
@@ -52,7 +50,7 @@ export default {
   padding-bottom: 0;
 }
 .question-card {
- margin: 5px 15px 15px;
+ margin: 5px 5px 15px;
 }
 .question-card-actions {
   padding-bottom: 0;

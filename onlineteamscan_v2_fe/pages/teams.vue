@@ -12,11 +12,11 @@
       <v-spacer/>
       <v-dialog v-model="dialog" max-width="500px">
         <template v-slot:activator="{ on }">
-          <v-btn v-on="on" color="custom-green" class="customButtonStyle" depressed>
+          <v-btn v-on="on" color="custom-green" class="custom-static-btn" depressed>
             <v-icon
               left
               color="white">
-              {{ 'mdi-account-multiple-plus' }}
+              mdi-account-multiple-plus
             </v-icon>
             <span class="new-team-icon">Nieuw Team</span>
           </v-btn>
@@ -261,23 +261,6 @@ export default {
 </script>
 
 <style scoped>
-.customButtonStyle {
-  font-weight: normal;
-  text-transform: none;
-  font-size: 14px;
-}
-.customButtonStyle:hover {
-  color: white;
-  background-color: #71BF42;
-}
-.customButtonStyle:before {
-  color: white;
-  background-color: #71BF42;
-}
-.customButtonStyle:after {
-  color: white;
-  background-color: #71BF42;
-}
 .toolbar-title {
   color: #343A40;
   font-size: 24px;
@@ -296,10 +279,6 @@ export default {
 }
 .empty-teams-img {
   width: 150px;
-}
-.new-team-icon {
-  color: white;
-  font-weight: bold;
 }
 .not-found-header {
   color: #919191;

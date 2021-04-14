@@ -195,3 +195,32 @@ export default {
   color: #FFFFFF !important;
 }
 </style>
+
+<style>
+.new-team-icon {
+  color: white;
+  font-weight: bold;
+}
+.custom-default-btn {
+  font-weight: normal;
+  text-transform: none;
+  font-size: 14px;
+}
+.custom-static-btn {
+  font-weight: normal;
+  text-transform: none;
+  font-size: 14px;
+}
+.custom-static-btn:hover {
+  color: white;
+  background-color: #71BF42;
+}
+.custom-static-btn:before {
+  color: white;
+  background-color: #71BF42;
+}
+.custom-static-btn:after {
+  color: white;
+  background-color: #71BF42;
+}
+</style>

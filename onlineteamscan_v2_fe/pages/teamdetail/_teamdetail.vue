@@ -22,10 +22,10 @@
                 <template v-slot:activator="{ on }">
                   <v-btn
                     color="custom-green"
-                    class="buttonStyle"
+                    class="custom-static-btn"
                     v-on="on"
                     depressed>
-                    <span style="font-weight: bold;">Lid Toevoegen</span>
+                    <span class="new-team-icon">Lid Toevoegen</span>
                   </v-btn>
                 </template>
                  <v-card>
@@ -263,22 +263,5 @@ export default {
 }
 .confirmation-card-title {
   word-break: normal;
-}
-.buttonStyle {
-  text-transform: none;
-  color: #FFFFFF;
-  font-weight: normal;
-}
-.buttonStyle:hover {
-  color: white;
-  background-color: #71BF42;
-}
-.buttonStyle:before {
-  color: white;
-  background-color: #71BF42;
-}
-.buttonStyle:after {
-  color: white;
-  background-color: #71BF42;
 }
 </style>

@@ -1,5 +1,27 @@
 <template>
-  <v-card align="center">
+  <v-card fluid v-if="isSmallScreen" align="center">
+    <v-container fluid>
+      <v-row justify="center">
+        <v-col cols="12" sm="4">
+          <CircularScore :item="getTrust"/>
+        </v-col>
+        <v-col cols="12" sm="4">
+          <CircularScore :item="getConflict"/>
+        </v-col>
+        <v-col cols="12" sm="4">
+          <CircularScore :item="getCommitment"/>
+        </v-col>
+        <v-col cols="12" sm="4">
+          <CircularScore :item="getAccountability"/>
+        </v-col>
+        <v-col cols="12" sm="4">
+          <CircularScore :item="getResults"/>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-card>
+
+  <v-card align="center" v-else>
     <v-container fluid>
       <v-layout>
         <v-flex><CircularScore :item="getTrust"/></v-flex>
@@ -42,6 +64,9 @@ export default {
     },
   },
   computed: {
+    isSmallScreen() {
+      return this.$vuetify.breakpoint.xs || this.$vuetify.breakpoint.sm
+    },
     getTrust() {
       const level = this.calculateLevel(this.scores.scoreTrust);
       return {
