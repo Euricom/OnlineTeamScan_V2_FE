@@ -46,27 +46,21 @@
 </template>
 
 <script>
-import moment from 'moment';
-
 export default {
   name: "CustomListItem",
-  components: {
-    moment,
-  },
   props: {
     team: {
       type: Object,
       required: true
     },
   },
-  data() {
-    return {
-
-    }
-  },
   computed: {
     formatDate() {
-      return moment(this.team.lastTeamscan).format('DD/MM/YYYY')
+      let date = new Date(this.team.lastTeamscan)
+      let day = date.getDate().toString().padStart(2,'0')
+      let month = (date.getMonth() + 1).toString().padStart(2,'0')
+      let year = date.getFullYear().toString()
+      return `${day}/${month}/${year}`
     }
   },
   methods: {
