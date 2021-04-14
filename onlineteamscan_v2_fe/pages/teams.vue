@@ -221,6 +221,20 @@ export default {
       this.editedTeam = Object.assign({}, item)
       this.dialog = true
     },
+    async setTeamscanActive(item) {
+      const teamIndex = this.teams.indexOf(item)
+      const originalTeamIndex = this.originalTeams.indexOf(item)
+
+      try {
+        const result = await this.$axios.post(`teamscans/${item.teamleaderId}/${item.id}`)
+        const updatedTeamProperties = { name: result.data.name, lastTeamscan: result.data.lastTeamscan, isTeamscanActive: result.data.isTeamscanActive}
+        Object.assign(this.teams[teamIndex], updatedTeamProperties)
+        Object.assign(this.originalTeams[originalTeamIndex], this.teams[teamIndex])
+      }
+      catch(err) {
+        this.errorMessage = err.response.data
+      }
+    },
     save() {
       if (this.dialogIndex > -1)
         this.updateTeam()
