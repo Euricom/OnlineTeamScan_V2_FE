@@ -26,7 +26,7 @@
               </v-btn>
             </template>
             <v-list>
-              <v-list-item @click="startTeamscan">
+              <v-list-item @click="startTeamscan" v-if="!team.isTeamscanActive">
                 <v-icon dense class="menuItemIcon mr-2">mdi-play</v-icon>
                 <v-list-item-title>Start Teamscan</v-list-item-title>
               </v-list-item>

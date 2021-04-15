@@ -102,6 +102,14 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-snackbar v-model="snackbar">
+      {{ snackbarMessage }}
+      <template v-slot:action="{ attrs }">
+        <v-btn text v-bind="attrs" @click="snackbar = false" color="custom-green">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
@@ -126,6 +134,8 @@ export default {
       dialogIndex: -1,
       originalIndex: -1,
       errorMessage: '',
+      snackbar: false,
+      snackbarMessage: '',
       editedTeam: {
         name: '',
         teamleaderId: this.$auth.user.id,
@@ -230,10 +240,13 @@ export default {
         const updatedTeamProperties = { name: result.data.name, lastTeamscan: result.data.lastTeamscan, isTeamscanActive: result.data.isTeamscanActive}
         Object.assign(this.teams[teamIndex], updatedTeamProperties)
         Object.assign(this.originalTeams[originalTeamIndex], this.teams[teamIndex])
+        this.snackbarMessage = "Teamscan gestart"
       }
       catch(err) {
         this.errorMessage = err.response.data
+        this.snackbarMessage = "Teamscan kan niet gestart worden"
       }
+      this.snackbar = true
     },
     save() {
       if (this.dialogIndex > -1)
