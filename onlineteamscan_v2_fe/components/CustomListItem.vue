@@ -26,7 +26,7 @@
               </v-btn>
             </template>
             <v-list>
-              <v-list-item @click="">
+              <v-list-item @click="startTeamscan" v-if="!team.isTeamscanActive">
                 <v-icon dense class="menuItemIcon mr-2">mdi-play</v-icon>
                 <v-list-item-title>Start Teamscan</v-list-item-title>
               </v-list-item>
@@ -46,6 +46,7 @@
 </template>
 
 <script>
+
 export default {
   name: "CustomListItem",
   props: {
@@ -74,7 +75,10 @@ export default {
     },
     editTeam(){
       this.$parent.editTeam(this.team)
-    }
+    },
+    startTeamscan(){
+      this.$parent.setTeamscanActive(this.team)
+    },
   },
 }
 </script>
