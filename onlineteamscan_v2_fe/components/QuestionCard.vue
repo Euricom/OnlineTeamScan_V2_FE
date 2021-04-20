@@ -4,7 +4,7 @@
       <v-card-title class="question-card-title">Vraag {{ question.question.number }}</v-card-title>
       <v-card-text class="question-card-text">{{ question.text }}</v-card-text>
       <v-card-actions class="question-card-actions">
-        <v-radio-group row mandatory v-model="score">
+        <v-radio-group row v-model="score">
           <v-radio label="1" value="1"/>
           <v-radio label="2" value="2"/>
           <v-radio label="3" value="3"/>

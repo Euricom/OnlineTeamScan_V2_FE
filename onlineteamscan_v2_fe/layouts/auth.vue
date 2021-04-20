@@ -9,7 +9,6 @@
 </template>
 
 <script>
-
 export default {
   name: "login.vue",
   setup () {
@@ -19,11 +18,6 @@ export default {
       theme
     }
   },
-  data(){
-    return{
-
-    }
-  }
 }
 </script>
 

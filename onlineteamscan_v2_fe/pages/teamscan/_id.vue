@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-toolbar elevation="0" extended>
-      <v-toolbar-title class="font-weight-medium toolbar-title">{{ this.teamscan.title }}</v-toolbar-title>
+      <v-toolbar-title class="font-weight-medium toolbar-title">{{ getToolbarTitle }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn color="custom-green" class="custom-static-btn" depressed v-if="!isSmallScreen && this.individualScore.hasAnswered">
         <v-icon left color="white">mdi-file-download</v-icon>
@@ -47,6 +47,7 @@ import QuestionCard from "@/components/QuestionCard";
 import ScoreCard from "@/components/ScoreCard";
 export default {
   name: "Teamscan",
+  layout: (context) => context.$auth.loggedIn ? 'default' : 'guest',
   components: {
     QuestionCard,
     ScoreCard,
@@ -81,6 +82,9 @@ export default {
     this.teamscan = score.data.teamscan
   },
   computed: {
+    getToolbarTitle() {
+      return this.teamscan.team !== undefined ? `${this.teamscan.team.name} - ${this.teamscan.title}` : ''
+    },
     isSmallScreen() {
       return this.$vuetify.breakpoint.xs || this.$vuetify.breakpoint.sm
     },
@@ -105,6 +109,8 @@ export default {
       const answers = this.$refs.questionAnswers.map(x => x.returnAnswer())
 
       try {
+        answers.map(x => { if(x.Score === null) throw 'Niet alle vragen zijn ingevuld' })
+
         const result = await this.$axios.put(`individualscores/${this.individualScore.id}`, answers)
         await this.getDysfunctionsAndLevels()
         const updatedIndividualScore = {
@@ -119,7 +125,7 @@ export default {
       }
       catch (err) {
         this.snackbar = true
-        this.errorMessage = err.response.data
+        this.errorMessage = err.response !== undefined ? err.response.data : err
       }
     },
     async getDysfunctionsAndLevels() {
