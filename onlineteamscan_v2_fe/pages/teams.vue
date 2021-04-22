@@ -116,12 +116,10 @@
 
 <script>
 import CustomListItem from "../components/CustomListItem";
-import Button from "../components/Button";
 
 export default {
   components: {
     CustomListItem,
-    Button,
   },
   data() {
     return {

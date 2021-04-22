@@ -1,0 +1,111 @@
+<template>
+  <div v-if="!isLoading">
+    <v-toolbar elevation="0">
+      <v-toolbar-title class="font-weight-medium toolbar-title">Scanresultaten</v-toolbar-title>
+      <v-spacer/>
+      <v-breadcrumbs :items="getBreadcrumbs" class="breadcrumbs" v-if="!isSmallScreen">
+        <template v-slot:divider>
+          <v-icon color="#A8A8A8">mdi-chevron-right</v-icon>
+        </template>
+      </v-breadcrumbs>
+
+      <v-btn color="custom-green" class="custom-static-btn toolbar-btn" depressed @click="redirectToSelectTeamscan()" v-if="!isSmallScreen">
+        <v-icon left color="white">mdi-message-text</v-icon>
+        <span class="new-team-icon">Selecteer Teamscan</span>
+      </v-btn>
+
+      <v-btn color="custom-green" class="custom-static-btn toolbar-btn" depressed v-if="!isSmallScreen">
+        <v-icon left color="white">mdi-file-download</v-icon>
+        <span class="new-team-icon">Exporteer</span>
+      </v-btn>
+    </v-toolbar>
+
+    <v-container fluid class="cards-position">
+      <ScoreCard :dysfunctions="dysfunctions" :levels="levels" :scores="this.teamscan" :previous-teamscan="this.previousTeamscan"/>
+
+      <v-row>
+        <v-col cols="5">
+          <v-row>
+
+          </v-row>
+        </v-col>
+        <v-col cols="7">
+
+        </v-col>
+      </v-row>
+    </v-container>
+
+    <v-fab-transition v-if="isSmallScreen">
+      <v-btn fab right bottom fixed color="custom-green" class="custom-static-btn">
+        <v-icon color="white">mdi-file-download</v-icon>
+      </v-btn>
+    </v-fab-transition>
+
+  </div>
+</template>
+
+<script>
+import ScoreCard from "@/components/ScoreCard";
+
+export default {
+  name: "Scanresults",
+  components: {
+    ScoreCard,
+  },
+  data() {
+    return {
+      isLoading: true,
+      teamscan: {},
+      previousTeamscan: {},
+      dysfunctions: [],
+      levels: [],
+    }
+  },
+  async created() {
+    const teamscan = await this.$axios.get(`teamscans/finished/${this.$auth.user.id}/${this.$route.params.id}`)
+    const previousTeamscan = await this.$axios.get(`teamscans/previous/${this.$auth.user.id}/${this.$route.params.id}`)
+    const levels = await this.$axios.get(`levels`)
+    const dysfunctions = await this.$axios.get(`dysfunctiontranslations/language/${this.$auth.user.preferredLanguageId}`)
+
+    this.teamscan = teamscan.data
+    this.previousTeamscan = previousTeamscan.data
+    this.levels = levels.data
+    this.dysfunctions = dysfunctions.data
+    this.isLoading = false
+  },
+  computed: {
+    getBreadcrumbs() {
+      return [{ text: this.teamscan.team.name }, { text: this.teamscan.title }]
+    },
+    isSmallScreen() {
+      return this.$vuetify.breakpoint.xs || this.$vuetify.breakpoint.sm
+    },
+  },
+  methods: {
+    redirectToSelectTeamscan() {
+      this.$router.push({
+        path: `/scanresults2/select`
+      })
+    },
+  },
+}
+</script>
+
+<style scoped>
+.toolbar-title {
+  color: #343A40;
+  font-size: 24px;
+}
+.toolbar-btn {
+  margin-left: 20px;
+}
+.breadcrumbs {
+  color: #A8A8A8;
+  font-size: 16px;
+}
+.cards-position {
+  margin-top: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+</style>

@@ -155,7 +155,7 @@ export default {
     }
   },
   async created() {
-    const result = await this.$axios.get(`teams/members/${this.$route.params.teamdetail}`)
+    const result = await this.$axios.get(`teams/members/${this.$auth.user.id}/${this.$route.params.teamdetail}`)
     this.team = result.data
   },
   computed: {
