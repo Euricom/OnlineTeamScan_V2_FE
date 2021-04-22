@@ -25,7 +25,7 @@
                   <v-icon color="#5D5C61">{{ item.icon }}</v-icon>
                 </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title class="sideNavBarListItem" v-text="item.title" />
+                <v-list-item-title class="side-nav-bar-list-item" v-text="item.title" />
               </v-list-item-content>
             </v-list-item>
           </v-list-item-group>
@@ -39,7 +39,7 @@
       class="custom-primary top-nav-bar">
       <v-app-bar-nav-icon color="#FFFFFF" @click.stop="drawer = !drawer" />
       <v-spacer />
-      <v-btn icon class="notificationIcon">
+      <v-btn icon class="notification-icon">
         <v-badge overlap color="custom-green" dot :value="false">
           <v-icon color="#FFFFFF">mdi-bell</v-icon>
         </v-badge>
@@ -64,11 +64,11 @@
 
         <v-list>
           <v-list-item>
-             <v-icon dense class="menuItemIcon">mdi-web</v-icon>
+             <v-icon dense class="menu-item-icon">mdi-web</v-icon>
              <v-list-item-title>Taal</v-list-item-title>
           </v-list-item>
           <v-list-item @click="logout">
-            <v-icon dense class="menuItemIcon">mdi-logout</v-icon>
+            <v-icon dense class="menu-item-icon">mdi-logout</v-icon>
             <v-list-item-title>Uitloggen</v-list-item-title>
           </v-list-item>
         </v-list>
@@ -163,35 +163,35 @@ export default {
   font-size: 20px;
   margin-left: 15px;
 }
-.notificationIcon {
+.notification-icon {
   margin-right: 5px;
 }
-.sideNavBarListItem {
+.side-nav-bar-list-item {
   color: #5D5C61;
   font-size: 14px;
 }
-.menuItemIcon {
+.menu-item-icon {
   margin-right: 10px;
 }
-.sideMenuList .v-list-item--active {
+.side-menu-list .v-list-item--active {
   color: #FFFFFF !important;
   border-left-style: solid !important;
   border-width: 4px;
   border-color: #71BF42 !important;
 }
-.sideMenuList .v-list-item--active .v-list-item__title {
+.side-menu-list .v-list-item--active .v-list-item__title {
   color: #71BF42 !important;
 }
-.sideMenuList .v-list-item--active .v-icon {
+.side-menu-list .v-list-item--active .v-icon {
   color: #71BF42 !important;
 }
-.sideMenuList .v-list-item:hover {
+.side-menu-list .v-list-item:hover {
   color: #FFFFFF !important;
 }
-.sideMenuList .v-list-item:before {
+.side-menu-list .v-list-item:before {
   color: #FFFFFF !important;
 }
-.sideMenuList .v-list-item:after {
+.side-menu-list .v-list-item:after {
   color: #FFFFFF !important;
 }
 </style>
@@ -199,7 +199,7 @@ export default {
 <style>
 .new-team-icon {
   color: white;
-  font-weight: bold;
+  font-weight: normal;
 }
 .custom-default-btn {
   font-weight: normal;

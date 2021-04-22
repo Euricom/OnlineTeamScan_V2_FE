@@ -27,15 +27,15 @@
             </template>
             <v-list>
               <v-list-item @click="startTeamscan" v-if="!team.isTeamscanActive">
-                <v-icon dense class="menuItemIcon mr-2">mdi-play</v-icon>
+                <v-icon dense class="menu-item-icon mr-2">mdi-play</v-icon>
                 <v-list-item-title>Start Teamscan</v-list-item-title>
               </v-list-item>
               <v-list-item @click="editTeam">
-                <v-icon dense class="menuItemIcon mr-2">mdi-pencil</v-icon>
+                <v-icon dense class="menu-item-icon mr-2">mdi-pencil</v-icon>
                 <v-list-item-title>Bewerken</v-list-item-title>
               </v-list-item>
               <v-list-item @click="deleteTeam">
-                <v-icon dense class="menuItemIcon mr-2">mdi-delete</v-icon>
+                <v-icon dense class="menu-item-icon mr-2">mdi-delete</v-icon>
                 <v-list-item-title>Verwijderen</v-list-item-title>
               </v-list-item>
             </v-list>
