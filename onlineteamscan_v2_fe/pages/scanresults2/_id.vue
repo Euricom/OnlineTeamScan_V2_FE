@@ -23,15 +23,44 @@
     <v-container fluid class="cards-position">
       <ScoreCard :dysfunctions="dysfunctions" :levels="levels" :scores="this.teamscan" :previous-teamscan="this.previousTeamscan"/>
 
-      <v-row>
-        <v-col cols="5">
-          <v-row>
-
+      <v-row class="v-row-content">
+        <v-col cols="12" sm="5">
+          <v-row no-gutters class="first-row">
+            <v-card width="100%" align="center">
+              <v-card-title>Interpretatie</v-card-title>
+            </v-card>
+          </v-row>
+          <v-row no-gutters class="second-row">
+            <v-card width="100%" align="center" class="individual-results-card">
+              <v-card-title>Individuele Resultaten</v-card-title>
+            </v-card>
           </v-row>
         </v-col>
-        <v-col cols="7">
-
+        <v-col cols="12" sm="7">
+          <v-card class="progress-card">
+            <v-card-title>Vooruitgang</v-card-title>
+          </v-card>
         </v-col>
+<!--        <v-col cols="12" sm="5" class="first-column">
+          <v-row no-gutters>
+            <v-col cols="12">
+              <v-card width="100%" align="center">
+                <v-card-title>Interpretatie</v-card-title>
+              </v-card>
+            </v-col>
+            <v-col cols="12">
+              <v-card width="100%" align="center" class="individual-results-card">
+                <v-card-title>Individuele Resultaten</v-card-title>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-col>
+
+        <v-col cols="12" sm="7">
+          <v-card>
+            <v-card-title> Vooruitgang </v-card-title>
+          </v-card>
+        </v-col>-->
       </v-row>
     </v-container>
 
@@ -107,5 +136,23 @@ export default {
   margin-top: 5px;
   padding-left: 15px;
   padding-right: 15px;
+}
+.v-row-content {
+  margin-top: 5px;
+}
+.individual-results-card {
+  margin-top: 17px;
+}
+.first-row {
+  /*height: 135%;*/
+  height: 27vh;
+}
+.second-row {
+  /*height: 170%;*/
+  height: 29vh;
+}
+.progress-card {
+  /*height: 305%;*/
+  height: 56vh;
 }
 </style>

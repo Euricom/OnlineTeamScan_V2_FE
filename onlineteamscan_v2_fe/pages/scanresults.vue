@@ -29,7 +29,6 @@
         <v-row class="v-row-content">
           <v-col cols="5">
             <v-row no-gutters class="first-row">
-
               <v-card width="100%" align="center">
                 <v-card-title> Interpretatie </v-card-title>
                   <v-row class="full-height">
@@ -56,7 +55,6 @@
 
                   </v-row>
               </v-card>
-
             </v-row>
             <v-row no-gutters class="second-row">
               <v-card width="100%" class="individual-results-card">
