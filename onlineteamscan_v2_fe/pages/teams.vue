@@ -12,11 +12,11 @@
       <v-spacer/>
       <v-dialog v-model="dialog" max-width="500px">
         <template v-slot:activator="{ on }">
-          <v-btn v-on="on" color="custom-green" class="custom-button" depressed>
+          <v-btn v-on="on" color="custom-green" class="custom-static-btn" depressed>
             <v-icon
               left
               color="white">
-              {{ 'mdi-account-multiple-plus' }}
+              mdi-account-multiple-plus
             </v-icon>
             <span class="new-team-icon">Nieuw Team</span>
           </v-btn>
@@ -78,7 +78,8 @@
             <img src="../static/EmptyIcon.svg" class="empty-teams-img">
           </v-row>
           <v-row justify="center">
-            <span class="font-weight-medium sort-header">Geen teams gevonden</span>
+
+            <span class="font-weight-medium not-found-header">Geen teams gevonden</span>
           </v-row>
       </v-container>
     <div>
@@ -285,23 +286,6 @@ export default {
 </script>
 
 <style scoped>
-.custom-button {
-  font-weight: normal;
-  text-transform: none;
-  font-size: 14px;
-}
-.custom-button:hover {
-  color: white;
-  background-color: #71BF42;
-}
-.custom-button:before {
-  color: white;
-  background-color: #71BF42;
-}
-.custom-button:after {
-  color: white;
-  background-color: #71BF42;
-}
 .toolbar-title {
   color: #343A40;
   font-size: 24px;
@@ -321,7 +305,8 @@ export default {
 .empty-teams-img {
   width: 150px;
 }
-.new-team-icon {
-  color: white;
+.not-found-header {
+  color: #919191;
+  font-size: 16px;
 }
 </style>

@@ -1,12 +1,12 @@
 <template>
-  <v-btn style="font-weight: normal; background-color: #71BF42; text-transform: none; font-size: 14px;" :disabled="disabled"  depressed>
+  <v-btn style="font-weight: bold; background-color: #71BF42; text-transform: none; font-size: 14px;" :disabled="disabled" depressed>
     <v-icon
       v-if="icon != null"
       left
       color="white">
       {{ icon }}
     </v-icon>
-    <span style="color: white">{{ text }}</span>
+    <span style="color: white;">{{ text }}</span>
   </v-btn>
 </template>
 
