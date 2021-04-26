@@ -1,19 +1,19 @@
 <template>
-  <v-app class="appStyle">
+  <v-app class="app-style">
     <v-navigation-drawer
       v-model="drawer"
       :clipped="clipped"
       fixed
       app>
-      <v-container class="logoContainer">
+      <v-container class="logo-container">
         <v-row justify="center" align="center">
           <Logo/>
-          <span class="font-weight-medium toolbar-title logoTitle">{{ title }}</span>
+          <span class="font-weight-medium toolbar-title logo-title">{{ title }}</span>
         </v-row>
       </v-container>
 
         <v-list class="sideMenuList">
-          <v-subheader class="subheader">Algemeen</v-subheader>
+          <v-subheader class="sub-header">Algemeen</v-subheader>
           <v-list-item-group>
             <v-list-item
               v-for="(item, i) in items"
@@ -25,7 +25,7 @@
                   <v-icon color="#5D5C61">{{ item.icon }}</v-icon>
                 </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title class="sideNavBarListItem" v-text="item.title" />
+                <v-list-item-title class="side-nav-bar-list-item" v-text="item.title" />
               </v-list-item-content>
             </v-list-item>
           </v-list-item-group>
@@ -36,10 +36,10 @@
       :clipped-left="clipped"
       fixed
       app
-      class="custom-primary topNavBar">
+      class="custom-primary top-nav-bar">
       <v-app-bar-nav-icon color="#FFFFFF" @click.stop="drawer = !drawer" />
       <v-spacer />
-      <v-btn icon class="notificationIcon">
+      <v-btn icon class="notification-icon">
         <v-badge overlap color="custom-green" dot :value="false">
           <v-icon color="#FFFFFF">mdi-bell</v-icon>
         </v-badge>
@@ -64,11 +64,11 @@
 
         <v-list>
           <v-list-item>
-             <v-icon dense class="menuItemIcon">mdi-web</v-icon>
+             <v-icon dense class="menu-item-icon">mdi-web</v-icon>
              <v-list-item-title>Taal</v-list-item-title>
           </v-list-item>
           <v-list-item @click="logout">
-            <v-icon dense class="menuItemIcon">mdi-logout</v-icon>
+            <v-icon dense class="menu-item-icon">mdi-logout</v-icon>
             <v-list-item-title>Uitloggen</v-list-item-title>
           </v-list-item>
         </v-list>
@@ -110,7 +110,7 @@ export default {
         {
           icon: 'mdi-account-multiple',
           title: 'Teams',
-          to: '/teamdetail'
+          to: '/teams'
         }
       ],
       userOptions: [
@@ -139,7 +139,7 @@ export default {
 </script>
 
 <style scoped>
-.appStyle {
+.app-style {
   background-color: #EDEDEF;
 }
 .text {
@@ -147,51 +147,80 @@ export default {
   font-weight: normal;
   font-size: 16px;
 }
-.subheader {
+.sub-header {
   color:#A8A8A8;
   font-size: 12px;
 }
-.logoContainer {
+.logo-container {
   margin-top: 15px;
   margin-bottom: 15px;
 }
-.topNavBar {
+.top-nav-bar {
   box-shadow: none;
 }
-.logoTitle {
+.logo-title {
   color: #656565;
   font-size: 20px;
   margin-left: 15px;
 }
-.notificationIcon {
+.notification-icon {
   margin-right: 5px;
 }
-.sideNavBarListItem {
+.side-nav-bar-list-item {
   color: #5D5C61;
   font-size: 14px;
 }
-.menuItemIcon {
+.menu-item-icon {
   margin-right: 10px;
 }
-.sideMenuList .v-list-item--active {
+.side-menu-list .v-list-item--active {
   color: #FFFFFF !important;
   border-left-style: solid !important;
   border-width: 4px;
   border-color: #71BF42 !important;
 }
-.sideMenuList .v-list-item--active .v-list-item__title {
+.side-menu-list .v-list-item--active .v-list-item__title {
   color: #71BF42 !important;
 }
-.sideMenuList .v-list-item--active .v-icon {
+.side-menu-list .v-list-item--active .v-icon {
   color: #71BF42 !important;
 }
-.sideMenuList .v-list-item:hover {
+.side-menu-list .v-list-item:hover {
   color: #FFFFFF !important;
 }
-.sideMenuList .v-list-item:before {
+.side-menu-list .v-list-item:before {
   color: #FFFFFF !important;
 }
-.sideMenuList .v-list-item:after {
+.side-menu-list .v-list-item:after {
   color: #FFFFFF !important;
+}
+</style>
+
+<style>
+.new-team-icon {
+  color: white;
+  font-weight: normal;
+}
+.custom-default-btn {
+  font-weight: normal;
+  text-transform: none;
+  font-size: 14px;
+}
+.custom-static-btn {
+  font-weight: normal;
+  text-transform: none;
+  font-size: 14px;
+}
+.custom-static-btn:hover {
+  color: white;
+  background-color: #71BF42;
+}
+.custom-static-btn:before {
+  color: white;
+  background-color: #71BF42;
+}
+.custom-static-btn:after {
+  color: white;
+  background-color: #71BF42;
 }
 </style>

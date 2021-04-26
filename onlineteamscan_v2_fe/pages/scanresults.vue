@@ -20,22 +20,8 @@
 
 
 
-      <v-container v-if="!overlay" style="margin-top: 5px; padding-left: 15px; padding-right: 15px;">
-            <v-card align="center">
-              <v-container>
-                <v-layout>
-                  <v-flex><CircularScore :item="trust"/></v-flex>
-                  <v-divider vertical class="dividerStyle"/>
-                  <v-flex><CircularScore :item="conflict"/></v-flex>
-                  <v-divider vertical class="dividerStyle"/>
-                  <v-flex><CircularScore :item="commitment"/></v-flex>
-                  <v-divider vertical class="dividerStyle"/>
-                  <v-flex><CircularScore :item="accountability"/></v-flex>
-                  <v-divider vertical class="dividerStyle"/>
-                  <v-flex><CircularScore :item="results"/></v-flex>
-                </v-layout>
-              </v-container>
-            </v-card>
+      <v-container fluid v-if="!overlay" style="margin-top: 5px; padding-left: 15px; padding-right: 15px;">
+        <ScoreCard :dysfunctions="dysfunctions" :levels="levels" :scores="this.selectedTeamscan" :previous-teamscan="this.previousTeamscan"/>
 
         <v-row style="margin-top: 5px;">
           <v-col cols="5">
@@ -86,8 +72,6 @@
         </v-row>
       </v-container>
 
-
-
     <v-overlay
       z-index="0"
       color="#B9B9B9"
@@ -97,7 +81,7 @@
         <v-card-title style="font-size: 24px">
           Selecteer een teamscan
         </v-card-title>
-        <v-container>
+        <v-container fluid>
           <v-row align="center">
             <v-col cols="6">
               <v-select label="Team" :items="teams" item-text="name" v-model="selectedTeam" :return-object="true" @input="getTeamscansByTeam()"/>
@@ -147,11 +131,6 @@ export default {
       previousTeamscan: {
         type: Object
       },
-      trust: null,
-      conflict: null,
-      commitment: null,
-      accountability: null,
-      results: null,
     }
   },
   computed: {
@@ -168,66 +147,6 @@ export default {
     disableValidation() {
       return Object.keys(this.selectedTeam).length <= 1 || Object.keys(this.selectedTeamscan).length <= 1;
     },
-    getTrust() {
-      let level = this.calculateLevel(this.selectedTeamscan?.scoreTrust);
-      return {
-        "score": this.selectedTeamscan?.scoreTrust,
-        "previousScore": this.previousTeamscan?.scoreTrust,
-        "level": level,
-        "dysfunction": {
-          "id": this.dysfunctions[0].id,
-          "name": this.dysfunctions[0].name
-        },
-      };
-    },
-    getConflict() {
-      let level = this.calculateLevel(this.selectedTeamscan?.scoreConflict);
-      return {
-        "score": this.selectedTeamscan?.scoreConflict,
-        "previousScore": this.previousTeamscan?.scoreConflict,
-        "level": level,
-        "dysfunction": {
-          "id": this.dysfunctions[1].id,
-          "name": this.dysfunctions[1].name
-        },
-      };
-    },
-    getCommitment() {
-      let level = this.calculateLevel(this.selectedTeamscan?.scoreCommitment);
-      return {
-        "score": this.selectedTeamscan?.scoreCommitment,
-        "previousScore": this.previousTeamscan?.scoreCommitment,
-        "level": level,
-        "dysfunction": {
-          "id": this.dysfunctions[2].id,
-          "name": this.dysfunctions[2].name
-        },
-      };
-    },
-    getAccountability() {
-      let level = this.calculateLevel(this.selectedTeamscan?.scoreAccountability);
-      return {
-        "score": this.selectedTeamscan?.scoreAccountability,
-        "previousScore": this.previousTeamscan?.scoreAccountability,
-        "level": level,
-        "dysfunction": {
-          "id": this.dysfunctions[3].id,
-          "name": this.dysfunctions[3].name
-        },
-      };
-    },
-    getResults() {
-      let level = this.calculateLevel(this.selectedTeamscan?.scoreResults);
-      return {
-        "score": this.selectedTeamscan?.scoreResults,
-        "previousScore": this.previousTeamscan?.scoreResults,
-        "level": level,
-        "dysfunction": {
-          "id": this.dysfunctions[4].id,
-          "name": this.dysfunctions[4].name
-        },
-      };
-    },
   },
   methods: {
     getTeamscansByTeam() {
@@ -237,49 +156,8 @@ export default {
     async toggleTeamscan(boolean) {
       if (boolean) {
         await this.$axios.get(`teamscans/previous/${this.selectedTeamscan.id}`).then(res => this.previousTeamscan = res.data).catch(err => console.log(err))
-        this.trust = this.getTrust;
-        this.conflict = this.getConflict;
-        this.commitment = this.getCommitment;
-        this.accountability = this.getAccountability;
-        this.results = this.getResults;
-        /*let test =
-            [
-          {
-            "levelid": this.trust.level.id,
-            "dysfunctionid": this.trust.dysfunction.id
-          },
-          {
-            "levelid": this.conflict.level.id,
-            "dysfunctionid": this.conflict.dysfunction.id
-          },
-          {
-            "levelid": this.commitment.level.id,
-            "dysfunctionid": this.commitment.dysfunction.id
-          }
-          ,
-          {
-            "levelid": this.accountability.level.id,
-            "dysfunctionid": this.accountability.dysfunction.id
-          }
-          ,
-          {
-            "levelid": this.results.level.id,
-            "dysfunctionid": this.results.dysfunction.id
-          }
-        ]*/
-        /*await this.$axios.get(`interpretationtranslations/${1}`, {params: { test }}).then(res => this.interpretations = res.data).catch(err => console.log(err))*/
       }
       this.overlay = !this.overlay;
-    },
-    calculateLevel(score) {
-      if (score >= this.levels[0]?.lowerLimit && score <= this.levels[0]?.upperLimit)
-        return this.levels[0]
-      else if (score >= this.levels[1]?.lowerLimit && score <= this.levels[1]?.upperLimit)
-        return this.levels[1]
-      else if (score >= this.levels[2]?.lowerLimit && score <= this.levels[2]?.upperLimit)
-        return this.levels[2]
-      else
-        return this.levels[3]
     },
   },
   created() {
@@ -291,7 +169,5 @@ export default {
 </script>
 
 <style scoped>
-.dividerStyle {
-  background-color: #E9ECEF;
-}
+
 </style>
