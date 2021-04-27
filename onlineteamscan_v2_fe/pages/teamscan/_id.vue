@@ -25,8 +25,8 @@
       <ScoreCard :dysfunctions="dysfunctions" :levels="levels" :scores="individualScore"/>
     </v-container>
 
-    <v-fab-transition>
-      <v-btn fab right bottom fixed color="custom-green" v-if="isSmallScreen && this.individualScore.hasAnswered" class="custom-static-btn">
+    <v-fab-transition v-if="isSmallScreen && this.individualScore.hasAnswered">
+      <v-btn fab right bottom fixed color="custom-green" class="custom-static-btn">
         <v-icon color="white">mdi-file-download</v-icon>
       </v-btn>
     </v-fab-transition>

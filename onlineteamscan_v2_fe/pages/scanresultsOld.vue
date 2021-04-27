@@ -1,32 +1,34 @@
 <template>
   <div>
-
     <v-toolbar elevation="0">
       <v-toolbar-title
-        class="font-weight-medium"
-        style="color: #343A40; font-size: 24px;">
+        class="font-weight-medium toolbar-title">
         Scanresultaten
       </v-toolbar-title>
       <v-spacer/>
-      <v-breadcrumbs :items="getBreadcrumbs" style="color: #A8A8A8; font-size: 16px" v-if="!overlay">
+      <v-breadcrumbs :items="getBreadcrumbs" class="breadcrumbs" v-if="!overlay">
         <template v-slot:divider>
           <v-icon color="#A8A8A8">mdi-chevron-right</v-icon>
         </template>
       </v-breadcrumbs>
 
-      <Button :text="'Selecteer Teamscan'" :icon="'mdi-message-text'" style="margin-left: 20px; font-weight: normal" @click.native="toggleTeamscan(false)"/>
-      <Button :text="'Exporteer'" :icon="'mdi-file-download'" style="margin-left: 20px; font-weight: normal"/>
+      <v-btn color="custom-green" class="custom-static-btn toolbar-btn" depressed @click="toggleTeamscan(false)">
+        <v-icon left color="white">mdi-message-text</v-icon>
+        <span class="new-team-icon">Selecteer Teamscan</span>
+      </v-btn>
+
+      <v-btn color="custom-green" class="custom-static-btn toolbar-btn" depressed @click="toggleTeamscan(false)">
+        <v-icon left color="white">mdi-file-download</v-icon>
+        <span class="new-team-icon">Exporteer</span>
+      </v-btn>
     </v-toolbar>
 
-
-
-      <v-container fluid v-if="!overlay" style="margin-top: 5px; padding-left: 15px; padding-right: 15px;">
+      <v-container fluid v-if="!overlay" class="content-container">
         <ScoreCard :dysfunctions="dysfunctions" :levels="levels" :scores="this.selectedTeamscan" :previous-teamscan="this.previousTeamscan"/>
 
-        <v-row style="margin-top: 5px;">
+        <v-row class="v-row-content">
           <v-col cols="5">
-            <v-row no-gutters style="height: 135%">
-
+            <v-row no-gutters class="first-row">
               <v-card width="100%" align="center">
                 <v-card-title> Interpretatie </v-card-title>
                   <v-row class="full-height">
@@ -53,19 +55,16 @@
 
                   </v-row>
               </v-card>
-
             </v-row>
-            <v-row no-gutters style="height: 170%">
-
-              <v-card width="100%" style="margin-top: 15px;">
+            <v-row no-gutters class="second-row">
+              <v-card width="100%" class="individual-results-card">
                 <v-card-title> Individuele Resultaten </v-card-title>
               </v-card>
-
-        </v-row>
+            </v-row>
           </v-col>
 
           <v-col cols="7">
-            <v-card style="height: 305%">
+            <v-card class="progress-card">
               <v-card-title> Vooruitgang </v-card-title>
             </v-card>
           </v-col>
@@ -78,7 +77,7 @@
       opacity="0.5"
       :value="overlay">
       <v-card light>
-        <v-card-title style="font-size: 24px">
+        <v-card-title class="card-title">
           Selecteer een teamscan
         </v-card-title>
         <v-container fluid>
@@ -108,12 +107,8 @@
 </template>
 
 <script>
-import Button from "@/components/Button";
 export default {
   name: 'ScanResultaten',
-  components: {
-    Button,
-  },
   data() {
     return {
       overlay: true,
@@ -161,7 +156,7 @@ export default {
     },
   },
   created() {
-    this.$axios.get(`teams`).then(res => this.teams = res.data).catch(err => console.log(err))
+    this.$axios.get(`teams/user/${this.$auth.user.id}`).then(res => this.teams = res.data).catch(err => console.log(err))
     this.$axios.get(`levels`).then(res => this.levels = res.data).catch(err => console.log(err))
     this.$axios.get(`dysfunctiontranslations/language/${1}`).then(res => this.dysfunctions = res.data).catch(err => console.log(err))
   }
@@ -169,5 +164,38 @@ export default {
 </script>
 
 <style scoped>
-
+.toolbar-btn {
+  margin-left: 20px;
+}
+.toolbar-title {
+  color: #343A40;
+  font-size: 24px;
+}
+.breadcrumbs {
+  color: #A8A8A8;
+  font-size: 16px;
+}
+.content-container {
+  margin-top: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.v-row-content {
+  margin-top: 5px;
+}
+.first-row {
+  height: 135%;
+}
+.second-row {
+  height: 170%;
+}
+.individual-results-card {
+  margin-top: 15px;
+}
+.progress-card {
+  height: 305%;
+}
+.card-title {
+  font-size: 24px;
+}
 </style>
