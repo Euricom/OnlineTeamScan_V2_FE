@@ -67,7 +67,7 @@ export default {
   methods: {
     redirectTeamDetail() {
       this.$router.push({
-          path: `/teamdetail/${this.team.id}`
+          path: `/teams/${this.team.id}`
       })
     },
     deleteTeam(){

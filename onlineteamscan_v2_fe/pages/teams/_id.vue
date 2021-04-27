@@ -61,7 +61,7 @@
                      <v-btn color="blue darken-1" text @click="closeDialog">
                        Cancel
                      </v-btn>
-                     <v-btn color="blue darken-1" text @click="save" :disabled="!isFormValid">
+                     <v-btn :loading="loading" color="blue darken-1" text @click="save" :disabled="!isFormValid">
                        Save
                      </v-btn>
                    </v-card-actions>
@@ -80,7 +80,7 @@
                     <v-card-actions>
                       <v-spacer></v-spacer>
                       <v-btn color="blue darkin-1" text @click="closeDialog">Cancel</v-btn>
-                      <v-btn color="blue darkin-1" text @click="confirmDeleteTeamMember">Ok</v-btn>
+                      <v-btn :loading="loading" color="blue darkin-1" text @click="confirmDeleteTeamMember">Ok</v-btn>
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
@@ -114,6 +114,7 @@ export default {
   name: 'TeamDetail',
   data() {
     return {
+      loading: false,
       team: {},
       dialog: false,
       deleteDialog: false,
@@ -125,7 +126,7 @@ export default {
         firstname: '',
         lastname: '',
         isActive: true,
-        teamId: this.$route.params.teamdetail,
+        teamId: this.$route.params.id,
       },
       selectedEmail: '',
       defaultTeamMember: {
@@ -133,7 +134,7 @@ export default {
         firstname: '',
         lastname: '',
         isActive: true,
-        teamId: this.$route.params.teamdetail,
+        teamId: this.$route.params.id,
       },
       dialogIndex: -1,
       headers: [
@@ -155,7 +156,7 @@ export default {
     }
   },
   async created() {
-    const result = await this.$axios.get(`teams/members/${this.$auth.user.id}/${this.$route.params.teamdetail}`)
+    const result = await this.$axios.get(`teams/members/${this.$auth.user.id}/${this.$route.params.id}`)
     this.team = result.data
   },
   computed: {
@@ -207,9 +208,11 @@ export default {
       this.deleteDialog = true
     },
     async confirmDeleteTeamMember() {
+      this.loading = true
       await this.$axios.delete(`teammembers/${this.editedTeamMember.id}`)
       this.team.teamMembers.splice(this.dialogIndex, 1)
       this.closeDialog()
+      this.loading = false
     },
     save() {
       if (this.dialogIndex > -1)
@@ -219,6 +222,7 @@ export default {
     },
     async addTeamMember() {
       try {
+        this.loading = true
         const result = await this.$axios.post(`teammembers`, this.editedTeamMember)
         this.team.teamMembers.push(result.data)
         this.closeDialog()
@@ -226,9 +230,11 @@ export default {
       catch(err) {
         this.errorMessage = err.response.data
       }
+      this.loading = false
     },
     async updateTeamMember() {
       try {
+        this.loading = true
         const result = await this.$axios.put(`teammembers`, this.editedTeamMember)
         Object.assign(this.team.teamMembers[this.dialogIndex], result.data)
         this.closeDialog()
@@ -236,6 +242,7 @@ export default {
       catch(err) {
         this.errorMessage = err.response.data
       }
+      this.loading = false
     },
   },
 }

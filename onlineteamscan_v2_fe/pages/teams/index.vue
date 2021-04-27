@@ -45,7 +45,7 @@
             <v-btn color="blue darken-1" text @click="closeDialog">
               Cancel
             </v-btn>
-            <v-btn color="blue darken-1" text @click="save" :disabled="!isFormValid">
+            <v-btn :loading="loading" color="blue darken-1" text @click="save" :disabled="!isFormValid">
               Save
             </v-btn>
           </v-card-actions>
@@ -75,7 +75,7 @@
     </div>
       <v-container v-else class="empty-teams-container">
           <v-row justify="center">
-            <img src="../static/EmptyIcon.svg" class="empty-teams-img">
+            <img src="../../static/EmptyIcon.svg" class="empty-teams-img">
           </v-row>
           <v-row justify="center">
 
@@ -99,7 +99,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darkin-1" text @click="closeDialog">Cancel</v-btn>
-          <v-btn color="blue darkin-1" text @click="confirmDeleteTeam">Ok</v-btn>
+          <v-btn :loading="loading" color="blue darkin-1" text @click="confirmDeleteTeam">Ok</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -115,7 +115,7 @@
 </template>
 
 <script>
-import CustomListItem from "../components/CustomListItem";
+import CustomListItem from "../../components/CustomListItem";
 
 export default {
   components: {
@@ -123,6 +123,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       teams: [],
       originalTeams: [],
       sorted: '',
@@ -219,10 +220,12 @@ export default {
       this.deleteDialog = true
     },
     async confirmDeleteTeam() {
+      this.loading = true
       await this.$axios.delete(`teams/${this.editedTeam.id}`)
       this.teams.splice(this.dialogIndex, 1)
       this.originalTeams.splice(this.originalIndex, 1)
       this.closeDialog()
+      this.loading = false
     },
     editTeam(item) {
       this.dialogIndex = this.teams.indexOf(item)
@@ -255,6 +258,7 @@ export default {
     },
     async addTeam() {
       try {
+        this.loading = true
         const result = await this.$axios.post(`teams`, this.editedTeam)
         this.originalTeams.push(result.data)
         this.teams = [...this.originalTeams]
@@ -266,9 +270,11 @@ export default {
       catch(err) {
         this.errorMessage = err.response.data
       }
+      this.loading = false
     },
     async updateTeam() {
       try {
+        this.loading = true
         const result = await this.$axios.put(`teams`, this.editedTeam)
         const newTeam = { id: result.data.id, name: result.data.name }
         Object.assign(this.teams[this.dialogIndex], newTeam)
@@ -278,6 +284,7 @@ export default {
       catch(err) {
           this.errorMessage = err.response.data
       }
+      this.loading = false
     },
   }
 }

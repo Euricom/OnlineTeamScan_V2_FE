@@ -12,7 +12,7 @@
         </v-row>
       </v-container>
 
-        <v-list class="sideMenuList">
+        <v-list class="side-menu-list">
           <v-subheader class="sub-header">Algemeen</v-subheader>
           <v-list-item-group>
             <v-list-item

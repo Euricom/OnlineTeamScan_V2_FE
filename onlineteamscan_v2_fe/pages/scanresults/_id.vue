@@ -24,7 +24,7 @@
       <ScoreCard :dysfunctions="dysfunctions" :levels="levels" :scores="this.teamscan" :previous-teamscan="this.previousTeamscan"/>
 
       <v-row class="v-row-content">
-        <v-col cols="12" sm="5">
+        <v-col cols="12" md="5">
           <v-row no-gutters class="first-row">
             <v-card width="100%" align="center">
               <v-card-title>Interpretatie</v-card-title>
@@ -36,31 +36,63 @@
             </v-card>
           </v-row>
         </v-col>
-        <v-col cols="12" sm="7">
+        <v-col cols="12" md="7">
           <v-card class="progress-card">
             <v-card-title>Vooruitgang</v-card-title>
           </v-card>
         </v-col>
-<!--        <v-col cols="12" sm="5" class="first-column">
-          <v-row no-gutters>
-            <v-col cols="12">
-              <v-card width="100%" align="center">
-                <v-card-title>Interpretatie</v-card-title>
-              </v-card>
-            </v-col>
-            <v-col cols="12">
-              <v-card width="100%" align="center" class="individual-results-card">
-                <v-card-title>Individuele Resultaten</v-card-title>
-              </v-card>
-            </v-col>
-          </v-row>
-        </v-col>
+      </v-row>
 
-        <v-col cols="12" sm="7">
+      <v-row class="v-row-content">
+        <v-col>
           <v-card>
-            <v-card-title> Vooruitgang </v-card-title>
+            <v-card-title>
+              Aanbevelingen
+              <v-spacer></v-spacer>
+              <v-btn icon @click="show = !show"  >
+                <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+              </v-btn>
+            </v-card-title>
+            <v-expand-transition>
+              <v-container fluid v-show="show" class="expansion-panel-position">
+
+                <v-expansion-panels>
+                  <v-expansion-panel>
+                    <v-expansion-panel-header class="font-weight-medium">Vertrouwen</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                      Vertrouwen
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                  <v-expansion-panel>
+                    <v-expansion-panel-header class="font-weight-medium">Conflict</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                      Conflict
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                  <v-expansion-panel>
+                    <v-expansion-panel-header class="font-weight-medium">Commitment</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                      Commitment
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                  <v-expansion-panel>
+                    <v-expansion-panel-header class="font-weight-medium">Aansprakelijkheid</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                      Aansprakelijkheid
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                  <v-expansion-panel>
+                    <v-expansion-panel-header class="font-weight-medium">Resultaat</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                      Resultaat
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
+
+              </v-container>
+            </v-expand-transition>
           </v-card>
-        </v-col>-->
+        </v-col>
       </v-row>
     </v-container>
 
@@ -83,6 +115,7 @@ export default {
   },
   data() {
     return {
+      show: true,
       isLoading: true,
       teamscan: {},
       previousTeamscan: {},
@@ -113,7 +146,7 @@ export default {
   methods: {
     redirectToSelectTeamscan() {
       this.$router.push({
-        path: `/scanresults2/select`
+        path: `/scanresults`
       })
     },
   },
@@ -154,5 +187,8 @@ export default {
 .progress-card {
   /*height: 305%;*/
   height: 56vh;
+}
+.expansion-panel-position {
+  padding-top: 0;
 }
 </style>

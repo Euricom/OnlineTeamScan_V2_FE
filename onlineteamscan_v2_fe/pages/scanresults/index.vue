@@ -50,7 +50,7 @@ export default {
     },
     selectTeamscan() {
       this.$router.push({
-        path: `/scanresults2/${this.selectedTeamscan.id}`
+        path: `/scanresults/${this.selectedTeamscan.id}`
       })
     },
   },
