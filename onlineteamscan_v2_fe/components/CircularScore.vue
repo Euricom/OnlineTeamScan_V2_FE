@@ -5,8 +5,8 @@
     </h1>
 
   <v-progress-circular
-    size="150"
-    width="20"
+    size="140"
+    width="17"
     rotate="-90"
     :value="calculateProgress"
     :color="item.level.color"
@@ -49,5 +49,6 @@ export default {
   font-weight: bold;
   margin-top: 15px;
   margin-bottom: 5px;
+
 }
 </style>

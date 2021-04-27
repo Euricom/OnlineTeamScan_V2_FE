@@ -24,7 +24,7 @@
       <ScoreCard :dysfunctions="dysfunctions" :levels="levels" :scores="this.teamscan" :previous-teamscan="this.previousTeamscan"/>
 
       <v-row class="v-row-content">
-        <v-col cols="12" md="5">
+        <v-col cols="12" md="5" class="first-column">
           <v-row no-gutters class="first-row">
             <v-card width="100%" align="center">
               <v-card-title>Interpretatie</v-card-title>
@@ -36,7 +36,7 @@
             </v-card>
           </v-row>
         </v-col>
-        <v-col cols="12" md="7">
+        <v-col cols="12" md="7" class="second-column">
           <v-card class="progress-card">
             <v-card-title>Vooruitgang</v-card-title>
           </v-card>
@@ -55,40 +55,27 @@
             </v-card-title>
             <v-expand-transition>
               <v-container fluid v-show="show" class="expansion-panel-position">
-
                 <v-expansion-panels>
-                  <v-expansion-panel>
-                    <v-expansion-panel-header class="font-weight-medium">Vertrouwen</v-expansion-panel-header>
+                  <v-expansion-panel v-for="(dysfunction, index) in dysfunctions" :key="index">
+                    <v-expansion-panel-header class="font-weight-medium expansion-header">{{ dysfunction.name }}</v-expansion-panel-header>
                     <v-expansion-panel-content>
-                      Vertrouwen
-                    </v-expansion-panel-content>
-                  </v-expansion-panel>
-                  <v-expansion-panel>
-                    <v-expansion-panel-header class="font-weight-medium">Conflict</v-expansion-panel-header>
-                    <v-expansion-panel-content>
-                      Conflict
-                    </v-expansion-panel-content>
-                  </v-expansion-panel>
-                  <v-expansion-panel>
-                    <v-expansion-panel-header class="font-weight-medium">Commitment</v-expansion-panel-header>
-                    <v-expansion-panel-content>
-                      Commitment
-                    </v-expansion-panel-content>
-                  </v-expansion-panel>
-                  <v-expansion-panel>
-                    <v-expansion-panel-header class="font-weight-medium">Aansprakelijkheid</v-expansion-panel-header>
-                    <v-expansion-panel-content>
-                      Aansprakelijkheid
-                    </v-expansion-panel-content>
-                  </v-expansion-panel>
-                  <v-expansion-panel>
-                    <v-expansion-panel-header class="font-weight-medium">Resultaat</v-expansion-panel-header>
-                    <v-expansion-panel-content>
-                      Resultaat
+                      <v-list>
+                        <v-list-item v-for="(recommendation, index) in getRecommendationsByDysfunction(dysfunction.dysfunction.id)" :key="index">
+                          <v-list-item-icon class="me-1">
+                            <v-icon x-small color="#71BF42" v-text="'mdi-brightness-1'"/>
+                          </v-list-item-icon>
+                          <v-list-item-content>
+                            <v-list-item-title class="font-weight-medium list-item-title">
+                              {{ recommendation.title }} &nbsp;
+                              <v-chip :href="recommendation.recommendation.link" target="_blank" v-if="recommendation.recommendation.link !== null" x-small>Meer informatie</v-chip>
+                            </v-list-item-title>
+                            <v-list-item-content class="list-item-text" v-text="recommendation.text"/>
+                          </v-list-item-content>
+                        </v-list-item>
+                      </v-list>
                     </v-expansion-panel-content>
                   </v-expansion-panel>
                 </v-expansion-panels>
-
               </v-container>
             </v-expand-transition>
           </v-card>
@@ -121,6 +108,7 @@ export default {
       previousTeamscan: {},
       dysfunctions: [],
       levels: [],
+      recommendations: [],
     }
   },
   async created() {
@@ -128,11 +116,13 @@ export default {
     const previousTeamscan = await this.$axios.get(`teamscans/previous/${this.$auth.user.id}/${this.$route.params.id}`)
     const levels = await this.$axios.get(`levels`)
     const dysfunctions = await this.$axios.get(`dysfunctiontranslations/language/${this.$auth.user.preferredLanguageId}`)
+    const recommendations = await this.$axios.get(`recommendationtranslations/${2}`)
 
     this.teamscan = teamscan.data
     this.previousTeamscan = previousTeamscan.data
     this.levels = levels.data
     this.dysfunctions = dysfunctions.data
+    this.recommendations = recommendations.data
     this.isLoading = false
   },
   computed: {
@@ -148,6 +138,9 @@ export default {
       this.$router.push({
         path: `/scanresults`
       })
+    },
+    getRecommendationsByDysfunction(dysfunctionId) {
+      return this.recommendations.filter(recommendation => recommendation.recommendation.dysfunctionId === dysfunctionId)
     },
   },
 }
@@ -177,18 +170,31 @@ export default {
   margin-top: 17px;
 }
 .first-row {
-  /*height: 135%;*/
-  height: 27vh;
+  height: 28vh;
 }
 .second-row {
-  /*height: 170%;*/
-  height: 29vh;
+  height: 28vh;
+}
+.first-column {
+  padding-right: 7px;
+}
+.second-column {
+  padding-left: 10px;
 }
 .progress-card {
-  /*height: 305%;*/
   height: 56vh;
 }
 .expansion-panel-position {
   padding-top: 0;
+}
+.list-item-title {
+  font-size: 15px;
+}
+.list-item-text {
+  font-size: 14px;
+  padding-top: 6px;
+}
+.expansion-header {
+  font-size: 16px;
 }
 </style>
