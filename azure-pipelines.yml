@@ -19,6 +19,7 @@ steps:
 - script: |
     npm install
   displayName: 'Install dependencies'
+  workingDirectory: 'onlineteamscan_v2_fe/'
 
 - script: |
     npm run build
