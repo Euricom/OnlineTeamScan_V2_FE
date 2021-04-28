@@ -3,7 +3,6 @@ import {defaults} from "@nuxtjs/vuetify/dist/options";
 
 export default {
   ssr: false,
-
   head: {
     titleTemplate: '%s',
     title: 'Online Team Scan',
@@ -85,10 +84,6 @@ export default {
   },
 
   axios: {
-      baseURL: `${process.env.baseURL}`,
+      baseURL: `${process.env.NUXT_ENV_API_BASE_URI}`,
   },
-
-  env: {
-    baseURL: process.env.API_BASE_URI || 'http://localhost:49783/api/'
-  }
 }
