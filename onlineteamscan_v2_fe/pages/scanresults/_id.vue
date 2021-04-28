@@ -94,9 +94,10 @@
 
 <script>
 import ScoreCard from "@/components/ScoreCard";
-
+import { globalMixin } from '@/mixins/globalMixin'
 export default {
   name: "Scanresults",
+  mixins: [globalMixin],
   components: {
     ScoreCard,
   },
@@ -128,9 +129,6 @@ export default {
   computed: {
     getBreadcrumbs() {
       return [{ text: this.teamscan.team.name }, { text: this.teamscan.title }]
-    },
-    isSmallScreen() {
-      return this.$vuetify.breakpoint.xs || this.$vuetify.breakpoint.sm
     },
   },
   methods: {
