@@ -22,7 +22,7 @@ steps:
   workingDirectory: 'onlineteamscan_v2_fe/'
 
 - script: |
-    npm run build
+    npm run generate
   displayName: 'Build'
   workingDirectory: 'onlineteamscan_v2_fe/'
   env:
