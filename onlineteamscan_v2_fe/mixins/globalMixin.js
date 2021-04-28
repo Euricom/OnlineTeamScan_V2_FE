@@ -3,6 +3,9 @@ export const globalMixin = {
     isSmallScreen() {
       return this.$vuetify.breakpoint.xs || this.$vuetify.breakpoint.sm
     },
+    isExtraSmallScreen() {
+      return this.$vuetify.breakpoint.xs
+    },
   },
   methods: {
     formatDate(prop) {
