@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="!isLoading">
     <v-toolbar elevation="0">
       <v-toolbar-title
         class="font-weight-medium toolbar-title">
@@ -133,6 +133,7 @@ export default {
   name: 'TeamDetail',
   data() {
     return {
+      isLoading: true,
       loading: false,
       team: {},
       dialog: false,
@@ -183,6 +184,7 @@ export default {
   async created() {
     const result = await this.$axios.get(`teams/full/${this.$auth.user.id}/${this.$route.params.id}`)
     this.team = result.data
+    this.isLoading = false
   },
   computed: {
     getActiveTeamMembers() {
