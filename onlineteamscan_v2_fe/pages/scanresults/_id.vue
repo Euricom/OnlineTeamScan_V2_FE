@@ -26,8 +26,25 @@
       <v-row class="v-row-content">
         <v-col cols="12" md="5" class="first-column">
           <v-row no-gutters class="first-row">
-            <v-card width="100%" align="center">
-              <v-card-title>Interpretatie</v-card-title>
+            <v-card width="100%" align="center" class="interpretation-card">
+              <v-card-title style="position: absolute; z-index: 1">Interpretatie</v-card-title>
+              <v-carousel :show-arrows="false" height="100%" hide-delimiter-background light delimiter-icon="mdi-minus">
+                <v-carousel-item v-for="(interpretation, index) in interpretations" :key="index">
+                    <v-container fluid class="fill-height">
+                      <v-row align="center" justify="center">
+                        <v-col cols="4" v-if="!isExtraSmallScreen">
+
+                        </v-col>
+                        <v-col cols="12" sm="8">
+                          <h1 style="font-size: 0.8750em; text-align: start; margin-bottom: 2px; padding-left: 6px;">
+                            {{ getInterpretationDysfunctionTitle(interpretation.interpretation.dysfunctionId) }}
+                          </h1>
+                          <span style="font-size: 0.8750em; text-align: start; display: block; padding-left: 6px;">{{ interpretation.text }}</span>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                </v-carousel-item>
+              </v-carousel>
             </v-card>
           </v-row>
           <v-row no-gutters class="second-row">
@@ -67,6 +84,7 @@
                           <v-list-item-content>
                             <v-list-item-title class="font-weight-medium list-item-title">
                               {{ recommendation.title }} &nbsp;
+                              <br v-if="isExtraSmallScreen"/>
                               <v-chip :href="recommendation.recommendation.link" target="_blank" v-if="recommendation.recommendation.link !== null" x-small>Meer informatie</v-chip>
                             </v-list-item-title>
                             <v-list-item-content class="list-item-text" v-text="recommendation.text"/>
@@ -95,9 +113,10 @@
 <script>
 import ScoreCard from "@/components/ScoreCard";
 import { globalMixin } from '@/mixins/globalMixin'
+import { scoreMixin } from '@/mixins/scoreMixin'
 export default {
   name: "Scanresults",
-  mixins: [globalMixin],
+  mixins: [globalMixin, scoreMixin],
   components: {
     ScoreCard,
   },
@@ -110,6 +129,7 @@ export default {
       dysfunctions: [],
       levels: [],
       recommendations: [],
+      interpretations: [],
     }
   },
   async created() {
@@ -124,6 +144,7 @@ export default {
     this.levels = levels.data
     this.dysfunctions = dysfunctions.data
     this.recommendations = recommendations.data
+    await this.getInterpretations(teamscan.data)
     this.isLoading = false
   },
   computed: {
@@ -132,6 +153,26 @@ export default {
     },
   },
   methods: {
+    async getInterpretations(prop) {
+        const baseUrl = `interpretationtranslations/${this.$auth.user.preferredLanguageId}`
+
+        const trustLevelId = this.calculateLevel(prop.scoreTrust).id
+        const trustInterpretation = await this.$axios.get(`${baseUrl}/${trustLevelId}/${this.dysfunctions[0].dysfunction.id}`)
+
+        const conflictLevelId = this.calculateLevel(prop.scoreConflict).id
+        const conflictInterpretation = await this.$axios.get(`${baseUrl}/${conflictLevelId}/${this.dysfunctions[1].dysfunction.id}`)
+
+        const commitmentLevelId = this.calculateLevel(prop.scoreCommitment).id
+        const commitmentInterpretation = await this.$axios.get(`${baseUrl}/${commitmentLevelId}/${this.dysfunctions[2].dysfunction.id}`)
+
+        const accountabilityLevelId = this.calculateLevel(prop.scoreAccountability).id
+        const accountabilityInterpretation = await this.$axios.get(`${baseUrl}/${accountabilityLevelId}/${this.dysfunctions[3].dysfunction.id}`)
+
+        const resultsLevelId = this.calculateLevel(prop.scoreResults).id
+        const resultsInterpretation = await this.$axios.get(`${baseUrl}/${resultsLevelId}/${this.dysfunctions[4].dysfunction.id}`)
+
+        this.interpretations.push(trustInterpretation.data, conflictInterpretation.data, commitmentInterpretation.data, accountabilityInterpretation.data, resultsInterpretation.data)
+    },
     redirectToSelectTeamscan() {
       this.$router.push({
         path: `/scanresults`
@@ -140,6 +181,9 @@ export default {
     getRecommendationsByDysfunction(dysfunctionId) {
       return this.recommendations.filter(recommendation => recommendation.recommendation.dysfunctionId === dysfunctionId)
     },
+    getInterpretationDysfunctionTitle(prop) {
+      return this.dysfunctions[prop - 1].name
+    }
   },
 }
 </script>
@@ -165,13 +209,16 @@ export default {
   margin-top: 5px;
 }
 .individual-results-card {
-  margin-top: 17px;
+  margin-top: 8px;
+}
+.interpretation-card {
+  margin-bottom: 8px;
 }
 .first-row {
-  height: 28vh;
+  height: 29vh;
 }
 .second-row {
-  height: 28vh;
+  height: 29vh;
 }
 .first-column {
   padding-right: 7px;
@@ -180,7 +227,7 @@ export default {
   padding-left: 10px;
 }
 .progress-card {
-  height: 56vh;
+  height: 58vh;
 }
 .expansion-panel-position {
   padding-top: 0;
