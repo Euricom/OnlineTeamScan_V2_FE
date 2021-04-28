@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="!isLoading">
     <v-toolbar elevation="0">
       <v-toolbar-title
         class="font-weight-medium toolbar-title">
@@ -123,6 +123,7 @@ export default {
   },
   data() {
     return {
+      isLoading: true,
       loading: false,
       teams: [],
       originalTeams: [],
@@ -155,6 +156,7 @@ export default {
     const result = await this.$axios.get(`teams/teammembers/${this.$auth.user.id}`)
     this.teams = result.data
     this.originalTeams = [...this.teams]
+    this.isLoading = false
   },
   watch: {
     deleteDialog (val) {
