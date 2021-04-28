@@ -167,7 +167,7 @@ export default {
         { text: 'Naam', align: 'start', value: 'title', width: '25%' },
         { text: 'Gestart door', value: 'startedBy', width: '25%', formatter: this.formatName },
         { text: 'Startdatum', value: 'startDate', width: '25%', formatter: this.formatDate },
-        { text: 'Einddatum', value: 'endDate', width: '25%', formatter: this.formatDate},
+        { text: 'Einddatum', value: 'endDate', width: '25%', align: 'center', formatter: this.formatDate},
       ],
       emailRules: [
         value => !!value || 'Vereist',
