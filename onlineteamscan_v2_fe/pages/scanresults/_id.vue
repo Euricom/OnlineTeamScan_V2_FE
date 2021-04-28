@@ -36,7 +36,7 @@
 
                         </v-col>
                         <v-col cols="12" sm="8">
-                          <h1 style="font-size: 0.8750em; text-align: start; margin-bottom: 2px; padding-left: 6px;">
+                          <h1 style="font-size: 0.9375em; text-align: start; margin-bottom: 2px; padding-left: 6px;">
                             {{ getInterpretationDysfunctionTitle(interpretation.interpretation.dysfunctionId) }}
                           </h1>
                           <span style="font-size: 0.8750em; text-align: start; display: block; padding-left: 6px;">{{ interpretation.text }}</span>
