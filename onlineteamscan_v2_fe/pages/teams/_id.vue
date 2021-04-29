@@ -112,6 +112,7 @@
           Teamscans
         </v-card-title>
         <v-data-table
+          :sort-by="'endDate'"
           :headers="headersTeamscans"
           :items="team.teamscans"
         ><template

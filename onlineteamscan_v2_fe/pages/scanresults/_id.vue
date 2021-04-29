@@ -27,7 +27,7 @@
         <v-col cols="12" md="5" class="first-column">
           <v-row no-gutters class="first-row">
             <v-card width="100%" align="center" class="interpretation-card">
-              <v-card-title style="position: absolute; z-index: 1">Interpretatie</v-card-title>
+              <v-card-title class="interpretation-card-title">Interpretatie</v-card-title>
               <v-carousel :show-arrows="false" height="100%" hide-delimiter-background light delimiter-icon="mdi-minus">
                 <v-carousel-item v-for="(interpretation, index) in interpretations" :key="index">
                     <v-container fluid class="fill-height">
@@ -35,11 +35,11 @@
                         <v-col cols="4" v-if="!isExtraSmallScreen">
 
                         </v-col>
-                        <v-col cols="12" sm="8">
-                          <h1 style="font-size: 0.9375em; text-align: start; margin-bottom: 2px; padding-left: 6px;">
+                        <v-col cols="12" sm="8" align="start">
+                          <h1 class="interpretation-dysfunction-title">
                             {{ getInterpretationDysfunctionTitle(interpretation.interpretation.dysfunctionId) }}
                           </h1>
-                          <span style="font-size: 0.8750em; text-align: start; display: block; padding-left: 6px;">{{ interpretation.text }}</span>
+                          <span v-text="interpretation.text" class="interpretation-dysfunction-text"/>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -213,6 +213,21 @@ export default {
 }
 .interpretation-card {
   margin-bottom: 8px;
+}
+.interpretation-card-title {
+  position: absolute;
+  z-index: 1;
+}
+.interpretation-dysfunction-title {
+  font-size: 0.9375em;
+  text-align: start;
+  margin-bottom: 2px;
+  padding-left: 6px;
+}
+.interpretation-dysfunction-text {
+  font-size: 0.8750em;
+  display: block;
+  padding-left: 6px;
 }
 .first-row {
   height: 29vh;
