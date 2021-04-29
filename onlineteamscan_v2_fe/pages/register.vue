@@ -152,11 +152,13 @@ export default {
         "Lastname": this.lastname,
         "Password": this.password
       }
-      this.$axios.post('authenticate/register', user).then((response) => {
-        if(response.status === 200){
-          this.$router.push("/login")
-        }
-      }).catch((e) => this.errorMessage = e.response.data.message)
+      try {
+        await this.$axios.post('authenticate/register', user)
+        await this.$router.push("/login")
+      }
+      catch (error) {
+        this.errorMessage = error.response.data.message
+      }
     }
   }
 }
