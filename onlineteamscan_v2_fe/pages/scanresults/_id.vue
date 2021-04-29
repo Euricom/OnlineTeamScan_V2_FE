@@ -28,7 +28,7 @@
           <v-row no-gutters class="first-row">
             <v-card width="100%" align="center" class="interpretation-card">
               <v-card-title class="interpretation-card-title">Interpretatie</v-card-title>
-              <v-carousel :show-arrows="false" height="100%" hide-delimiter-background light delimiter-icon="mdi-minus">
+              <v-carousel :show-arrows="false" height="100%" hide-delimiter-background light>
                 <v-carousel-item v-for="(interpretation, index) in interpretations" :key="index">
                     <v-container fluid class="fill-height">
                       <v-row align="center" justify="center">

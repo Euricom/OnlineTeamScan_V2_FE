@@ -112,7 +112,8 @@
           Teamscans
         </v-card-title>
         <v-data-table @click:row="goToTeamscanResult"
-          :sort-by="'endDate'"
+          :sort-by="'title'"
+          :sort-desc="true"
           :headers="headersTeamscans"
           :items="team.teamscans"
         ><template
@@ -176,7 +177,7 @@ export default {
         { text: 'Acties', value: 'actions', sortable: false, width: '5%'},
       ],
       headersTeamscans: [
-        { text: 'Naam', align: 'start', value: 'title', width: '25%' },
+        { text: 'Titel', align: 'start', value: 'title', width: '25%' },
         { text: 'Gestart door', value: 'startedBy', width: '25%', formatter: this.formatName },
         { text: 'Startdatum', value: 'startDate', width: '25%', formatter: this.formatDate },
         { text: 'Einddatum', value: 'endDate', width: '25%', align: 'center', formatter: this.formatDate},

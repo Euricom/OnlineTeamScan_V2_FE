@@ -14,7 +14,7 @@
     {{ item.score }}
   </v-progress-circular>
 
-  <Difference v-if="item.previousScore !== undefined" :previous-score="item.previousScore" :current-score="item.score"/>
+  <Difference v-if="item.previousScore !== undefined && item.previousScore !== item.score" :previous-score="item.previousScore" :current-score="item.score"/>
   </div>
 </template>
 
