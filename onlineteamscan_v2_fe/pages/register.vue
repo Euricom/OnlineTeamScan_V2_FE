@@ -154,7 +154,7 @@ export default {
       }
       try {
         await this.$axios.post('authenticate/register', user)
-        await this.$router.push("/login")
+        await this.$router.push('/login')
       }
       catch (error) {
         this.errorMessage = error.response.data.message
