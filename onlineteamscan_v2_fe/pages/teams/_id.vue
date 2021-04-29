@@ -12,7 +12,7 @@
           :headers="headersTeamMembers"
           :items="sortActive ? getActiveTeamMembers : getInactiveTeamMembers">
             <template v-slot:top>
-              <v-toolbar flat class="rounder">
+              <v-toolbar flat class="rounded">
                 <v-toolbar-title class="font-weight-medium toolbar-card-title">Leden</v-toolbar-title>
                 <v-switch v-model="sortActive" label="Actief" class="switch-position"/>
                 <v-spacer></v-spacer>

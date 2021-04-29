@@ -138,13 +138,14 @@ export default {
     const levels = await this.$axios.get(`levels`)
     const dysfunctions = await this.$axios.get(`dysfunctiontranslations/language/${this.$auth.user.preferredLanguageId}`)
     const recommendations = await this.$axios.get(`recommendationtranslations/${2}`)
+    const interpretations = await this.$axios.get(`interpretationtranslations/${this.$auth.user.preferredLanguageId}/${this.$route.params.id}`)
 
     this.teamscan = teamscan.data
     this.previousTeamscan = previousTeamscan.data
     this.levels = levels.data
     this.dysfunctions = dysfunctions.data
     this.recommendations = recommendations.data
-    await this.getInterpretations(teamscan.data)
+    this.interpretations = interpretations.data
     this.isLoading = false
   },
   computed: {
@@ -153,26 +154,6 @@ export default {
     },
   },
   methods: {
-    async getInterpretations(prop) {
-        const baseUrl = `interpretationtranslations/${this.$auth.user.preferredLanguageId}`
-
-        const trustLevelId = this.calculateLevel(prop.scoreTrust).id
-        const trustInterpretation = await this.$axios.get(`${baseUrl}/${trustLevelId}/${this.dysfunctions[0].dysfunction.id}`)
-
-        const conflictLevelId = this.calculateLevel(prop.scoreConflict).id
-        const conflictInterpretation = await this.$axios.get(`${baseUrl}/${conflictLevelId}/${this.dysfunctions[1].dysfunction.id}`)
-
-        const commitmentLevelId = this.calculateLevel(prop.scoreCommitment).id
-        const commitmentInterpretation = await this.$axios.get(`${baseUrl}/${commitmentLevelId}/${this.dysfunctions[2].dysfunction.id}`)
-
-        const accountabilityLevelId = this.calculateLevel(prop.scoreAccountability).id
-        const accountabilityInterpretation = await this.$axios.get(`${baseUrl}/${accountabilityLevelId}/${this.dysfunctions[3].dysfunction.id}`)
-
-        const resultsLevelId = this.calculateLevel(prop.scoreResults).id
-        const resultsInterpretation = await this.$axios.get(`${baseUrl}/${resultsLevelId}/${this.dysfunctions[4].dysfunction.id}`)
-
-        this.interpretations.push(trustInterpretation.data, conflictInterpretation.data, commitmentInterpretation.data, accountabilityInterpretation.data, resultsInterpretation.data)
-    },
     redirectToSelectTeamscan() {
       this.$router.push({
         path: `/scanresults`
