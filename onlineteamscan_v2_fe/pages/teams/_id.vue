@@ -111,7 +111,7 @@
         <v-card-title>
           Teamscans
         </v-card-title>
-        <v-data-table
+        <v-data-table @click:row="goToTeamscanResult"
           :sort-by="'endDate'"
           :headers="headersTeamscans"
           :items="team.teamscans"
@@ -126,6 +126,14 @@
         </v-data-table>
       </v-card>
     </div>
+    <v-snackbar v-model="snackbar">
+      {{ snackbarMessage }}
+      <template v-slot:action="{ attrs }">
+        <v-btn text v-bind="attrs" @click="snackbar = false" color="custom-green">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
@@ -140,6 +148,8 @@ export default {
       dialog: false,
       deleteDialog: false,
       errorMessage: '',
+      snackbarMessage: '',
+      snackbar: false,
       isFormValid: false,
       sortActive: true,
       editedTeamMember: {
@@ -282,6 +292,15 @@ export default {
     },
     formatName(value) {
       return `${value.firstname} ${value.lastname}`
+    },
+    goToTeamscanResult(item){
+      if(item.endDate !== null) {
+        this.$router.push(`/scanresults/${item.id}`)
+      }
+      else {
+        this.snackbarMessage = 'De teamscan is nog niet voltooid'
+        this.snackbar = true
+      }
     }
   },
 }
