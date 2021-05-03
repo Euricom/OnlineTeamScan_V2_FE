@@ -35,4 +35,5 @@ steps:
     appName: 'euricom-stage-teamscan-frontend'
     package: '$(System.DefaultWorkingDirectory)/**/*.zip'
     deploymentMethod: 'auto'
+- task: PublishBuildArtifacts@1
 
