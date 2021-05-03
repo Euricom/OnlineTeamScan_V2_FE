@@ -28,6 +28,14 @@ steps:
   env:
     API_BASE_URI: $(API_BASE_URI)
 
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.BinariesDirectory)'
+    includeRootFolder: true
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    replaceExistingArchive: true
+
 - task: AzureRmWebAppDeployment@4
   inputs:
     ConnectionType: 'AzureRM'
@@ -35,4 +43,5 @@ steps:
     appType: 'webApp'
     WebAppName: 'euricom-stage-teamscan-frontend'
     packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+
 
