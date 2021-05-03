@@ -1,7 +1,7 @@
 import colors from 'vuetify/es5/util/colors'
 import {defaults} from "@nuxtjs/vuetify/dist/options";
 
-module.exports = {
+export default {
   target: 'static',
   ssr: false,
   head: {
