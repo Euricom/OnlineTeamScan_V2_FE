@@ -83,11 +83,17 @@
                           </v-list-item-icon>
                           <v-list-item-content>
                             <v-list-item-title class="font-weight-medium list-item-title">
-                              {{ recommendation.title }} &nbsp;
-                              <br v-if="isExtraSmallScreen"/>
-                              <v-chip :href="recommendation.recommendation.link" target="_blank" v-if="recommendation.recommendation.link !== null" x-small>Meer informatie</v-chip>
+                              {{ recommendation.title }}
                             </v-list-item-title>
                             <v-list-item-content class="list-item-text" v-text="recommendation.text"/>
+                            <v-list-item-icon style="margin: 0">
+                              <v-chip small :href="recommendation.recommendation.link" target="_blank" v-if="recommendation.recommendation.link !== null">
+                                <v-avatar left>
+                                  <v-icon small>mdi-information</v-icon>
+                                </v-avatar>
+                                Meer informatie
+                              </v-chip>
+                            </v-list-item-icon>
                           </v-list-item-content>
                         </v-list-item>
                       </v-list>
