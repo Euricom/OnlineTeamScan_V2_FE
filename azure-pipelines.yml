@@ -26,7 +26,7 @@ steps:
   displayName: 'Build'
   workingDirectory: 'onlineteamscan_v2_fe/'
   env:
-    API_BASE_URI: $(API_BASE_URI)
+    NUXT_ENV_API_BASE_URI: $(NUXT_ENV_API_BASE_URI)
 
 - task: AzureFileCopy@4
   inputs:
