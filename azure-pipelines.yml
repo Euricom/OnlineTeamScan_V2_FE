@@ -29,7 +29,7 @@ steps:
     API_BASE_URI: $(API_BASE_URI)
 
 - task: CopyFiles@2
-  displayName: 'Copy files to: $(Build.ArtifactStagingDirectory)'
+  displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
   inputs:
     SourceFolder: '$(System.DefaultWorkingDirectory)/onlineteamscan_v2_fe'
     Contents: |
