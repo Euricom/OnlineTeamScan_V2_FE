@@ -19,6 +19,6 @@
     "nuxt": "^2.14.12"
   },
   "devDependencies": {
-    "@nuxt/types": "~2.15.0",
+    "@nuxt/types": "~2.15.0"
   }
 }
