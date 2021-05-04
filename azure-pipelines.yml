@@ -49,6 +49,7 @@ steps:
 - task: ArchiveFiles@2
   displayName: 'Archive files'
   inputs:
+    includeRootFolder: false
     rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/package.zip'
