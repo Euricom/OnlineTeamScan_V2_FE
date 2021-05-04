@@ -33,9 +33,9 @@ steps:
   inputs:
     SourceFolder: '$(System.DefaultWorkingDirectory)/onlineteamscan_v2_fe'
     Contents: |
-      **/.nuxt/**
+      .nuxt/**
       
-      **/static/**
+      static/**
       
       package.json
       
@@ -43,7 +43,7 @@ steps:
 
       web.config
 
-      **/server/**
+      server/**
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - task: ArchiveFiles@2
