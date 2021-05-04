@@ -22,36 +22,16 @@ steps:
   workingDirectory: 'onlineteamscan_v2_fe/'
 
 - script: |
-    NUXT_ENV_STAGE=production & npm run build
+    NUXT_ENV_STAGE=production & npm run generate
   displayName: 'Build'
   workingDirectory: 'onlineteamscan_v2_fe/'
   env:
     API_BASE_URI: $(API_BASE_URI)
 
-- task: CopyFiles@2
-  displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+- task: AzureFileCopy@4
   inputs:
-    SourceFolder: '$(System.DefaultWorkingDirectory)/onlineteamscan_v2_fe'
-    Contents: |
-         dist/**
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
-
-- task: ArchiveFiles@2
-  displayName: 'Archive files'
-  inputs:
-    includeRootFolder: false
-    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/package.zip'
-    replaceExistingArchive: true
-    
-- task: AzureRmWebAppDeployment@4
-  inputs:
-    ConnectionType: 'AzureRM'
-    azureSubscription: 'Visual Studio Enterprise Subscription – MPN(10)(ebf7d75f-9375-42c6-95d8-9916ad4854ac)'
-    appType: 'webApp'
-    WebAppName: 'euricom-stage-teamscan-frontend'
-    deployToSlotOrASE: true
-    ResourceGroupName: 'stage-teamscan'
-    SlotName: 'production'
-    packageForLinux: '$(Build.ArtifactStagingDirectory)/package.zip'
+    SourcePath: 'onlineteamscan_v2_fe/dist/*'
+    azureSubscription: 'Visual Studio Enterprise Subscription – MPN(0249c9fe-9eb6-46ca-9019-eb9d22c21d71)'
+    Destination: 'AzureBlob'
+    storage: 'stageteamscanstorage'
+    ContainerName: '$web'
