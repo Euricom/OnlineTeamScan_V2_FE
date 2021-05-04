@@ -82,6 +82,9 @@ module.exports = {
   },
 
   build: {
+      extractCSS: {
+           ignoreOrder: true
+      }
   },
 
   axios: {
