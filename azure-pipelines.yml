@@ -33,7 +33,17 @@ steps:
   inputs:
     SourceFolder: '$(System.DefaultWorkingDirectory)/onlineteamscan_v2_fe'
     Contents: |
-      **
+      .nuxt/**
+      
+      static/**
+      
+      package.json
+      
+      nuxt.config.js
+
+      web.config
+
+      server/**
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - task: ArchiveFiles@2
