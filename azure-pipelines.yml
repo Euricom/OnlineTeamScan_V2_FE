@@ -40,6 +40,8 @@ steps:
       package.json
       
       nuxt.config.js
+
+      web.config
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - task: ArchiveFiles@2
