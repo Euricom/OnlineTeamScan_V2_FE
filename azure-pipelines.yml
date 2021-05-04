@@ -53,13 +53,6 @@ steps:
     archiveFile: '$(Build.ArtifactStagingDirectory)/package.zip'
     replaceExistingArchive: true
     
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish artifacts: drop'
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/package.zip'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
-
 - task: AzureRmWebAppDeployment@4
   inputs:
     ConnectionType: 'AzureRM'
