@@ -2,9 +2,35 @@
   <div v-if="!isLoading">
     <v-toolbar elevation="0">
       <v-toolbar-title
-        class="font-weight-medium toolbar-title">
+        class="font-weight-medium toolbar-title test">
         {{ this.team.name }}
+        <span class="font-weight-medium sub-toolbar-title">Laatste Teamscan: {{ getTeamLatestTeamscan }}</span>
       </v-toolbar-title>
+      <v-spacer/>
+      <v-btn v-on="on" color="custom-green toolbar-btn" class="custom-static-btn" depressed>
+        <v-icon
+          left
+          color="white">
+          mdi-play
+        </v-icon>
+        <span class="custom-text-btn">Start Teamscan</span>
+      </v-btn>
+      <v-btn v-on="on" color="custom-green toolbar-btn" class="custom-static-btn" depressed>
+        <v-icon
+          left
+          color="white">
+          mdi-pencil
+        </v-icon>
+        <span class="custom-text-btn">Bewerk Team</span>
+      </v-btn>
+      <v-btn v-on="on" color="custom-green toolbar-btn" class="custom-static-btn" depressed>
+        <v-icon
+          left
+          color="white">
+          mdi-delete
+        </v-icon>
+        <span class="custom-text-btn">Verwijder Team</span>
+      </v-btn>
     </v-toolbar>
     <div class="div_position" align="center">
         <v-card>
@@ -24,7 +50,7 @@
                     class="custom-static-btn"
                     v-on="on"
                     depressed>
-                    <span class="new-team-icon">Lid Toevoegen</span>
+                    <span class="custom-text-btn">Lid Toevoegen</span>
                   </v-btn>
                 </template>
                  <v-card>
@@ -139,8 +165,13 @@
 </template>
 
 <script>
+import { globalMixin } from '@/mixins/globalMixin'
+
 export default {
   name: 'TeamDetail',
+  components: [
+    globalMixin,
+  ],
   data() {
     return {
       isLoading: true,
@@ -196,11 +227,15 @@ export default {
   async created() {
     const result = await this.$axios.get(`teams/full/${this.$auth.user.id}/${this.$route.params.id}`)
     this.team = result.data
+    console.log(this.team)
     this.isLoading = false
   },
   computed: {
     getActiveTeamMembers() {
       return this.team.teamMembers ? this.team.teamMembers.filter(teamMember => teamMember.isActive === true) : []
+    },
+    getTeamLatestTeamscan() {
+      return this.team.lastTeamscan ? this.formatDate(this.team.lastTeamscan) : ''
     },
     getInactiveTeamMembers() {
       return this.team.teamMembers ? this.team.teamMembers.filter(teamMember => teamMember.isActive === false) : []
@@ -330,5 +365,9 @@ export default {
 }
 .confirmation-card-title {
   word-break: normal;
+}
+.test {
+  display: flex;
+  flex-direction: column;
 }
 </style>
