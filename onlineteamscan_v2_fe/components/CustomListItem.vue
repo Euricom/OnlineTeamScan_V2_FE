@@ -8,7 +8,7 @@
           <span style="color: #343A40; font-size: 16px;">{{ team.teamMembers.length }}</span>
         </v-col>
         <v-col align="center" cols="12" sm="3" md="3" lg="3">
-          <span style="color: #343A40; font-size: 16px;">{{ team.lastTeamscan !== null ? formatDate  : '-' }}</span>
+          <span style="color: #343A40; font-size: 16px;">{{ team.lastTeamscan !== null ? formatDate(team.lastTeamscan)  : '-' }}</span>
         </v-col>
         <v-col align="center" cols="12" sm="3" md="3" lg="3">
           <span :class="team.isTeamscanActive ? 'activeTeamscan' : 'inactiveTeamscan'" style="font-size: 16px;">{{ team.isTeamscanActive ? 'Actief' : 'Niet Actief' }}</span>
@@ -46,28 +46,20 @@
 </template>
 
 <script>
-
+import { globalMixin } from '@/mixins/globalMixin'
 export default {
   name: "CustomListItem",
+  mixins: [globalMixin],
   props: {
     team: {
       type: Object,
       required: true
     },
   },
-  computed: {
-    formatDate() {
-      let date = new Date(this.team.lastTeamscan)
-      let day = date.getDate().toString().padStart(2,'0')
-      let month = (date.getMonth() + 1).toString().padStart(2,'0')
-      let year = date.getFullYear().toString()
-      return `${day}/${month}/${year}`
-    }
-  },
   methods: {
     redirectTeamDetail() {
       this.$router.push({
-          path: `/teamdetail/${this.team.id}`
+          path: `/teams/${this.team.id}`
       })
     },
     deleteTeam(){

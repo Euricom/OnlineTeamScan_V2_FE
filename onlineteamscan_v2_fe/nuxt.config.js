@@ -69,6 +69,7 @@ module.exports = {
           'custom-green': '#71BF42',
           'custom-red': '#F95656',
           'custom-grey': '#A8A8A8',
+          'custom-title': '#343A40',
           primary: '#71BF42',
           secondary: '#424242',
           accent: '#a1ff69',

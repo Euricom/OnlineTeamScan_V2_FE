@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="!isLoading">
     <v-toolbar elevation="0">
       <v-toolbar-title
         class="font-weight-medium toolbar-title">
@@ -9,10 +9,10 @@
     <div class="div_position" align="center">
         <v-card>
           <v-data-table
-          :headers="headers"
+          :headers="headersTeamMembers"
           :items="sortActive ? getActiveTeamMembers : getInactiveTeamMembers">
             <template v-slot:top>
-              <v-toolbar flat>
+              <v-toolbar flat class="rounded">
                 <v-toolbar-title class="font-weight-medium toolbar-card-title">Leden</v-toolbar-title>
                 <v-switch v-model="sortActive" label="Actief" class="switch-position"/>
                 <v-spacer></v-spacer>
@@ -61,7 +61,7 @@
                      <v-btn color="blue darken-1" text @click="closeDialog">
                        Cancel
                      </v-btn>
-                     <v-btn color="blue darken-1" text @click="save" :disabled="!isFormValid">
+                     <v-btn :loading="loading" color="blue darken-1" text @click="save" :disabled="!isFormValid">
                        Save
                      </v-btn>
                    </v-card-actions>
@@ -80,7 +80,7 @@
                     <v-card-actions>
                       <v-spacer></v-spacer>
                       <v-btn color="blue darkin-1" text @click="closeDialog">Cancel</v-btn>
-                      <v-btn color="blue darkin-1" text @click="confirmDeleteTeamMember">Ok</v-btn>
+                      <v-btn :loading="loading" color="blue darkin-1" text @click="confirmDeleteTeamMember">Ok</v-btn>
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
@@ -106,6 +106,35 @@
           </v-data-table>
         </v-card>
     </div>
+    <div class="div_position" align="center">
+      <v-card>
+        <v-card-title>
+          Teamscans
+        </v-card-title>
+        <v-data-table @click:row="goToTeamscanResult"
+          :sort-by="'title'"
+          :sort-desc="true"
+          :headers="headersTeamscans"
+          :items="team.teamscans"
+        ><template
+          v-for="header in headersTeamscans.filter((header) =>
+                header.hasOwnProperty('formatter')
+              )"
+          v-slot:[`item.${header.value}`]="{ header, value }"
+        >
+          {{ header.formatter(value) }}
+        </template>
+        </v-data-table>
+      </v-card>
+    </div>
+    <v-snackbar v-model="snackbar">
+      {{ snackbarMessage }}
+      <template v-slot:action="{ attrs }">
+        <v-btn text v-bind="attrs" @click="snackbar = false" color="custom-green">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
@@ -114,10 +143,14 @@ export default {
   name: 'TeamDetail',
   data() {
     return {
+      isLoading: true,
+      loading: false,
       team: {},
       dialog: false,
       deleteDialog: false,
       errorMessage: '',
+      snackbarMessage: '',
+      snackbar: false,
       isFormValid: false,
       sortActive: true,
       editedTeamMember: {
@@ -125,7 +158,7 @@ export default {
         firstname: '',
         lastname: '',
         isActive: true,
-        teamId: this.$route.params.teamdetail,
+        teamId: this.$route.params.id,
       },
       selectedEmail: '',
       defaultTeamMember: {
@@ -133,15 +166,21 @@ export default {
         firstname: '',
         lastname: '',
         isActive: true,
-        teamId: this.$route.params.teamdetail,
+        teamId: this.$route.params.id,
       },
       dialogIndex: -1,
-      headers: [
+      headersTeamMembers: [
         { text: 'Naam', align: 'start', value: 'lastname', width: '15%' },
         { text: 'Voornaam', value: 'firstname', width: '15%' },
         { text: 'E-mail', value: 'email', width: '25%'},
         { text: 'Actief', value: 'isactive', sortable: false, width: '15%'},
         { text: 'Acties', value: 'actions', sortable: false, width: '5%'},
+      ],
+      headersTeamscans: [
+        { text: 'Titel', align: 'start', value: 'title', width: '25%' },
+        { text: 'Gestart door', value: 'startedBy', width: '25%', formatter: this.formatName },
+        { text: 'Startdatum', value: 'startDate', width: '25%', formatter: this.formatDate },
+        { text: 'Einddatum', value: 'endDate', width: '25%', align: 'center', formatter: this.formatDate},
       ],
       emailRules: [
         value => !!value || 'Vereist',
@@ -155,8 +194,9 @@ export default {
     }
   },
   async created() {
-    const result = await this.$axios.get(`teams/members/${this.$route.params.teamdetail}`)
+    const result = await this.$axios.get(`teams/full/${this.$auth.user.id}/${this.$route.params.id}`)
     this.team = result.data
+    this.isLoading = false
   },
   computed: {
     getActiveTeamMembers() {
@@ -207,9 +247,11 @@ export default {
       this.deleteDialog = true
     },
     async confirmDeleteTeamMember() {
+      this.loading = true
       await this.$axios.delete(`teammembers/${this.editedTeamMember.id}`)
       this.team.teamMembers.splice(this.dialogIndex, 1)
       this.closeDialog()
+      this.loading = false
     },
     save() {
       if (this.dialogIndex > -1)
@@ -219,6 +261,7 @@ export default {
     },
     async addTeamMember() {
       try {
+        this.loading = true
         const result = await this.$axios.post(`teammembers`, this.editedTeamMember)
         this.team.teamMembers.push(result.data)
         this.closeDialog()
@@ -226,9 +269,11 @@ export default {
       catch(err) {
         this.errorMessage = err.response.data
       }
+      this.loading = false
     },
     async updateTeamMember() {
       try {
+        this.loading = true
         const result = await this.$axios.put(`teammembers`, this.editedTeamMember)
         Object.assign(this.team.teamMembers[this.dialogIndex], result.data)
         this.closeDialog()
@@ -236,7 +281,28 @@ export default {
       catch(err) {
         this.errorMessage = err.response.data
       }
+      this.loading = false
     },
+    formatDate(value) {
+      if (value === null) return '-'
+      let date = new Date(value)
+      let day = date.getDate().toString().padStart(2,'0')
+      let month = (date.getMonth() + 1).toString().padStart(2,'0')
+      let year = date.getFullYear().toString()
+      return `${day}/${month}/${year}`
+    },
+    formatName(value) {
+      return `${value.firstname} ${value.lastname}`
+    },
+    goToTeamscanResult(item){
+      if(item.endDate !== null) {
+        this.$router.push(`/scanresults/${item.id}`)
+      }
+      else {
+        this.snackbarMessage = 'De teamscan is nog niet voltooid'
+        this.snackbar = true
+      }
+    }
   },
 }
 </script>

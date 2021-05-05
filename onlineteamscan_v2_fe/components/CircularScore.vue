@@ -5,8 +5,8 @@
     </h1>
 
   <v-progress-circular
-    size="150"
-    width="20"
+    size="140"
+    width="17"
     rotate="-90"
     :value="calculateProgress"
     :color="item.level.color"
@@ -14,7 +14,7 @@
     {{ item.score }}
   </v-progress-circular>
 
-  <Difference v-if="item.previousScore !== undefined" :previous-score="item.previousScore" :current-score="item.score"/>
+  <Difference v-if="item.previousScore !== undefined && item.previousScore !== item.score" :previous-score="item.previousScore" :current-score="item.score"/>
   </div>
 </template>
 
@@ -49,5 +49,6 @@ export default {
   font-weight: bold;
   margin-top: 15px;
   margin-bottom: 5px;
+
 }
 </style>

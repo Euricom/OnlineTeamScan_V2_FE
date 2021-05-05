@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="!isLoading">
     <v-toolbar elevation="0" extended>
       <v-toolbar-title class="font-weight-medium toolbar-title">{{ getToolbarTitle }}</v-toolbar-title>
       <v-spacer></v-spacer>
@@ -10,7 +10,7 @@
       <template v-slot:extension>
         <div class="sub-toolbar-title-position">
           <h1 class="font-weight-medium sub-toolbar-title">Gestart door: {{ startedByFullname }}</h1>
-          <h1 class="font-weight-medium sub-toolbar-title">Startdatum: {{ formatDate }}</h1>
+          <h1 class="font-weight-medium sub-toolbar-title">Startdatum: {{ getDate }}</h1>
         </div>
       </template>
     </v-toolbar>
@@ -25,8 +25,8 @@
       <ScoreCard :dysfunctions="dysfunctions" :levels="levels" :scores="individualScore"/>
     </v-container>
 
-    <v-fab-transition>
-      <v-btn fab right bottom fixed color="custom-green" v-if="isSmallScreen && this.individualScore.hasAnswered" class="custom-static-btn">
+    <v-fab-transition v-if="isSmallScreen && this.individualScore.hasAnswered">
+      <v-btn fab right bottom fixed color="custom-green" class="custom-static-btn">
         <v-icon color="white">mdi-file-download</v-icon>
       </v-btn>
     </v-fab-transition>
@@ -45,8 +45,10 @@
 <script>
 import QuestionCard from "@/components/QuestionCard";
 import ScoreCard from "@/components/ScoreCard";
+import { globalMixin } from '@/mixins/globalMixin'
 export default {
   name: "Teamscan",
+  mixins: [globalMixin],
   layout: (context) => context.$auth.loggedIn ? 'default' : 'guest',
   components: {
     QuestionCard,
@@ -58,6 +60,7 @@ export default {
   },
   data() {
     return {
+      isLoading: true,
       dysfunctions: [],
       levels: [],
       questions: [],
@@ -78,27 +81,19 @@ export default {
     else {
       await this.getDysfunctionsAndLevels()
     }
-    this.individualScore = score.data
     this.teamscan = score.data.teamscan
+    this.individualScore = score.data
+    this.isLoading = false
   },
   computed: {
     getToolbarTitle() {
       return this.teamscan.team !== undefined ? `${this.teamscan.team.name} - ${this.teamscan.title}` : ''
     },
-    isSmallScreen() {
-      return this.$vuetify.breakpoint.xs || this.$vuetify.breakpoint.sm
-    },
     startedByFullname() {
       return this.teamscan.startedBy !== undefined ? `${this.teamscan.startedBy.firstname} ${this.teamscan.startedBy.lastname}` : ''
     },
-    formatDate() {
-      if (this.teamscan.startDate === undefined) return ''
-
-      let date = new Date(this.teamscan.startDate)
-      let day = date.getDate().toString().padStart(2,'0')
-      let month = (date.getMonth() + 1).toString().padStart(2,'0')
-      let year = date.getFullYear().toString()
-      return `${day}/${month}/${year}`
+    getDate() {
+      return this.teamscan.startDate === undefined ? '' : this.formatDate(this.teamscan.startDate)
     },
     getPreferredLanguage() {
       return this.$auth.loggedIn ? this.$auth.user.preferredLanguageId : this.defaultLanguage

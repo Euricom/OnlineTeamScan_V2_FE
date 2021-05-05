@@ -40,8 +40,11 @@
 
 <script>
 import CircularScore from "@/components/CircularScore";
+import { globalMixin } from '@/mixins/globalMixin'
+import { scoreMixin } from '@/mixins/scoreMixin'
 export default {
   name: 'ScoreCard',
+  mixins: [globalMixin, scoreMixin],
   components: {
     CircularScore
   },
@@ -64,9 +67,6 @@ export default {
     },
   },
   computed: {
-    isSmallScreen() {
-      return this.$vuetify.breakpoint.xs || this.$vuetify.breakpoint.sm
-    },
     getTrust() {
       const level = this.calculateLevel(this.scores.scoreTrust);
       return {
@@ -129,12 +129,12 @@ export default {
     },
   },
   methods: {
-    calculateLevel(score) {
+/*    calculateLevel(score) {
       if (score >= this.levels[0].lowerLimit && score <= this.levels[0].upperLimit) return this.levels[0]
       if (score >= this.levels[1].lowerLimit && score <= this.levels[1].upperLimit) return this.levels[1]
       if (score >= this.levels[2].lowerLimit && score <= this.levels[2].upperLimit) return this.levels[2]
       return this.levels[3]
-    },
+    },*/
   },
 }
 </script>

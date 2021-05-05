@@ -109,12 +109,18 @@ export default {
         "Email": this.email,
         "Password": this.password
       }
-          await this.$auth.loginWith('local', {
-            data: {
-              email: this.email,
-              password: this.password
-            }
-          })
+
+      try {
+        await this.$auth.loginWith('local', {
+          data: {
+            email: this.email,
+            password: this.password
+          }
+        })
+      }
+      catch (error) {
+        this.errorMessage = error.response.data.message
+      }
     }
   }
 }
