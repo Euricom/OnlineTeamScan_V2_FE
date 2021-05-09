@@ -5,7 +5,7 @@
       <v-spacer></v-spacer>
       <v-btn color="custom-green" class="custom-static-btn" depressed v-if="!isSmallScreen && this.individualScore.hasAnswered">
         <v-icon left color="white">mdi-file-download</v-icon>
-        <span class="new-team-icon">Exporteer</span>
+        <span class="custom-text-btn">Exporteer</span>
       </v-btn>
       <template v-slot:extension>
         <div class="sub-toolbar-title-position">
@@ -18,7 +18,7 @@
     <v-container fluid v-if="!this.individualScore.hasAnswered">
       <QuestionCard ref="questionAnswers" v-for="question in questions" :key="question.question.id" :question="question"/>
       <v-btn color="custom-green" class="custom-default-btn final-button" depressed>
-        <span class="new-team-icon" @click="saveTeamscan">Opslaan</span>
+        <span class="custom-text-btn" @click="saveTeamscan">Opslaan</span>
       </v-btn>
     </v-container>
     <v-container class="score-container" fluid v-else>

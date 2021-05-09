@@ -11,12 +11,12 @@
 
       <v-btn color="custom-green" class="custom-static-btn toolbar-btn" depressed @click="redirectToSelectTeamscan()" v-if="!isSmallScreen">
         <v-icon left color="white">mdi-message-text</v-icon>
-        <span class="new-team-icon">Selecteer Teamscan</span>
+        <span class="custom-text-btn">Selecteer Teamscan</span>
       </v-btn>
 
       <v-btn color="custom-green" class="custom-static-btn toolbar-btn" depressed v-if="!isSmallScreen">
         <v-icon left color="white">mdi-file-download</v-icon>
-        <span class="new-team-icon">Exporteer</span>
+        <span class="custom-text-btn">Exporteer</span>
       </v-btn>
     </v-toolbar>
 
@@ -179,9 +179,6 @@ export default {
 .toolbar-title {
   color: #343A40;
   font-size: 24px;
-}
-.toolbar-btn {
-  margin-left: 20px;
 }
 .breadcrumbs {
   color: #A8A8A8;

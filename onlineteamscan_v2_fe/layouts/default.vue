@@ -197,7 +197,17 @@ export default {
 </style>
 
 <style>
-.new-team-icon {
+.sub-toolbar-title {
+  font-size: 16px;
+  color: #A8A8A8
+}
+.sub-toolbar-title-position {
+  margin-bottom: 25px;
+}
+.toolbar-btn {
+  margin-left: 20px;
+}
+.custom-text-btn {
   color: white;
   font-weight: normal;
 }

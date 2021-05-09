@@ -18,7 +18,7 @@
               color="white">
               mdi-account-multiple-plus
             </v-icon>
-            <span class="new-team-icon">Nieuw Team</span>
+            <span class="custom-text-btn">Nieuw Team</span>
           </v-btn>
         </template>
         <v-card>
