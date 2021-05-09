@@ -7,7 +7,7 @@
         <span class="font-weight-medium sub-toolbar-title">Laatste Teamscan: {{ getTeamLatestTeamscan }}</span>
       </v-toolbar-title>
       <v-spacer/>
-      <v-btn v-on="on" color="custom-green toolbar-btn" class="custom-static-btn" depressed>
+      <v-btn color="custom-green toolbar-btn" class="custom-static-btn" depressed>
         <v-icon
           left
           color="white">
@@ -15,7 +15,7 @@
         </v-icon>
         <span class="custom-text-btn">Start Teamscan</span>
       </v-btn>
-      <v-btn v-on="on" color="custom-green toolbar-btn" class="custom-static-btn" depressed>
+      <v-btn color="custom-green toolbar-btn" class="custom-static-btn" depressed>
         <v-icon
           left
           color="white">
@@ -23,14 +23,35 @@
         </v-icon>
         <span class="custom-text-btn">Bewerk Team</span>
       </v-btn>
-      <v-btn v-on="on" color="custom-green toolbar-btn" class="custom-static-btn" depressed>
-        <v-icon
-          left
-          color="white">
-          mdi-delete
-        </v-icon>
-        <span class="custom-text-btn">Verwijder Team</span>
-      </v-btn>
+
+      <v-dialog v-model="deleteTeamDialog" max-width="500px">
+        <template v-slot:activator="{ on }">
+          <v-btn v-on="on" color="custom-green toolbar-btn" class="custom-static-btn" depressed>
+            <v-icon
+              left
+              color="white">
+              mdi-delete
+            </v-icon>
+            <span class="custom-text-btn">Verwijder Team</span>
+          </v-btn>
+        </template>
+        <v-card>
+          <v-card-title>
+          <span class="headline confirmation-card-title">
+            Verwijderen
+          </span>
+          </v-card-title>
+          <v-card-text class="pb-0">
+            Weet u zeker dat u dit team wilt verwijderen?
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darkin-1" text @click="closeDialog">Cancel</v-btn>
+            <v-btn :loading="loading" color="blue darkin-1" text @click="confirmDeleteTeam">Ok</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
     </v-toolbar>
     <div class="div_position" align="center">
         <v-card>
@@ -93,7 +114,7 @@
                    </v-card-actions>
                  </v-card>
                </v-dialog>
-                <v-dialog v-model="deleteDialog" width="unset">
+                <v-dialog v-model="deleteMemberDialog" width="unset">
                   <v-card>
                     <v-card-title>
                       <span class="headline confirmation-card-title">
@@ -178,7 +199,10 @@ export default {
       loading: false,
       team: {},
       dialog: false,
-      deleteDialog: false,
+      deleteMemberDialog: false,
+      deleteTeamDialog: false,
+      editTeamDialog: false,
+      startTeamscanDialog: false,
       errorMessage: '',
       snackbarMessage: '',
       snackbar: false,
@@ -227,7 +251,6 @@ export default {
   async created() {
     const result = await this.$axios.get(`teams/full/${this.$auth.user.id}/${this.$route.params.id}`)
     this.team = result.data
-    console.log(this.team)
     this.isLoading = false
   },
   computed: {
@@ -262,7 +285,8 @@ export default {
     closeDialog() {
       this.$refs.form?.resetValidation();
       this.dialog = false
-      this.deleteDialog = false
+      this.deleteMemberDialog = false
+      this.deleteTeamDialog = false
       this.errorMessage = ''
       this.$nextTick(() => {
         this.editedTeamMember = Object.assign({}, this.defaultTeamMember)
@@ -279,13 +303,32 @@ export default {
     deleteTeamMember(item) {
       this.dialogIndex = this.team.teamMembers.indexOf(item)
       this.editedTeamMember = Object.assign({}, item)
-      this.deleteDialog = true
+      this.deleteMemberDialog = true
     },
     async confirmDeleteTeamMember() {
       this.loading = true
-      await this.$axios.delete(`teammembers/${this.editedTeamMember.id}`)
-      this.team.teamMembers.splice(this.dialogIndex, 1)
+      try{
+        await this.$axios.delete(`teammembers/${this.editedTeamMember.id}`)
+        this.team.teamMembers.splice(this.dialogIndex, 1)
+      }catch (error)
+      {
+        this.snackbarMessage = 'Het teamlid kon niet verwijderd worden, probeer later opnieuw'
+        this.snackbar = true
+      }
       this.closeDialog()
+      this.loading = false
+    },
+    async confirmDeleteTeam() {
+      this.loading = true
+      try{
+        await this.$axios.delete(`teams/${this.team.id}`)
+        this.$router.back()
+      }catch (error)
+      {
+        this.closeDialog()
+        this.snackbarMessage = 'Het team kon niet verwijderd worden, probeer later opnieuw'
+        this.snackbar = true
+      }
       this.loading = false
     },
     save() {
