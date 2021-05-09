@@ -7,14 +7,34 @@
         <span class="font-weight-medium sub-toolbar-title">Laatste Teamscan: {{ getTeamLatestTeamscan }}</span>
       </v-toolbar-title>
       <v-spacer/>
-      <v-btn color="custom-green toolbar-btn" class="custom-static-btn" depressed>
-        <v-icon
-          left
-          color="white">
-          mdi-play
-        </v-icon>
-        <span class="custom-text-btn">Start Teamscan</span>
-      </v-btn>
+
+      <v-dialog v-if="!this.team.isTeamscanActive" v-model="startTeamscanDialog" max-width="500px">
+        <template v-slot:activator="{ on }">
+          <v-btn v-on="on" color="custom-green toolbar-btn" class="custom-static-btn" depressed>
+            <v-icon
+              left
+              color="white">
+              mdi-play
+            </v-icon>
+            <span class="custom-text-btn">Start Teamscan</span>
+          </v-btn>
+        </template>
+        <v-card>
+          <v-card-title>
+          <span class="headline confirmation-card-title">
+            Start Teamscan
+          </span>
+          </v-card-title>
+          <v-card-text class="pb-0">
+            Weet u zeker dat u de teamscan voor dit team wilt starten?
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darkin-1" text @click="closeDialog">Cancel</v-btn>
+            <v-btn :loading="loading" color="blue darkin-1" text @click="startTeamscan">Ok</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
 
       <v-dialog v-if="" v-model="editTeamDialog" max-width="500px">
         <template v-slot:activator="{ on }">
@@ -332,6 +352,7 @@ export default {
       this.dialog = false
       this.deleteMemberDialog = false
       this.deleteTeamDialog = false
+      this.startTeamscanDialog = false
       this.editTeamDialog = false
       this.editTeamName = this.team.name
       this.errorMessage = ''
@@ -393,6 +414,19 @@ export default {
         this.snackbar = true
       }
       this.closeDialog()
+    },
+    async startTeamscan() {
+      try {
+        const result = await this.$axios.post(`teamscans/${this.team.teamleader.id}/${this.team.id}`)
+        this.team = result.data
+        this.snackbarMessage = "Teamscan gestart"
+      }
+      catch(err) {
+        this.errorMessage = err.response.data
+        this.snackbarMessage = "Teamscan kan niet gestart worden"
+      }
+      this.closeDialog()
+      this.snackbar = true
     },
     save() {
       if (this.dialogIndex > -1)
