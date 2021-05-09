@@ -15,14 +15,48 @@
         </v-icon>
         <span class="custom-text-btn">Start Teamscan</span>
       </v-btn>
-      <v-btn color="custom-green toolbar-btn" class="custom-static-btn" depressed>
-        <v-icon
-          left
-          color="white">
-          mdi-pencil
-        </v-icon>
-        <span class="custom-text-btn">Bewerk Team</span>
-      </v-btn>
+
+      <v-dialog v-if="" v-model="editTeamDialog" max-width="500px">
+        <template v-slot:activator="{ on }">
+          <v-btn v-on="on" color="custom-green toolbar-btn" class="custom-static-btn" depressed>
+            <v-icon
+              left
+              color="white">
+              mdi-pencil
+            </v-icon>
+            <span class="custom-text-btn">Bewerk Team</span>
+          </v-btn>
+        </template>
+        <v-card>
+          <v-card-title>
+            <span class="headline">Bewerken</span>
+          </v-card-title>
+          <v-alert
+            text
+            dense
+            type="error"
+            v-if="errorMessage !== ''"
+          >
+            {{ errorMessage }}
+          </v-alert>
+          <v-card-text class="pb-0">
+            <v-container>
+              <v-form v-model="isFormValid" ref="form">
+                <v-text-field v-model="editTeamName" label="Teamnaam" :rules="teamNameRules"/>
+              </v-form>
+            </v-container>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="closeDialog">
+              Cancel
+            </v-btn>
+            <v-btn :loading="loading" color="blue darken-1" text @click="editTeam" :disabled="!isFormValid">
+              Save
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
 
       <v-dialog v-model="deleteTeamDialog" max-width="500px">
         <template v-slot:activator="{ on }">
@@ -190,14 +224,13 @@ import { globalMixin } from '@/mixins/globalMixin'
 
 export default {
   name: 'TeamDetail',
-  components: [
-    globalMixin,
-  ],
+  mixins: [globalMixin],
   data() {
     return {
       isLoading: true,
       loading: false,
       team: {},
+      editTeamName: '',
       dialog: false,
       deleteMemberDialog: false,
       deleteTeamDialog: false,
@@ -246,11 +279,17 @@ export default {
         v => /^[^-\s][ áàíóúéëöüñÄĞİŞȘØøğışÐÝÞðýþa-zA-Z_\s-]*$/.test(v) || 'Moet geldig zijn',
         v => v.length <= 70 || 'Max 70 characters'
       ],
+      teamNameRules: [
+        nameRequired => !!nameRequired || 'Vereist',
+        nameValidCharacters => /^[^-\s][ áàíóúéëöüñÄĞİŞȘØøğışÐÝÞðýþa-zA-Z_\s-]*$/.test(nameValidCharacters) || 'Moet geldig zijn',
+        nameValidLength => nameValidLength.length <= 50 || 'Max 50 characters'
+      ],
     }
   },
   async created() {
     const result = await this.$axios.get(`teams/full/${this.$auth.user.id}/${this.$route.params.id}`)
     this.team = result.data
+    this.editTeamName = this.team.name
     this.isLoading = false
   },
   computed: {
@@ -277,6 +316,12 @@ export default {
     deleteDialog (val) {
       val || this.closeDialog()
     },
+    deleteTeamDialog (val) {
+      val || this.closeDialog()
+    },
+    editTeamDialog (val) {
+      val || this.closeDialog()
+    },
   },
   methods: {
     checkOwner(email) {
@@ -287,6 +332,8 @@ export default {
       this.dialog = false
       this.deleteMemberDialog = false
       this.deleteTeamDialog = false
+      this.editTeamDialog = false
+      this.editTeamName = this.team.name
       this.errorMessage = ''
       this.$nextTick(() => {
         this.editedTeamMember = Object.assign({}, this.defaultTeamMember)
@@ -331,6 +378,22 @@ export default {
       }
       this.loading = false
     },
+    async editTeam() {
+      try{
+        let updatedTeam = {
+          'id': this.team.id,
+          'name': this.editTeamName,
+          'lastTeamscan': this.team.lastTeamscan,
+          'isTeamscanActive': this.team.isTeamscanActive
+        }
+        await this.$axios.put(`teams`, updatedTeam)
+        this.team.name = this. editTeamName
+      }catch (error) {
+        this.snackbarMessage = 'De naam van het team kon niet gewijzigd worden, probeer later opnieuw'
+        this.snackbar = true
+      }
+      this.closeDialog()
+    },
     save() {
       if (this.dialogIndex > -1)
         this.updateTeamMember()
@@ -360,14 +423,6 @@ export default {
         this.errorMessage = err.response.data
       }
       this.loading = false
-    },
-    formatDate(value) {
-      if (value === null) return '-'
-      let date = new Date(value)
-      let day = date.getDate().toString().padStart(2,'0')
-      let month = (date.getMonth() + 1).toString().padStart(2,'0')
-      let year = date.getFullYear().toString()
-      return `${day}/${month}/${year}`
     },
     formatName(value) {
       return `${value.firstname} ${value.lastname}`
