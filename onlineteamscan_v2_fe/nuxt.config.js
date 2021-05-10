@@ -1,13 +1,9 @@
 import colors from 'vuetify/es5/util/colors'
 import {defaults} from "@nuxtjs/vuetify/dist/options";
 
-const BASE_URL = 'http://localhost:49783'
-
-export default {
-  // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
+module.exports = {
+  target: 'static',
   ssr: false,
-
-  // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s',
     title: 'Online Team Scan',
@@ -24,25 +20,19 @@ export default {
     ]
   },
 
-  // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
   ],
 
-  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '@/plugins/vue-html2pdf', mode: 'client' }
   ],
 
-  // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
-  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
-    // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
   ],
 
-  // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxtjs/axios',
     '@nuxtjs/auth-next'
@@ -69,7 +59,6 @@ export default {
       },
     }
   },
-  // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
@@ -94,12 +83,13 @@ export default {
     }
   },
 
-  // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+      extractCSS: {
+           ignoreOrder: true
+      }
   },
 
   axios: {
-      baseURL: `${BASE_URL}/api/`,
+      baseURL: `${process.env.NUXT_ENV_API_BASE_URI}`,
   },
-
 }
