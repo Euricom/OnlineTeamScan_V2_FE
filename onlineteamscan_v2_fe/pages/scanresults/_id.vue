@@ -55,7 +55,15 @@
         </v-col>
         <v-col cols="12" md="7" class="second-column">
           <v-card class="progress-card">
+            <v-container class="progress-container">
             <v-card-title>Vooruitgang</v-card-title>
+              <v-card height="100% ">
+                <v-tabs>
+                  <v-tab>Piramide</v-tab>
+                  <v-tab>Grafiek</v-tab>
+                </v-tabs>
+              </v-card>
+            </v-container>
           </v-card>
         </v-col>
       </v-row>
@@ -179,6 +187,11 @@ export default {
 .toolbar-title {
   color: #343A40;
   font-size: 24px;
+}
+.progress-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 .breadcrumbs {
   color: #A8A8A8;
