@@ -9,7 +9,7 @@
     <v-icon :color="icons[1].color" small v-else>
       {{ icons[1].icon }}
     </v-icon>
-    <span style="color: #5A677A; font-weight: bold; font-size: 12px; margin-right: 25px" v-if="this.calculateScore < 0 || this.calculateScore > 0">
+    <span class="difference-text" v-if="this.calculateScore < 0 || this.calculateScore > 0">
       {{ Math.abs(calculateScore) }}
     </span>
   </div>
@@ -53,14 +53,15 @@ export default {
     calculateScore() {
       return (this.currentScore - this.previousScore).toFixed(1);
     },
-    calculateIcon() {
-      if (this.calculateScore < 0)
-        return this.icons[0]
-      else if(this.calculateScore > 0)
-        return this.icons[2]
-      else
-        return this.icons[1]
-    },
   }
 }
 </script>
+
+<style scoped>
+.difference-text {
+  color: #5A677A;
+  font-weight: bold;
+  font-size: 12px;
+  margin-right: 25px
+}
+</style>

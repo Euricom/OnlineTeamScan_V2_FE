@@ -24,6 +24,7 @@ module.exports = {
   ],
 
   plugins: [
+    { src: '@/plugins/vue-html2pdf', mode: 'client' }
   ],
 
   components: true,

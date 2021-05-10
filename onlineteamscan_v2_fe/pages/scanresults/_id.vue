@@ -14,7 +14,7 @@
         <span class="custom-text-btn">Selecteer Teamscan</span>
       </v-btn>
 
-      <v-btn color="custom-green" class="custom-static-btn toolbar-btn" depressed v-if="!isSmallScreen">
+      <v-btn color="custom-green" class="custom-static-btn toolbar-btn" depressed v-if="!isSmallScreen" @click="generatePDF">
         <v-icon left color="white">mdi-file-download</v-icon>
         <span class="custom-text-btn">Exporteer</span>
       </v-btn>
@@ -31,16 +31,15 @@
               <v-carousel :show-arrows="false" height="100%" hide-delimiter-background light>
                 <v-carousel-item v-for="(interpretation, index) in interpretations" :key="index">
                     <v-container fluid class="fill-height">
-                      <v-row align="center" justify="center">
-                        <v-col cols="4" v-if="!isExtraSmallScreen">
-                        </v-col>
-                        <v-col cols="12" sm="8" align="start">
+                      <div class="interpretation-wrapper">
+                        <InterpretationPyramid v-if="!isExtraSmallScreen" class="interpretation-pyramid" :dysfunction-id="interpretation.interpretation.dysfunctionId" :color="getColor(interpretation.interpretation.levelId)" :is-small-pyramid="false"/>
+                        <div class="interpretation-dysfunction-wrapper">
                           <h1 class="interpretation-dysfunction-title">
                             {{ getInterpretationDysfunctionTitle(interpretation.interpretation.dysfunctionId) }}
                           </h1>
                           <span v-text="interpretation.text" class="interpretation-dysfunction-text"/>
-                        </v-col>
-                      </v-row>
+                        </div>
+                      </div>
                     </v-container>
                 </v-carousel-item>
               </v-carousel>
@@ -130,15 +129,33 @@
     </v-container>
 
     <v-fab-transition v-if="isSmallScreen">
-      <v-btn fab right bottom fixed color="custom-green" class="custom-static-btn">
+      <v-btn fab right bottom fixed color="custom-green" class="custom-static-btn" @click="generatePDF">
         <v-icon color="white">mdi-file-download</v-icon>
       </v-btn>
     </v-fab-transition>
 
+    <vue-html2pdf
+      :show-layout="false"
+      :float-layout="true"
+      :enable-download="true"
+      :preview-modal="false"
+      :filename="this.teamscan.team.name + ' - ' + this.teamscan.title"
+      :pdf-quality="2"
+      :manual-pagination="true"
+      pdf-format="a4"
+      pdf-orientation="portrait"
+
+      ref="html2Pdf">
+      <section slot="pdf-content">
+        <ScanresultPDF :teamscan="teamscan" :previous-teamscan="previousTeamscan" :dysfunctions="dysfunctions" :levels="levels" :interpretations="interpretations"/>
+      </section>
+    </vue-html2pdf>
   </div>
 </template>
 
 <script>
+import InterpretationPyramid from "@/components/pyramids/InterpretationPyramid";
+import ScanresultPDF from "@/components/pdf/ScanresultPDF";
 import ScoreCard from "@/components/ScoreCard";
 import { globalMixin } from '@/mixins/globalMixin'
 import { scoreMixin } from '@/mixins/scoreMixin'
@@ -149,6 +166,8 @@ export default {
   mixins: [globalMixin, scoreMixin],
   components: {
     ScoreCard,
+    ScanresultPDF,
+    InterpretationPyramid,
     LineChart
   },
   data() {
@@ -284,9 +303,9 @@ export default {
     getRecommendationsByDysfunction(dysfunctionId) {
       return this.recommendations.filter(recommendation => recommendation.recommendation.dysfunctionId === dysfunctionId)
     },
-    getInterpretationDysfunctionTitle(prop) {
-      return this.dysfunctions[prop - 1].name
-    }
+    generatePDF() {
+      this.$refs.html2Pdf.generatePdf()
+    },
   },
 }
 </script>
@@ -322,17 +341,6 @@ export default {
 .interpretation-card-title {
   position: absolute;
   z-index: 1;
-}
-.interpretation-dysfunction-title {
-  font-size: 0.9375em;
-  text-align: start;
-  margin-bottom: 2px;
-  padding-left: 6px;
-}
-.interpretation-dysfunction-text {
-  font-size: 0.8750em;
-  display: block;
-  padding-left: 6px;
 }
 .first-row {
   height: 29vh;

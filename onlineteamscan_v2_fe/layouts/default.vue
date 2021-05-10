@@ -233,4 +233,29 @@ export default {
   color: white;
   background-color: #71BF42;
 }
+.interpretation-dysfunction-title {
+  font-size: 0.9375em;
+  margin-bottom: 2px;
+  padding-left: 6px;
+  text-align: left;
+}
+.interpretation-dysfunction-text {
+  font-size: 0.8750em;
+  text-align: left;
+  padding-left: 6px;
+}
+.interpretation-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+}
+.interpretation-pyramid {
+  flex-shrink: 0;
+}
+.interpretation-dysfunction-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 0;
+}
 </style>
