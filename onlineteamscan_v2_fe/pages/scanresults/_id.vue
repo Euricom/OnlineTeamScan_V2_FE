@@ -56,7 +56,7 @@
           <v-card class="progress-card">
             <v-container class="progress-container">
             <v-card-title>Vooruitgang</v-card-title>
-              <v-card height="100% ">
+              <v-card height="100%">
                 <v-tabs v-model="tab">
                   <v-tab @click="test2">Piramide</v-tab>
                   <v-tab @click="test">Grafiek</v-tab>
@@ -70,15 +70,12 @@
                     </v-container>
                   </v-tab-item>
                   <v-tab-item>
-                    <v-container>
                       <line-chart
-                                   :chartTitles="chartTitles"
-                                   :chartData="chartData"
-                                   :options="chartOptions"/>
-                    </v-container>
+                         :chartTitles="chartTitles"
+                         :chartData="chartData"
+                         :options="chartOptions"/>
                   </v-tab-item>
                 </v-tabs-items>
-
               </v-card>
             </v-container>
           </v-card>
