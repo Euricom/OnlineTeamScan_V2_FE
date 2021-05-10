@@ -57,8 +57,8 @@
             <v-card-title>Vooruitgang</v-card-title>
               <v-card height="100%">
                 <v-tabs v-model="tab">
-                  <v-tab @click="test2">Piramide</v-tab>
-                  <v-tab @click="test">Grafiek</v-tab>
+                  <v-tab>Piramide</v-tab>
+                  <v-tab>Grafiek</v-tab>
                 </v-tabs>
                 <v-tabs-items v-model="tab">
                   <v-tab-item>
