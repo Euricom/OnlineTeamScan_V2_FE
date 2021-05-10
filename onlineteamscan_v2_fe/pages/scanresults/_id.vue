@@ -33,7 +33,6 @@
                     <v-container fluid class="fill-height">
                       <v-row align="center" justify="center">
                         <v-col cols="4" v-if="!isExtraSmallScreen">
-
                         </v-col>
                         <v-col cols="12" sm="8" align="start">
                           <h1 class="interpretation-dysfunction-title">
@@ -58,10 +57,28 @@
             <v-container class="progress-container">
             <v-card-title>Vooruitgang</v-card-title>
               <v-card height="100% ">
-                <v-tabs>
-                  <v-tab>Piramide</v-tab>
-                  <v-tab>Grafiek</v-tab>
+                <v-tabs v-model="tab">
+                  <v-tab @click="test2">Piramide</v-tab>
+                  <v-tab @click="test">Grafiek</v-tab>
                 </v-tabs>
+                <v-tabs-items v-model="tab">
+                  <v-tab-item>
+                    <v-container>
+                      <h1>
+                        PYRAMIDE
+                      </h1>
+                    </v-container>
+                  </v-tab-item>
+                  <v-tab-item>
+                    <v-container>
+                      <line-chart
+                                   :chartTitles="chartTitles"
+                                   :chartData="chartData"
+                                   :options="chartOptions"/>
+                    </v-container>
+                  </v-tab-item>
+                </v-tabs-items>
+
               </v-card>
             </v-container>
           </v-card>
@@ -128,11 +145,14 @@
 import ScoreCard from "@/components/ScoreCard";
 import { globalMixin } from '@/mixins/globalMixin'
 import { scoreMixin } from '@/mixins/scoreMixin'
+import LineChart from "../../components/LineChart";
+
 export default {
   name: "Scanresults",
   mixins: [globalMixin, scoreMixin],
   components: {
     ScoreCard,
+    LineChart
   },
   data() {
     return {
@@ -144,6 +164,24 @@ export default {
       levels: [],
       recommendations: [],
       interpretations: [],
+      tab: null,
+
+      chartData: [],
+      chartTitles: [],
+      chartOptions: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          yAxes: [{
+            display: true,
+            ticks: {
+              min: 1,
+              max: 5,
+              stepSize: 1
+            }
+          }]
+        }
+      },
     }
   },
   async created() {
@@ -160,6 +198,9 @@ export default {
     this.dysfunctions = dysfunctions.data
     this.recommendations = recommendations.data
     this.interpretations = interpretations.data
+
+    await this.createChart()
+
     this.isLoading = false
   },
   computed: {
@@ -168,6 +209,76 @@ export default {
     },
   },
   methods: {
+    async createChart() {
+      let arrScoreTrust = []
+      let arrScoreConflict = []
+      let arrScoreCommitment = []
+      let arrScoreAccountability = []
+      let arrScoreResults = []
+
+      const listTeamscans = await this.$axios.get(`teamscans/team/${this.teamscan.team.id}`)
+
+      listTeamscans.data.forEach(teamscan => {
+        const title = teamscan.title
+        const {
+          scoreTrust,
+          scoreConflict,
+          scoreCommitment,
+          scoreAccountability,
+          scoreResults
+        } = teamscan;
+
+        this.chartTitles.push(title)
+        arrScoreTrust.push(scoreTrust)
+        arrScoreConflict.push(scoreConflict)
+        arrScoreCommitment.push(scoreCommitment)
+        arrScoreAccountability.push(scoreAccountability)
+        arrScoreResults.push(scoreResults)
+      })
+
+      this.chartData = [
+        {
+          label: this.dysfunctions[0].name,
+          data: arrScoreTrust,
+          fill: false,
+          borderColor: '#4DC9F6',
+          pointBorderColor: '#4DC9F6',
+          pointBackgroundColor: '#4DC9F6',
+        },
+        {
+          label: this.dysfunctions[1].name,
+          data: arrScoreConflict,
+          fill: false,
+          borderColor: '#F67019',
+          pointBorderColor: '#F67019',
+          pointBackgroundColor: '#F67019',
+        },
+        {
+          label: this.dysfunctions[2].name,
+          data: arrScoreCommitment,
+          fill: false,
+          borderColor: '#F53794',
+          pointBorderColor: '#F53794',
+          pointBackgroundColor: '#F53794',
+        },
+        {
+          label: this.dysfunctions[3].name,
+          data: arrScoreAccountability,
+          fill: false,
+          borderColor: '#537BC4',
+          pointBorderColor: '#537BC4',
+          pointBackgroundColor: '#537BC4',
+        },
+        {
+          label: this.dysfunctions[4].name,
+          data: arrScoreResults,
+          fill: false,
+          borderColor: '#00A950',
+          pointBorderColor: '#00A950',
+          pointBackgroundColor: '#00A950',
+        }
+      ]
+    },
     redirectToSelectTeamscan() {
       this.$router.push({
         path: `/scanresults`
