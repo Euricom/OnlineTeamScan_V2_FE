@@ -69,11 +69,11 @@
               <div class="box high-score"/>
               <span>Hoog (4 & Hoger)</span>
             </div>
-            <div class="score-legend-section">
+            <div class="score-legend-section mt-2">
               <div class="box medium-score"/>
               <span>Gemiddeld (3 - 3.99)</span>
             </div>
-            <div class="score-legend-section">
+            <div class="score-legend-section mt-2">
               <div class="box low-score"/>
               <span>Laag (Minder dan 3)</span>
             </div>
