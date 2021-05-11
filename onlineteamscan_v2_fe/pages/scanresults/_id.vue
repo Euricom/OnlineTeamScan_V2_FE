@@ -57,24 +57,23 @@
             <v-card-title>Vooruitgang</v-card-title>
               <v-card height="100%">
                 <v-tabs v-model="tab">
-                  <v-tab @click="test2">Piramide</v-tab>
-                  <v-tab @click="test">Grafiek</v-tab>
+                  <v-tab>Piramide</v-tab>
+                  <v-tab>Grafiek</v-tab>
                 </v-tabs>
-                <v-tabs-items v-model="tab">
-                  <v-tab-item>
-                    <v-container>
-                      <h1>
-                        PYRAMIDE
-                      </h1>
+                <div v-model="tab">
+                  <div style="height: 100%">
+                    <v-container v-if="tab === 0">
+                      <progression-pyramid
+                      :previous-teamscan="previousTeamscan"
+                      :current-teamscan="teamscan"
+                      :levels="levels"/>
                     </v-container>
-                  </v-tab-item>
-                  <v-tab-item>
-                      <line-chart
-                         :chartTitles="chartTitles"
-                         :chartData="chartData"
-                         :options="chartOptions"/>
-                  </v-tab-item>
-                </v-tabs-items>
+                    <line-chart v-if="tab === 1"
+                       :chartTitles="chartTitles"
+                       :chartData="chartData"
+                       :options="chartOptions"/>
+                  </div>
+                </div>
               </v-card>
             </v-container>
           </v-card>
@@ -160,6 +159,7 @@ import ScoreCard from "@/components/ScoreCard";
 import { globalMixin } from '@/mixins/globalMixin'
 import { scoreMixin } from '@/mixins/scoreMixin'
 import LineChart from "../../components/LineChart";
+import ProgressionPyramid from "../../components/pyramids/ProgressionPyramid";
 
 export default {
   name: "Scanresults",
@@ -168,6 +168,7 @@ export default {
     ScoreCard,
     ScanresultPDF,
     InterpretationPyramid,
+    ProgressionPyramid,
     LineChart
   },
   data() {
