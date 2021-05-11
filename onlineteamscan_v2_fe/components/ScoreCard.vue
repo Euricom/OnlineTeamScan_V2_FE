@@ -25,13 +25,13 @@
     <v-container fluid>
       <v-layout>
         <v-flex><CircularScore :item="getTrust"/></v-flex>
-        <v-divider vertical class="divider"/>
+        <v-divider vertical class="divider" v-if="showDividers"/>
         <v-flex><CircularScore :item="getConflict"/></v-flex>
-        <v-divider vertical class="divider"/>
+        <v-divider vertical class="divider" v-if="showDividers"/>
         <v-flex><CircularScore :item="getCommitment"/></v-flex>
-        <v-divider vertical class="divider"/>
+        <v-divider vertical class="divider" v-if="showDividers"/>
         <v-flex><CircularScore :item="getAccountability"/></v-flex>
-        <v-divider vertical class="divider"/>
+        <v-divider vertical class="divider" v-if="showDividers"/>
         <v-flex><CircularScore :item="getResults"/></v-flex>
       </v-layout>
     </v-container>
@@ -64,6 +64,10 @@ export default {
     previousTeamscan: {
       type: Object,
       required: false,
+    },
+    showDividers: {
+      type: Boolean,
+      default: true,
     },
   },
   computed: {
@@ -127,14 +131,6 @@ export default {
         },
       };
     },
-  },
-  methods: {
-/*    calculateLevel(score) {
-      if (score >= this.levels[0].lowerLimit && score <= this.levels[0].upperLimit) return this.levels[0]
-      if (score >= this.levels[1].lowerLimit && score <= this.levels[1].upperLimit) return this.levels[1]
-      if (score >= this.levels[2].lowerLimit && score <= this.levels[2].upperLimit) return this.levels[2]
-      return this.levels[3]
-    },*/
   },
 }
 </script>
