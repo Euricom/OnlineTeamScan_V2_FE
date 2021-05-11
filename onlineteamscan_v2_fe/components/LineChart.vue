@@ -19,7 +19,6 @@ export default {
     }
   },
   mounted () {
-
     this.renderChart({
       labels: this.chartTitles,
       datasets: this.chartData

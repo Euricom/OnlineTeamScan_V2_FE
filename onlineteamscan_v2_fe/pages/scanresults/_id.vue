@@ -64,7 +64,7 @@
                   <v-tab-item>
                     <v-container>
                       <h1>
-                        PYRAMIDE
+                        PIRAMIDE
                       </h1>
                     </v-container>
                   </v-tab-item>
