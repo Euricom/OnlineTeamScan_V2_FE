@@ -1,11 +1,11 @@
 <template>
-  <div class="mainwrapper">
+  <div>
     <v-row>
       <v-col cols="3"/>
       <v-col cols="6">
         <v-row>
           <svg version="1.1" id="Pyramid" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-               viewBox="0 0 468.6 398.9" style="enable-background:new 0 0 468.6 398.9;" xml:space="preserve">
+               viewBox="0 0 468.6 398.9" style="enable-background:new 0 0 468.6 398.9; max-height: 375px" xml:space="preserve">
             <style type="text/css">
               .st0{fill:#E2E5E5;}
             </style>
@@ -143,23 +143,6 @@ export default {
 </script>
 
 <style scoped>
-
-.mainwrapper{
- /* display: grid;
-  grid-template-areas:
-    'dysfunction-legend pyramid score-legend'
-    'dysfunction-legend pyramid score-legend'
-    'dysfunction-legend info-teamscan score-legend';*/
-}
-.pyramid {
-  /*grid-area: pyramid;
-  display: flex;
-  justify-content: center;*/
-}
-.dysfunction-legend {
-  /*grid-area: dysfunction-legend;
-  background-color: green;*/
-}
 .score-legend-wrapper{
   display: flex;
   justify-content: center;
@@ -172,13 +155,6 @@ export default {
   display: flex;
   flex-direction: row;
 }
-.info-teamscan {
-  /*grid-area: info-teamscan;*/
-  /*display: grid;*/
-  /*grid-template-areas:*/
-  /*  'info-previous-teamscan info-current-teamscan';*/
-  /*margin-top: 10px;*/
-}
 .info-previous-teamscan {
   display: flex;
   flex-direction: column;
@@ -188,9 +164,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-.teamscan-date {
-
 }
 .box {
   width: 20px;
