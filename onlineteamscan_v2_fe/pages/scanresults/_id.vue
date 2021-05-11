@@ -45,9 +45,31 @@
               </v-carousel>
             </v-card>
           </v-row>
-          <v-row no-gutters class="second-row">
+          <v-row no-gutters :class="!isExtraSmallScreen ? 'second-row' : null">
             <v-card width="100%" align="center" class="individual-results-card">
               <v-card-title>Individuele Resultaten</v-card-title>
+
+                <v-data-table
+                  :footer-props="{ disableItemsPerPage: true, itemsPerPageOptions: [3] }"
+                  :items-per-page="3"
+                  :headers="headersIndividualResults"
+                  :items="individualScores">
+                  <template v-slot:item.actions="{ item }">
+                    <v-icon class="mr-2" @click="viewIndividualScore(item)">
+                      mdi-eye
+                    </v-icon>
+                  </template>
+                </v-data-table>
+
+                <v-dialog v-model="individualScoreDialog" width="75vw">
+                  <v-card>
+                    <v-card-title class="dialog-card-title">{{ getFullNameOfIndividualScore }}</v-card-title>
+                    <v-card-text>
+                      <ScoreCard style="box-shadow: none;" class="dialog-score-card" :dysfunctions="this.dysfunctions" :levels="this.levels" :scores="this.selectedIndividualScore" :show-dividers="false"/>
+                    </v-card-text>
+                  </v-card>
+                </v-dialog>
+
             </v-card>
           </v-row>
         </v-col>
@@ -177,12 +199,19 @@ export default {
       isLoading: true,
       teamscan: {},
       previousTeamscan: {},
+      individualScores: [],
       dysfunctions: [],
       levels: [],
       recommendations: [],
       interpretations: [],
       tab: null,
-
+      headersIndividualResults: [
+        { text: 'Naam', value: 'teamMember.lastname', align: 'start', width: '42.5%' },
+        { text: 'Voornaam', value: 'teamMember.firstname', width: '42.5%' },
+        { text: 'Acties', value: 'actions', sortable: false, width: '15%'},
+      ],
+      individualScoreDialog: false,
+      selectedIndividualScore: {},
       chartData: [],
       chartTitles: [],
       chartOptions: {
@@ -204,6 +233,7 @@ export default {
   async created() {
     const teamscan = await this.$axios.get(`teamscans/finished/${this.$auth.user.id}/${this.$route.params.id}`)
     const previousTeamscan = await this.$axios.get(`teamscans/previous/${this.$auth.user.id}/${this.$route.params.id}`)
+    const individualScores = await this.$axios.get(`individualscores/members/${this.$route.params.id}`)
     const levels = await this.$axios.get(`levels`)
     const dysfunctions = await this.$axios.get(`dysfunctiontranslations/language/${this.$auth.user.preferredLanguageId}`)
     const recommendations = await this.$axios.get(`recommendationtranslations/${2}`)
@@ -211,6 +241,7 @@ export default {
 
     this.teamscan = teamscan.data
     this.previousTeamscan = previousTeamscan.data
+    this.individualScores = individualScores.data
     this.levels = levels.data
     this.dysfunctions = dysfunctions.data
     this.recommendations = recommendations.data
@@ -224,6 +255,10 @@ export default {
     getBreadcrumbs() {
       return [{ text: this.teamscan.team.name }, { text: this.teamscan.title }]
     },
+    getFullNameOfIndividualScore()
+    {
+      return this.selectedIndividualScore.teamMember?.firstname + ' ' + this.selectedIndividualScore.teamMember?.lastname
+    }
   },
   methods: {
     async createChart() {
@@ -307,6 +342,10 @@ export default {
     generatePDF() {
       this.$refs.html2Pdf.generatePdf()
     },
+    viewIndividualScore(item) {
+      this.selectedIndividualScore = item
+      this.individualScoreDialog = true
+    },
   },
 }
 </script>
@@ -344,10 +383,10 @@ export default {
   z-index: 1;
 }
 .first-row {
-  height: 29vh;
+  height: 28vh;
 }
 .second-row {
-  height: 29vh;
+  height: 32vh;
 }
 .first-column {
   padding-right: 7px;
@@ -356,7 +395,7 @@ export default {
   padding-left: 10px;
 }
 .progress-card {
-  height: 58vh;
+  height: 60vh;
 }
 .expansion-panel-position {
   padding-top: 0;
@@ -370,5 +409,11 @@ export default {
 }
 .expansion-header {
   font-size: 16px;
+}
+.dialog-score-card {
+  width: 100%;
+}
+.dialog-card-title {
+  font-size: 24px;
 }
 </style>

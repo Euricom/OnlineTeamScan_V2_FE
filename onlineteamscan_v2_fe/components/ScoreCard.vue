@@ -25,13 +25,13 @@
     <v-container fluid>
       <v-layout>
         <v-flex><CircularScore :item="getTrust"/></v-flex>
-        <v-divider vertical class="divider"/>
+        <v-divider vertical class="divider" v-if="showDividers"/>
         <v-flex><CircularScore :item="getConflict"/></v-flex>
-        <v-divider vertical class="divider"/>
+        <v-divider vertical class="divider" v-if="showDividers"/>
         <v-flex><CircularScore :item="getCommitment"/></v-flex>
-        <v-divider vertical class="divider"/>
+        <v-divider vertical class="divider" v-if="showDividers"/>
         <v-flex><CircularScore :item="getAccountability"/></v-flex>
-        <v-divider vertical class="divider"/>
+        <v-divider vertical class="divider" v-if="showDividers"/>
         <v-flex><CircularScore :item="getResults"/></v-flex>
       </v-layout>
     </v-container>
@@ -64,6 +64,10 @@ export default {
     previousTeamscan: {
       type: Object,
       required: false,
+    },
+    showDividers: {
+      type: Boolean,
+      default: true,
     },
   },
   computed: {
