@@ -5,7 +5,7 @@
       <v-col cols="6">
         <v-row>
           <svg version="1.1" id="Pyramid" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-               viewBox="0 0 468.6 398.9" style="enable-background:new 0 0 468.6 398.9; width: 100%; height: 100%" xml:space="preserve">
+               viewBox="0 0 468.6 398.9" style="enable-background:new 0 0 468.6 398.9; max-height: 375px" xml:space="preserve">
             <style type="text/css">
               .st0{fill:#E2E5E5;}
             </style>
