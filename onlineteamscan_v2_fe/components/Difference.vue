@@ -3,10 +3,7 @@
     <v-icon :color="icons[0].color" v-if="this.calculateScore < 0">
       {{ icons[0].icon }}
     </v-icon>
-    <v-icon :color="icons[2].color" v-else-if="this.calculateScore > 0">
-      {{ icons[2].icon }}
-    </v-icon>
-    <v-icon :color="icons[1].color" small v-else>
+    <v-icon :color="icons[1].color" v-else-if="this.calculateScore > 0">
       {{ icons[1].icon }}
     </v-icon>
     <span class="difference-text" v-if="this.calculateScore < 0 || this.calculateScore > 0">
@@ -37,10 +34,6 @@ export default {
         {
           "icon": "mdi-menu-down",
           "color": "#F95656",
-        },
-        {
-          "icon": "mdi-minus",
-          "color": "#5A677A",
         },
         {
           "icon": "mdi-menu-up",
