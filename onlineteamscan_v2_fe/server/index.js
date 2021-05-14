@@ -9,3 +9,5 @@ async function start () {
 }
 
 start()
+
+// REV: needed when Nuxt is Static rendered

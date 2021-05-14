@@ -223,7 +223,7 @@ export default {
     },
     async confirmDeleteTeam() {
       this.loading = true
-      await this.$axios.delete(`teams/${this.editedTeam.id}`)
+      await this.$axios.delete(`teams/${this.editedTeam.id}`) // REV: error handling could be added
       this.teams.splice(this.dialogIndex, 1)
       this.originalTeams.splice(this.originalIndex, 1)
       this.closeDialog()

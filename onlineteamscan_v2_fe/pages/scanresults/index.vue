@@ -34,8 +34,7 @@ export default {
     }
   },
   async created() {
-    const teams = await this.$axios.get(`teams/user/${this.$auth.user.id}`)
-    this.teams = teams.data
+    this.teams = await this.$axios.$get(`teams/user/${this.$auth.user.id}`) // REV: Axios $ shortcuts
   },
   computed: {
     disableValidation() {
@@ -45,8 +44,7 @@ export default {
   methods: {
     async getTeamscansByTeam() {
       this.selectedTeamscan = Object;
-      const teamscans = await this.$axios.get(`teamscans/team/${this.selectedTeam.id}`)
-      this.teamscans = teamscans.data
+      this.teamscans = await this.$axios.get(`teamscans/team/${this.selectedTeam.id}`).data // REV: Or get data one the same line
     },
     selectTeamscan() {
       this.$router.push({

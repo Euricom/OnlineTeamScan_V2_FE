@@ -1,6 +1,4 @@
-import colors from 'vuetify/es5/util/colors'
-import {defaults} from "@nuxtjs/vuetify/dist/options";
-
+// REV: Small code clean up - linter (ESLint) could be usefull
 module.exports = {
   target: 'static',
   ssr: false,
@@ -37,6 +35,7 @@ module.exports = {
     '@nuxtjs/axios',
     '@nuxtjs/auth-next'
   ],
+
   //Auth settings
   auth: {
     redirect: {
@@ -59,6 +58,7 @@ module.exports = {
       },
     }
   },
+
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
@@ -84,12 +84,12 @@ module.exports = {
   },
 
   build: {
-      extractCSS: {
-           ignoreOrder: true
-      }
+    extractCSS: {
+      ignoreOrder: true
+    }
   },
 
   axios: {
-      baseURL: `${process.env.NUXT_ENV_API_BASE_URI}`,
-  },
+    baseURL: 'https://euricom-stage-teamscan-api.azurewebsites.net/api/'
+  }
 }

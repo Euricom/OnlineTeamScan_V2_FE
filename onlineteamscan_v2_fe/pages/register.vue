@@ -11,7 +11,8 @@
           <v-card-title class="justify-center py-0" style="font-size: 32px">Online Team Scan</v-card-title>
         </v-col>
       </v-row>
-      <v-row v-if="errorMessage != ''">
+      <v-row v-if="errorMessage !== ''">
+        <!-- REV: tripple operator for comparisons are stricter -->
         <v-col>
           <v-alert
             text
@@ -33,7 +34,8 @@
             required
             filled
             label="Voornaam"
-          ></v-text-field>
+         />
+         <!-- REV: Closing tag can be written shorter when there is no content -->
         </v-col>
       </v-row>
       <v-row>
@@ -110,7 +112,7 @@
 <script>
 
 export default {
-  name: "register.vue",
+  name: "register.vue", // REV: Name should be PascalCase and no need for the extention here
   layout: 'auth',
   data(){
     return{
@@ -147,10 +149,11 @@ export default {
   methods: {
     async register() {
       const user = {
-        "Email": this.email,
-        "Firstname": this.firstname,
-        "Lastname": this.lastname,
-        "Password": this.password
+        Email: this.email,
+        Firstname: this.firstname,
+        Lastname: this.lastname,
+        Password: this.password
+        // REV: Unnecessarily qoutes + conistent style with capital or not
       }
       try {
         await this.$axios.post('authenticate/register', user)
@@ -176,12 +179,10 @@ export default {
 #custom-disabled.v-btn--disabled {
   background-color: rgba(205, 205, 205, 1) !important;
 }
-</style>
-
-  <style scoped>
-  input:-webkit-autofill{
-    -webkit-background-clip: text;
-  }
+/* REV: Double style tag */
+input:-webkit-autofill{
+  -webkit-background-clip: text;
+}
 input:-webkit-autofill:hover{
   -webkit-background-clip: text;
 }

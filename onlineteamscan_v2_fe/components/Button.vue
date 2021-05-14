@@ -16,7 +16,10 @@ export default {
   components: {
   },
   props: {
-    text: '',
+    text: { // REV: recommend that prop type is a constructor
+      type: String,
+      default: ''
+    },
     icon: '',
     disabled: {
       required: false,
