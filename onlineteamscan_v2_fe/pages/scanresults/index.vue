@@ -5,16 +5,17 @@
             Selecteer een teamscan
           </v-card-title>
           <v-card-text>
-            <v-row align="center">
+            <v-row align="center" v-if="this.teams.length !== 0">
               <v-col cols="6">
-                <v-select label="Team" :items="teams" v-model="selectedTeam" item-text="name" :return-object="true" @input="getTeamscansByTeam()"/>
+                <v-select no-data-text="Geen teams gevonden" label="Team" :items="teams" v-model="selectedTeam" item-text="name" :return-object="true" @input="getTeamscansByTeam()"/>
               </v-col>
               <v-col cols="6">
-                <v-select label="Teamscan" :items="teamscans" v-model="selectedTeamscan" item-text="title" :return-object="true"/>
+                <v-select no-data-text="Geen teamscans gevonden" label="Teamscan" :items="teamscans" v-model="selectedTeamscan" item-text="title" :return-object="true"/>
               </v-col>
             </v-row>
+              <span v-else>Geen teams gevonden. Maak eerst een team aan.</span>
           </v-card-text>
-          <v-card-actions>
+          <v-card-actions v-if="this.teams.length !== 0">
             <v-spacer></v-spacer>
             <v-btn text color="primary" :disabled="disableValidation" @click="selectTeamscan()">Selecteren</v-btn>
           </v-card-actions>
