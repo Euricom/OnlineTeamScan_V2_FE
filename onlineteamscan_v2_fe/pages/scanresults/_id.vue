@@ -85,11 +85,15 @@
                 <div v-model="tab">
                   <div style="height: 100%">
                     <v-container v-if="tab === 0">
-                      <progression-pyramid
+<!--                      <progression-pyramid
                       :previous-teamscan="previousTeamscan"
                       :current-teamscan="teamscan"
+                      :levels="levels"/>-->
+                      <TestPyramid
+                      :pyramid-data="pyramidData"
                       :levels="levels"/>
                     </v-container>
+
                     <line-chart v-if="tab === 1"
                        :chartTitles="chartTitles"
                        :chartData="chartData"
@@ -182,6 +186,7 @@ import { globalMixin } from '@/mixins/globalMixin'
 import { scoreMixin } from '@/mixins/scoreMixin'
 import LineChart from "../../components/LineChart";
 import ProgressionPyramid from "../../components/pyramids/ProgressionPyramid";
+import TestPyramid from "../../components/pyramids/TestPyramid";
 
 export default {
   name: "Scanresults",
@@ -191,7 +196,8 @@ export default {
     ScanresultPDF,
     InterpretationPyramid,
     ProgressionPyramid,
-    LineChart
+    LineChart,
+    TestPyramid
   },
   data() {
     return {
@@ -204,6 +210,7 @@ export default {
       levels: [],
       recommendations: [],
       interpretations: [],
+      pyramidData: null,
       tab: null,
       headersIndividualResults: [
         { text: 'Naam', value: 'teamMember.lastname', align: 'start', width: '42.5%' },
@@ -246,6 +253,10 @@ export default {
     this.dysfunctions = dysfunctions.data
     this.recommendations = recommendations.data
     this.interpretations = interpretations.data
+    this.pyramidData = {
+      "previousTeamscan": this.previousTeamscan,
+      "currentTeamscan": this.currentTeamscan
+    }
 
     await this.createChart()
 
