@@ -90,6 +90,7 @@
                       :current-teamscan="teamscan"
                       :levels="levels"/>
                     </v-container>
+
                     <line-chart v-if="tab === 1"
                        :chartTitles="chartTitles"
                        :chartData="chartData"
@@ -204,6 +205,7 @@ export default {
       levels: [],
       recommendations: [],
       interpretations: [],
+      pyramidData: null,
       tab: null,
       headersIndividualResults: [
         { text: 'Naam', value: 'teamMember.lastname', align: 'start', width: '42.5%' },
@@ -246,6 +248,10 @@ export default {
     this.dysfunctions = dysfunctions.data
     this.recommendations = recommendations.data
     this.interpretations = interpretations.data
+    this.pyramidData = {
+      "previousTeamscan": this.previousTeamscan,
+      "currentTeamscan": this.currentTeamscan
+    }
 
     await this.createChart()
 
