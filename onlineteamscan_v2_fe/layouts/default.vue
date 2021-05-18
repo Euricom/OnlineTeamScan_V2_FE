@@ -39,11 +39,6 @@
       class="custom-primary top-nav-bar">
       <v-app-bar-nav-icon color="#FFFFFF" @click.stop="drawer = !drawer" />
       <v-spacer />
-      <v-btn icon class="notification-icon">
-        <v-badge overlap color="custom-green" dot :value="false">
-          <v-icon color="#FFFFFF">mdi-bell</v-icon>
-        </v-badge>
-      </v-btn>
       <span v-if="this.$auth.loggedIn" class="text">{{ $auth.user.firstname }} {{ $auth.user.lastname }}</span>
       <v-menu
         transition="slide-y-transition"
