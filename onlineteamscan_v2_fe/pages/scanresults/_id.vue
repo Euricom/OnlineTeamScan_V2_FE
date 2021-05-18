@@ -85,12 +85,9 @@
                 <div v-model="tab">
                   <div style="height: 100%">
                     <v-container v-if="tab === 0">
-<!--                      <progression-pyramid
+                      <progression-pyramid
                       :previous-teamscan="previousTeamscan"
                       :current-teamscan="teamscan"
-                      :levels="levels"/>-->
-                      <TestPyramid
-                      :pyramid-data="pyramidData"
                       :levels="levels"/>
                     </v-container>
 
