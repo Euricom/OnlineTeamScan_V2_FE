@@ -183,7 +183,6 @@ import { globalMixin } from '@/mixins/globalMixin'
 import { scoreMixin } from '@/mixins/scoreMixin'
 import LineChart from "../../components/LineChart";
 import ProgressionPyramid from "../../components/pyramids/ProgressionPyramid";
-import TestPyramid from "../../components/pyramids/TestPyramid";
 
 export default {
   name: "Scanresults",
@@ -193,8 +192,7 @@ export default {
     ScanresultPDF,
     InterpretationPyramid,
     ProgressionPyramid,
-    LineChart,
-    TestPyramid
+    LineChart
   },
   data() {
     return {
