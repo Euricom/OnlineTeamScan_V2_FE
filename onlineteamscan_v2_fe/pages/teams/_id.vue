@@ -37,6 +37,7 @@
       </v-dialog>
 
       <v-dialog v-if="" v-model="editTeamDialog" max-width="500px">
+        <!-- REV: Empty v-if? -->
         <template v-slot:activator="{ on }">
           <v-btn v-on="on" color="custom-green toolbar-btn" class="custom-static-btn" depressed>
             <v-icon

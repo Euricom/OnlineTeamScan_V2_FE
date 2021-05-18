@@ -44,7 +44,7 @@
                         <path class="st0" d="M238.2,90.7"/>
               </g>
                       <g id="Results_1_">
-                <polygon ref="resultsCurrent"v-if=""  class="st0" points="238.2,0 291,90.7 238.5,90.7 		"/>
+                <polygon ref="resultsCurrent" class="st0" points="238.2,0 291,90.7 238.5,90.7 		"/>
               </g>
             </g>
             </svg>

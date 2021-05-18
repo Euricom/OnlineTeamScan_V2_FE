@@ -7,8 +7,8 @@ export const scoreMixin = {
       return this.levels[3]
     },
     calculateLevelColor(score) {
-      let level = this.calculateLevel(score)
-      return level.color
+      const level = this.calculateLevel(score) // REV: Level is never reassigned, could also be one liner to return
+      return level.color // REV: ex. return this.calculateLevel(score).color
     },
     getColor(levelId) {
       let result = this.levels.find(obj => {

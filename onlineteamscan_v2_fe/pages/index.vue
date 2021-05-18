@@ -6,10 +6,4 @@
   </v-row>
 </template>
 
-<script>
-export default {
-  components: {
-
-  }
-}
-</script>
+<!-- REV: Not needed -->

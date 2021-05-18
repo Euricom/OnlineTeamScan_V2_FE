@@ -82,20 +82,22 @@
                   <v-tab>Piramide</v-tab>
                   <v-tab>Grafiek</v-tab>
                 </v-tabs>
-                <div v-model="tab">
-                  <div style="height: 100%">
-                    <v-container v-if="tab === 0">
-                      <progression-pyramid
+                <v-container v-model="tab" fill-height class="d-flex align-center" >
+                  <v-container v-if="tab === 0">
+                    <progression-pyramid
                       :previous-teamscan="previousTeamscan"
                       :current-teamscan="teamscan"
-                      :levels="levels"/>
-                    </v-container>
-                    <line-chart v-if="tab === 1"
-                       :chartTitles="chartTitles"
-                       :chartData="chartData"
-                       :options="chartOptions"/>
-                  </div>
-                </div>
+                      :levels="levels"
+                    />
+                  </v-container>
+                  <v-container v-if="tab === 1">
+                    <line-chart
+                      :chartTitles="chartTitles"
+                      :chartData="chartData"
+                      :options="chartOptions"
+                    />
+                  </v-container>
+                </v-container>
               </v-card>
             </v-container>
           </v-card>
