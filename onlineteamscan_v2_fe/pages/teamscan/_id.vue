@@ -3,7 +3,7 @@
     <v-toolbar elevation="0" extended>
       <v-toolbar-title class="font-weight-medium toolbar-title">{{ getToolbarTitle }}</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn color="custom-green" class="custom-static-btn" depressed v-if="!isSmallScreen && this.individualScore.hasAnswered">
+      <v-btn color="custom-green" class="custom-static-btn" depressed v-if="!isSmallScreen && this.individualScore.hasAnswered" @click="generatePDF">
         <v-icon left color="white">mdi-file-download</v-icon>
         <span class="custom-text-btn">Exporteer</span>
       </v-btn>
@@ -26,7 +26,7 @@
     </v-container>
 
     <v-fab-transition v-if="isSmallScreen && this.individualScore.hasAnswered">
-      <v-btn fab right bottom fixed color="custom-green" class="custom-static-btn">
+      <v-btn fab right bottom fixed color="custom-green" class="custom-static-btn" @click="generatePDF">
         <v-icon color="white">mdi-file-download</v-icon>
       </v-btn>
     </v-fab-transition>
@@ -39,6 +39,24 @@
         </v-btn>
       </template>
     </v-snackbar>
+
+      <vue-html2pdf
+      :show-layout="false"
+      :float-layout="true"
+      :enable-download="true"
+      :preview-modal="false"
+      :filename="this.teamscan.team.name + ' - ' + this.teamscan.title"
+      :pdf-quality="2"
+      :manual-pagination="true"
+      pdf-format="a4"
+      pdf-orientation="portrait"
+
+      ref="html2Pdf">
+      <section slot="pdf-content">
+        <ScanresultPDF :teamscan="teamscan" :dysfunctions="dysfunctions" :levels="levels"/>
+      </section>
+    </vue-html2pdf>
+
   </div>
 </template>
 
@@ -46,6 +64,7 @@
 import QuestionCard from "@/components/QuestionCard";
 import ScoreCard from "@/components/ScoreCard";
 import { globalMixin } from '@/mixins/globalMixin'
+import ScanresultPDF from "@/components/pdf/ScanresultPDF";
 export default {
   name: "Teamscan",
   mixins: [globalMixin],
@@ -53,6 +72,7 @@ export default {
   components: {
     QuestionCard,
     ScoreCard,
+    ScanresultPDF,
   },
   validate({ params }) {
     const guidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
@@ -128,6 +148,9 @@ export default {
       const levels = await this.$axios.get(`levels`)
       this.dysfunctions = dysfunctions.data
       this.levels = levels.data
+    },
+    generatePDF() {
+      this.$refs.html2Pdf.generatePdf()
     },
   },
 }

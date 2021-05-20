@@ -4,8 +4,8 @@
       <v-col cols="3"/>
       <v-col cols="6">
         <v-row>
-          <svg version="1.1" id="Pyramid" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-               viewBox="0 0 468.6 398.9" style="enable-background:new 0 0 468.6 398.9; max-height: 375px" xml:space="preserve">
+          <svg version="1.1" id="Pyramid" class="pyramid" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+               viewBox="0 0 468.6 398.9" style="enable-background:new 0 0 468.6 398.9;" xml:space="preserve">
             <style type="text/css">
               .st0{fill:#E2E5E5;}
             </style>
@@ -67,15 +67,15 @@
           <div class="score-legend">
             <div class="score-legend-section">
               <div class="box high-score"/>
-              <span>Hoog (4 & Hoger)</span>
+              <span>Hoog (>= 3.75)</span>
             </div>
             <div class="score-legend-section mt-2">
               <div class="box medium-score"/>
-              <span>Gemiddeld (3 - 3.99)</span>
+              <span>Gemiddeld (3.25 - 3.74)</span>
             </div>
             <div class="score-legend-section mt-2">
               <div class="box low-score"/>
-              <span>Laag (Minder dan 3)</span>
+              <span>Laag (<= 3.24)</span>
             </div>
           </div>
         </div>
@@ -178,5 +178,10 @@ export default {
 }
 .low-score{
   background-color: #F95656;
+}
+@media only screen and (max-width: 2000px) {
+  .pyramid {
+    width: 400px;
+  }
 }
 </style>

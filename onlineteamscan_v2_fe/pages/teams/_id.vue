@@ -110,6 +110,7 @@
     <div class="div_position" align="center">
         <v-card>
           <v-data-table
+           no-data-text="Geen teamleden gevonden"
           :headers="headersTeamMembers"
           :items="sortActive ? getActiveTeamMembers : getInactiveTeamMembers">
             <template v-slot:top>
@@ -213,6 +214,7 @@
           Teamscans
         </v-card-title>
         <v-data-table @click:row="goToTeamscanResult"
+           no-data-text="Geen teamscans gevonden"
           :sort-by="'title'"
           :sort-desc="true"
           :headers="headersTeamscans"

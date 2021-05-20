@@ -11,24 +11,24 @@
     </div>
 
     <div class="circles">
-      <CircularScorePDF :scores="returnCurrentAndPreviousScore(this.teamscan.scoreTrust, this.previousTeamscan.scoreTrust)"
+      <CircularScorePDF :scores="returnScoreTrusts"
                         :color="calculateLevelColor(this.teamscan.scoreTrust)"
                         :title="this.dysfunctions[0].name"/>
-      <CircularScorePDF :scores="returnCurrentAndPreviousScore(this.teamscan.scoreConflict, this.previousTeamscan.scoreConflict)"
+      <CircularScorePDF :scores="returnScoreConflicts"
                         :color="calculateLevelColor(this.teamscan.scoreConflict)"
                         :title="this.dysfunctions[1].name"/>
-      <CircularScorePDF :scores="returnCurrentAndPreviousScore(this.teamscan.scoreCommitment, this.previousTeamscan.scoreCommitment)"
+      <CircularScorePDF :scores="returnScoreCommitments"
                         :color="calculateLevelColor(this.teamscan.scoreCommitment)"
                         :title="this.dysfunctions[2].name"/>
-      <CircularScorePDF :scores="returnCurrentAndPreviousScore(this.teamscan.scoreAccountability, this.previousTeamscan.scoreAccountability)"
+      <CircularScorePDF :scores="returnScoreAccountabilities"
                         :color="calculateLevelColor(this.teamscan.scoreAccountability)"
                         :title="this.dysfunctions[3].name"/>
-      <CircularScorePDF :scores="returnCurrentAndPreviousScore(this.teamscan.scoreResults, this.previousTeamscan.scoreResults)"
+      <CircularScorePDF :scores="returnScoreResults"
                         :color="calculateLevelColor(this.teamscan.scoreResults)"
                         :title="this.dysfunctions[4].name"/>
     </div>
 
-    <div class="interpretation-wrapper interpretation-space" v-for="(interpretation, index) in interpretations" :key="index">
+    <div v-if="interpretations.length" class="interpretation-wrapper interpretation-space" v-for="(interpretation, index) in interpretations" :key="index">
       <InterpretationPyramid class="interpretation-pyramid interpretation-pyramid-position" :dysfunction-id="interpretation.interpretation.dysfunctionId" :color="getColor(interpretation.interpretation.levelId)" :is-small-pyramid="true"/>
       <div class="interpretation-dysfunction-wrapper">
         <h1 class="interpretation-dysfunction-title">
@@ -58,7 +58,7 @@ export default {
     },
     previousTeamscan: {
       type: Object,
-      required: true,
+      required: false,
     },
     dysfunctions: {
       type: Array,
@@ -70,16 +70,40 @@ export default {
     },
     interpretations: {
       type: Array,
-      required: true,
+      required: false,
     }
   },
-  methods : {
-    returnCurrentAndPreviousScore(currentScore, previousScore) {
+  computed: {
+    returnScoreTrusts() {
       return {
-        'currentScore': currentScore,
-        'previousScore': previousScore,
+        'currentScore': this.teamscan.scoreTrust,
+        'previousScore': this.previousScore?.scoreTrust,
       }
-    }
+    },
+    returnScoreConflicts() {
+      return {
+        'currentScore': this.teamscan.scoreConflict,
+        'previousScore': this.previousScore?.scoreConflict,
+      }
+    },
+    returnScoreCommitments() {
+      return {
+        'currentScore': this.teamscan.scoreCommitment,
+        'previousScore': this.previousScore?.scoreCommitment,
+      }
+    },
+    returnScoreAccountabilities() {
+      return {
+        'currentScore': this.teamscan.scoreAccountability,
+        'previousScore': this.previousScore?.scoreAccountability,
+      }
+    },
+    returnScoreResults() {
+      return {
+        'currentScore': this.teamscan.scoreResults,
+        'previousScore': this.previousScore?.scoreResults,
+      }
+    },
   },
 }
 </script>
