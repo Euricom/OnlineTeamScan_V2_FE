@@ -63,12 +63,20 @@ export default {
           video: "/Guides/GuideStartTeamscan.mp4"
         },
         {
+          title: "Hoe vul ik de bevragingen in?",
+          video: "/Guides/GuideFillInTeamscan.mp4"
+        },
+        {
           title: "Hoe selecteer ik het resultaat van een teamscan?",
           video: "/Guides/GuideSelectTeamscanResult.mp4"
         },
         {
           title: "Wat is het resultaat van een teamscan?",
           video: "/Guides/GuideResultTeamscan.mp4"
+        },
+        {
+          title: "Hoe exporteer ik her resultaat van een teamscan?",
+          video: "/Guides/GuideExportTeamscan.mp4"
         },
       ]
     }
