@@ -12,19 +12,19 @@
 
     <div class="circles">
       <CircularScorePDF :scores="returnScoreTrusts"
-                        :color="calculateLevelColor(this.teamscan.scoreTrust)"
+                        :color="this.calculateLevelColor(this.teamscan.scoreTrust)"
                         :title="this.dysfunctions[0].name"/>
       <CircularScorePDF :scores="returnScoreConflicts"
-                        :color="calculateLevelColor(this.teamscan.scoreConflict)"
+                        :color="this.calculateLevelColor(this.teamscan.scoreConflict)"
                         :title="this.dysfunctions[1].name"/>
       <CircularScorePDF :scores="returnScoreCommitments"
-                        :color="calculateLevelColor(this.teamscan.scoreCommitment)"
+                        :color="this.calculateLevelColor(this.teamscan.scoreCommitment)"
                         :title="this.dysfunctions[2].name"/>
       <CircularScorePDF :scores="returnScoreAccountabilities"
-                        :color="calculateLevelColor(this.teamscan.scoreAccountability)"
+                        :color="this.calculateLevelColor(this.teamscan.scoreAccountability)"
                         :title="this.dysfunctions[3].name"/>
       <CircularScorePDF :scores="returnScoreResults"
-                        :color="calculateLevelColor(this.teamscan.scoreResults)"
+                        :color="this.calculateLevelColor(this.teamscan.scoreResults)"
                         :title="this.dysfunctions[4].name"/>
     </div>
 
