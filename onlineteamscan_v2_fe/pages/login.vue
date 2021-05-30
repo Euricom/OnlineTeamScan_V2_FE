@@ -73,6 +73,9 @@
           </v-col>
         </v-row>
       </v-card>
+      <v-btn fab right bottom fixed color="custom-green" class="custom-static-btn" @click="navigateHelp">
+        <v-icon color="white">mdi-help</v-icon>
+      </v-btn>
     </v-container>
 </template>
 
@@ -121,6 +124,9 @@ export default {
       catch (error) {
         this.errorMessage = error.response.data.message
       }
+    },
+    navigateHelp(){
+      this.$router.push({path: 'help'})
     }
   }
 }
