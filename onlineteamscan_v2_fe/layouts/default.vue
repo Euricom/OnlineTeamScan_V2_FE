@@ -62,6 +62,10 @@
              <v-icon dense class="menu-item-icon">mdi-web</v-icon>
              <v-list-item-title>Taal</v-list-item-title>
           </v-list-item>
+          <v-list-item @click="help">
+            <v-icon dense class="menu-item-icon">mdi-help</v-icon>
+            <v-list-item-title>Help</v-list-item-title>
+          </v-list-item>
           <v-list-item @click="logout">
             <v-icon dense class="menu-item-icon">mdi-logout</v-icon>
             <v-list-item-title>Uitloggen</v-list-item-title>
@@ -114,6 +118,10 @@ export default {
           icon: "mdi-web",
         },
         {
+          title: "Help",
+          icon: "mdi-help",
+        },
+        {
           title: "Logout",
           icon: "mdi-logout",
         },
@@ -128,6 +136,10 @@ export default {
     logout()
     {
       this.$auth.logout()
+    },
+    help()
+    {
+      this.$router.push('/help')
     }
   },
 }
