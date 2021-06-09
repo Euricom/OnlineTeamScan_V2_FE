@@ -25,7 +25,16 @@
         </template>
       </v-expansion-panel-header>
       <v-expansion-panel-content>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        <v-card>
+          <v-card-title>
+            Leden
+          </v-card-title>
+          <v-data-table
+            no-data-text="Geen teamleden gevonden"
+            :headers="headersTeammembers"
+            :items="this.nonAnsweredTeamscanMembers">
+          </v-data-table>
+        </v-card>
       </v-expansion-panel-content>
     </v-expansion-panel>
     </v-expansion-panels>
@@ -49,7 +58,13 @@ export default {
       teamscanMembers: [],
       nonAnsweredTeamscanMembers: [],
       hasAnsweredTeamscanMembers: [],
-      progress: ''
+      progress: '',
+      headersTeammembers: [
+        { text: 'Naam', align: 'start', value: 'teamMember.firstname', width: '30%'},
+        { text: 'Voornaam', value: 'teamMember.lastname', width: '30%'},
+        { text: 'Status', value: 'hasAnswered', width: '30%'},
+        { text: 'Acties', value: '', width: '15%', align: 'center'},
+      ],
     }
   },
   computed: {
@@ -62,12 +77,12 @@ export default {
   async created() {
     this.teamscanMembers = (await this.$axios.get(`individualscores/members/${this.team.teamscans.lastItem.id}`)).data
     this.nonAnsweredTeamscanMembers = [...this.teamscanMembers].filter(teamscanmember => teamscanmember.hasAnswered === false)
-    this.nonAnsweredTeamscanMembers = [...this.teamscanMembers].filter(teamscanmember => teamscanmember.hasAnswered === true)
-    this.progress = this.calculatePercentage(this.nonAnsweredTeamscanMembers.length, this.teamscanMembers.length)
+    this.hasAnsweredTeamscanMembers = [...this.teamscanMembers].filter(teamscanmember => teamscanmember.hasAnswered === true)
+    this.progress = this.calculatePercentage(this.hasAnsweredTeamscanMembers.length, this.teamscanMembers.length)
   },
   methods: {
     calculatePercentage(amount, totalAmount) {
-      return (amount/totalAmount)*100
+      return Math.round((amount/totalAmount)*100)
     }
   }
 }
