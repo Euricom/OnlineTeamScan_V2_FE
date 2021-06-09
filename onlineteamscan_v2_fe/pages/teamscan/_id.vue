@@ -41,6 +41,7 @@
     </v-snackbar>
 
       <vue-html2pdf
+        v-if="this.individualScore.hasAnswered"
       :show-layout="false"
       :float-layout="true"
       :enable-download="true"

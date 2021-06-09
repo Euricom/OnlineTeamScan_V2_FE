@@ -50,7 +50,7 @@ export default {
     }
   },
   async created() {
-    const teams = await this.$axios.get(`teams/active/${this.$auth.user.id}`)
+    const teams = await this.$axios.get(`teams/teamscans/${this.$auth.user.id}`)
 
     this.teams = teams.data
     this.originalTeams = [...this.teams]
