@@ -17,7 +17,7 @@
 
     <v-container fluid v-if="!this.individualScore.hasAnswered">
       <QuestionCard ref="questionAnswers" v-for="question in questions" :key="question.question.id" :question="question"/>
-      <v-btn color="custom-green" class="custom-default-btn final-button" depressed>
+      <v-btn :loading="loading" color="custom-green" class="custom-default-btn final-button" depressed>
         <span class="custom-text-btn" @click="saveTeamscan">Opslaan</span>
       </v-btn>
     </v-container>
@@ -54,7 +54,7 @@
 
       ref="html2Pdf">
       <section slot="pdf-content">
-        <ScanresultPDF :teamscan="teamscan" :dysfunctions="dysfunctions" :levels="levels"/>
+        <ScanresultPDF :teamscan="updatedTeamscan" :dysfunctions="dysfunctions" :levels="levels"/>
       </section>
     </vue-html2pdf>
 
@@ -82,6 +82,7 @@ export default {
   data() {
     return {
       isLoading: true,
+      loading: false,
       dysfunctions: [],
       levels: [],
       questions: [],
@@ -119,9 +120,18 @@ export default {
     getPreferredLanguage() {
       return this.$auth.loggedIn ? this.$auth.user.preferredLanguageId : this.defaultLanguage
     },
+    updatedTeamscan(){
+      this.teamscan.scoreTrust = this.individualScore.scoreTrust
+      this.teamscan.scoreConflict = this.individualScore.scoreConflict
+      this.teamscan.scoreCommitment = this.individualScore.scoreCommitment
+      this.teamscan.scoreAccountability = this.individualScore.scoreAccountability
+      this.teamscan.scoreResults = this.individualScore.scoreResults
+      return this.teamscan
+    }
   },
   methods: {
     async saveTeamscan() {
+      this.loading = true
       const answers = this.$refs.questionAnswers.map(x => x.returnAnswer())
 
       try {
@@ -143,6 +153,7 @@ export default {
         this.snackbar = true
         this.errorMessage = err.response !== undefined ? err.response.data : err
       }
+      this.loading = false
     },
     async getDysfunctionsAndLevels() {
       const dysfunctions = await this.$axios.get(`dysfunctiontranslations/language/${this.getPreferredLanguage}`)
