@@ -2,13 +2,12 @@
   <div v-if="!isLoading">
     <v-toolbar elevation="0">
       <v-toolbar-title class="font-weight-medium toolbar-title">Scanresultaten</v-toolbar-title>
-      <v-spacer/>
       <v-breadcrumbs :items="getBreadcrumbs" class="breadcrumbs" v-if="!isSmallScreen">
         <template v-slot:divider>
           <v-icon color="#A8A8A8">mdi-chevron-right</v-icon>
         </template>
       </v-breadcrumbs>
-
+      <v-spacer/>
       <v-btn color="custom-green" class="custom-static-btn toolbar-btn" depressed @click="redirectToSelectTeamscan()" v-if="!isSmallScreen">
         <v-icon left color="white">mdi-message-text</v-icon>
         <span class="custom-text-btn">Selecteer Teamscan</span>

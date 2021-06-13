@@ -33,30 +33,31 @@
             no-data-text="Geen teamleden gevonden"
             :headers="headersTeammembers"
             :hide-default-footer="true"
-            :items="this.teamscanMembers">
+            :items="this.teamscanMembers"
+            :sort-by="['hasAnswered', 'teamMember.lastname']">
             <template v-slot:item.hasAnswered="{ item }">
                 <p v-if="item.hasAnswered === false" class="nonAnswered mb-0">Onbeantwoord</p>
                 <p v-else class="answered mb-0">Beantwoord</p>
             </template>
             <template v-slot:item.teamMember.email="{ item }">
               <div v-if="item.hasAnswered === false">
-                <v-icon class="v-icon-style" v-if="item.teamMember.email !== $auth.user.email">
+                <v-icon class="v-icon-style" @click="remindTeamscan(item.id)" v-if="item.teamMember.email !== $auth.user.email">
                   mdi-bell-ring
                 </v-icon>
-                <v-icon class="v-icon-style" @click="" v-else>
+                <v-icon class="v-icon-style" @click="navigateTeamscanSurvey(item.id)" v-else>
                   mdi-pencil
                 </v-icon>
               </div>
             </template>
           </v-data-table>
         </v-card>
-        <v-btn v-if="progress === 100" color="custom-green" class="custom-static-btn button-detail mt-4" @click="" depressed>
+        <v-btn v-if="progress === 100" color="custom-green" class="custom-static-btn button-detail mt-4" @click="navigateDetail" depressed>
           <v-icon
             left
             color="white">
-            mdi-account-multiple-plus
+            mdi-information
           </v-icon>
-          <span class="custom-text-btn">Nieuw Team</span>
+          <span class="custom-text-btn">Naar Details</span>
         </v-btn>
       </v-expansion-panel-content>
     </v-expansion-panel>
@@ -83,17 +84,17 @@ export default {
       hasAnsweredTeamscanMembers: [],
       progress: '',
       headersTeammembers: [
-        { text: 'Naam', align: 'start', value: 'teamMember.firstname', width: '30%'},
-        { text: 'Voornaam', value: 'teamMember.lastname', width: '20%'},
+        { text: 'Naam', align: 'start', value: 'teamMember.lastname', width: '30%'},
+        { text: 'Voornaam', value: 'teamMember.firstname', width: '20%'},
         { text: 'Status', value: 'hasAnswered', width: '35%', align: 'center', sortable: false},
-        { text: 'Acties', value: 'teamMember.email', width: '15%', align: 'center', sortable: false},
+        { text: 'Acties', value: 'teamMember.email', width: '15%', align: 'center'},
       ],
     }
   },
   computed: {
     getProgressColor() {
       if (this.progress === 100) return "#93EB5F"
-      if (this.progress === 0) return "#F95656"
+      if (this.progress <= 25) return "#F95656"
       return "#FFD54A"
     },
   },
@@ -110,6 +111,14 @@ export default {
       this.$router.push({
         path: `/scanresults/${this.team.teamscans.lastItem.id}`
       })
+    },
+    navigateTeamscanSurvey(prop) {
+      this.$router.push({
+        path: `/teamscan/${prop}`
+      })
+    },
+    async remindTeamscan(prop) {
+      await this.$axios.post(`teamscans/remind/${prop}`)
     }
   }
 }
