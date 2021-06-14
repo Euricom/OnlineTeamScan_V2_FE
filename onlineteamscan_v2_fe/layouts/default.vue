@@ -58,10 +58,6 @@
         </template>
 
         <v-list>
-          <v-list-item>
-             <v-icon dense class="menu-item-icon">mdi-web</v-icon>
-             <v-list-item-title>Taal</v-list-item-title>
-          </v-list-item>
           <v-list-item @click="help">
             <v-icon dense class="menu-item-icon">mdi-help</v-icon>
             <v-list-item-title>Help</v-list-item-title>

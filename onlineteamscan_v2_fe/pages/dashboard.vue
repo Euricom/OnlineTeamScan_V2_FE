@@ -25,7 +25,15 @@
       </div>
     </div>
     <div v-else>
-      <h1>TEST</h1>
+      <v-container class="empty-teams-container">
+        <v-row justify="center">
+          <img src="../static/EmptyIcon.svg" class="empty-teams-img">
+        </v-row>
+        <v-row justify="center">
+
+          <span class="font-weight-medium not-found-header">Geen teams gevonden</span>
+        </v-row>
+      </v-container>
     </div>
   </div>
 </template>
@@ -58,6 +66,16 @@ export default {
 
 <style>
 .sort-header {
+  color: #919191;
+  font-size: 16px;
+}
+.empty-teams-container {
+  margin-top: 200px;
+}
+.empty-teams-img {
+  width: 150px;
+}
+.not-found-header {
   color: #919191;
   font-size: 16px;
 }
