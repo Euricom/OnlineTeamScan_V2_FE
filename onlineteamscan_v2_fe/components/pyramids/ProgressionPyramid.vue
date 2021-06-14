@@ -3,7 +3,7 @@
     <v-row>
       <v-col cols="3"/>
       <v-col cols="6">
-        <v-row>
+        <v-row class="pyramid-row">
           <svg version="1.1" id="Pyramid" class="pyramid" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                viewBox="0 0 468.6 398.9" style="enable-background:new 0 0 468.6 398.9;" xml:space="preserve">
             <style type="text/css">
@@ -178,6 +178,9 @@ export default {
 }
 .low-score{
   background-color: #F95656;
+}
+.pyramid-row{
+  justify-content: center;
 }
 @media only screen and (max-width: 2000px) {
   .pyramid {

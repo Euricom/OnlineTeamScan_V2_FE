@@ -1,4 +1,5 @@
 <template>
+  <div v-if="!isLoading">
     <v-overlay class="select-overlay" color="#B9B9B9" z-index="0" opacity="0.5">
         <v-card light max-width="500px">
           <v-card-title class="card-title">
@@ -21,6 +22,7 @@
           </v-card-actions>
         </v-card>
     </v-overlay>
+  </div>
 </template>
 
 <script>
@@ -28,6 +30,7 @@ export default {
   name: "Scanresults",
   data() {
     return {
+      isLoading: true,
       teams: [],
       teamscans: [],
       selectedTeam: {},
@@ -37,6 +40,7 @@ export default {
   async created() {
     const teams = await this.$axios.get(`teams/user/${this.$auth.user.id}`)
     this.teams = teams.data
+    this.isLoading = false
   },
   computed: {
     disableValidation() {

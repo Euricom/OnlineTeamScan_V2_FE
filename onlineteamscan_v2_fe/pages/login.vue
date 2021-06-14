@@ -51,25 +51,14 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col class="mx-8 py-0 pr-0 mr-0">
-            <v-checkbox
-              v-model="checkbox"
-              label="Onthoud mij?"
-            ></v-checkbox>
-          </v-col>
           <v-col class="mx-8 my-auto py-0 pl-0 ml-0" align="right">
             <Button id="custom-disabled" @click.native="Login" :disabled="!isFormValid" :text="'Inloggen'"/>
           </v-col>
         </v-row>
         </v-form>
         <v-row>
-          <v-col align="center" class="mx-8 py-0">
+          <v-col align="center" class="mx-8 py-5">
             <NuxtLink to="/register">Nog geen account?</NuxtLink>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col align="center" class="mx-8 mb-8 py-0">
-            <NuxtLink to="/forgot-password">Wachtwoord vergeten?</NuxtLink>
           </v-col>
         </v-row>
       </v-card>
